@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Controller
+@RestController
 @RequestMapping("/api/forma-pagamento")
 public class FormaPagamentoController {
 
@@ -28,7 +28,7 @@ public class FormaPagamentoController {
         this.entityService = entityService;
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/all")
     public List<FormaPagamento> findAll (
             @SortDefault.SortDefaults(
