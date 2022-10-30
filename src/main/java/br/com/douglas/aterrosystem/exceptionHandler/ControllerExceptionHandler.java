@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @Slf4j
 @ControllerAdvice
 public class ControllerExceptionHandler  extends ResponseEntityExceptionHandler {
@@ -31,7 +33,14 @@ public class ControllerExceptionHandler  extends ResponseEntityExceptionHandler 
     @ExceptionHandler(DomainException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleDomainException(Exception ex, WebRequest request) {
-        log.info(ERRO_NAO_ESPERADO, ex);
+//        log.info(ERRO_NAO_ESPERADO, ex);
         return new ResponseEntity<>(ErrorResponse.badRequest(ex.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleSqlIntegrationException(Exception ex, WebRequest request) {
+//        log.info(ERRO_NAO_ESPERADO, ex);
+        return new ResponseEntity<>(ErrorResponse.badRequest(ex.getCause().getCause().getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

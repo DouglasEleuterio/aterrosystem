@@ -1,8 +1,9 @@
-package br.com.douglas.aterrosystem.models;
+package br.com.douglas.aterrosystem.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -10,14 +11,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FormaPagamento {
-
+public class Pagamento {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-
-    private String nome;
-
+    private LocalDate dataPagamento;
+    private Double valor;
+    @ManyToOne(optional = false)
+    private FormaPagamento formaPagamento;
     private boolean ativo;
+    @ManyToOne
+    private CTR ctr;
 }

@@ -1,9 +1,7 @@
 package br.com.douglas.aterrosystem.service;
 
-import br.com.douglas.aterrosystem.entity.Combo;
 import br.com.douglas.aterrosystem.exception.DomainException;
-import br.com.douglas.aterrosystem.models.ComboResponse;
-import br.com.douglas.aterrosystem.models.FormaPagamento;
+import br.com.douglas.aterrosystem.entity.FormaPagamento;
 import br.com.douglas.aterrosystem.repository.FormaPagamentoRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

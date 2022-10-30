@@ -1,15 +1,12 @@
 package br.com.douglas.aterrosystem.controller;
 
-import br.com.douglas.aterrosystem.entity.Combo;
 import br.com.douglas.aterrosystem.exception.DomainException;
-import br.com.douglas.aterrosystem.models.ComboResponse;
-import br.com.douglas.aterrosystem.models.FormaPagamento;
+import br.com.douglas.aterrosystem.entity.FormaPagamento;
 import br.com.douglas.aterrosystem.service.FormaPagamentoService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
