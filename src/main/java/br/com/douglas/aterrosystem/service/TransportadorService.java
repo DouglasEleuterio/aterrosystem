@@ -54,6 +54,7 @@ public class TransportadorService {
         Optional<Transportador> optTipoDescarte = repository.findById(id);
         if(optTipoDescarte.isPresent()){
             Transportador entity = optTipoDescarte.get();
+            repository.delete(entity);
         }else {
             throw new DomainException(String.format("Tipo de descarte com id %s não encontrado", id));
         }
