@@ -1,11 +1,16 @@
 package br.com.douglas.aterrosystem.service;
 
+import br.com.douglas.aterrosystem.entity.TipoDescarte;
 import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.TransportadorRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class TransportadorService {
@@ -37,5 +42,20 @@ public class TransportadorService {
             throw new DomainException("CNPJ Inválido");
         }
         enderecoService.validate(transportador.getEndereco());
+    }
+
+    public List<Transportador> findAll(Sort sort) {
+        List<Transportador> all = repository.findAll();
+        all.forEach(transportador -> transportador.getVeiculos().forEach(veiculo -> veiculo.getTransportador().setVeiculos(new ArrayList<>())));
+        return all;
+    }
+
+    public void delete(Long id) throws DomainException{
+        Optional<Transportador> optTipoDescarte = repository.findById(id);
+        if(optTipoDescarte.isPresent()){
+            Transportador entity = optTipoDescarte.get();
+        }else {
+            throw new DomainException(String.format("Tipo de descarte com id %s não encontrado", id));
+        }
     }
 }

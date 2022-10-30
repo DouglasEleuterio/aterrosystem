@@ -26,7 +26,7 @@ public class EnderecoService {
         if(Objects.isNull(endereco.getLogradouro()) || endereco.getLogradouro().isEmpty() || endereco.getLogradouro().length() < 3){
             throw new DomainException("Logradouro Inválido");
         }
-        if(Objects.isNull(endereco.getNumero()) || endereco.getNumero().isEmpty() && endereco.getComplemento().isEmpty()){
+        if(Objects.isNull(endereco.getNumero()) && Objects.isNull(endereco.getComplemento())){
             throw new DomainException("Por favor, informar número ou complemento!");
         }
         if(Objects.isNull(endereco.getCidade()) || endereco.getCidade().isEmpty() || endereco.getCidade().length() < 2){
