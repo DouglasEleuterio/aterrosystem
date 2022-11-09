@@ -1,10 +1,11 @@
 package br.com.douglas.aterrosystem.service;
 
-import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.entity.Veiculo;
 import br.com.douglas.aterrosystem.exception.DomainException;
+import br.com.douglas.aterrosystem.repository.TransportadorRepository;
 import br.com.douglas.aterrosystem.repository.VeiculoRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -12,13 +13,17 @@ import java.util.Objects;
 public class VeiculoService {
 
     private final VeiculoRepository repository;
+    private final TransportadorRepository transportadorRepository;
 
-    public VeiculoService(VeiculoRepository repository) {
+    public VeiculoService(VeiculoRepository repository, TransportadorRepository transportadorRepository) {
         this.repository = repository;
+        this.transportadorRepository = transportadorRepository;
     }
 
+    @Transactional
     public Veiculo save(Veiculo veiculo) throws DomainException {
         validate(veiculo);
+        veiculo.setTransportador(transportadorRepository.findById(veiculo.getTransportador().getId()).get());
         return repository.save(veiculo);
     }
 
