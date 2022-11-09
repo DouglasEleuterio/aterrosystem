@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class VeiculoService {
@@ -50,7 +51,16 @@ public class VeiculoService {
         List<Veiculo> all = repository.findAll();
         //Limpando os veículos da transportadora
         all.forEach(veiculo -> veiculo.getTransportador().setVeiculos(new ArrayList<>()));
-//        all.forEach(transportador -> transportador.getVeiculos().forEach(veiculo -> veiculo.getTransportador().setVeiculos(new ArrayList<>())));
         return all;
+    }
+
+    public void delete(Long id) throws DomainException{
+        Optional<Veiculo> optTipoDescarte = repository.findById(id);
+        if(optTipoDescarte.isPresent()){
+            Veiculo entity = optTipoDescarte.get();
+            repository.delete(entity);
+        }else {
+            throw new DomainException(String.format("Veículo com id %s não encontrado", id));
+        }
     }
 }

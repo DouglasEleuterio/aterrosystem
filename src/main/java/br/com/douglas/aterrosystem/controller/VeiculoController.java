@@ -6,6 +6,7 @@ import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.service.VeiculoService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,5 +39,10 @@ public class VeiculoController {
         return entityService.findAll(sort);
     }
 
-
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) throws DomainException {
+        entityService.delete(id);
+        return ResponseEntity.accepted().build();
+    }
 }
