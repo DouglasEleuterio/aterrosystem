@@ -47,9 +47,10 @@ public class VeiculoService {
     }
 
     public List<Veiculo> findAll(Sort sort) {
-//        List<Veiculo> all = repository.findAll();
+        List<Veiculo> all = repository.findAll();
+        //Limpando os veículos da transportadora
+        all.forEach(veiculo -> veiculo.getTransportador().setVeiculos(new ArrayList<>()));
 //        all.forEach(transportador -> transportador.getVeiculos().forEach(veiculo -> veiculo.getTransportador().setVeiculos(new ArrayList<>())));
-//        return all;
-        return repository.findAll();
+        return all;
     }
 }
