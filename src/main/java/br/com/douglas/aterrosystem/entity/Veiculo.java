@@ -20,6 +20,6 @@ public class Veiculo {
     private String modelo;
     @Column(unique = true)
     private String placa;
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     private Transportador transportador;
 }
