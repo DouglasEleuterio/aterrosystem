@@ -30,7 +30,7 @@ public class VeiculoController {
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    @GetMapping
+    @GetMapping("/all")
     public List<Veiculo> findAll (
             @SortDefault.SortDefaults(
                     { @SortDefault(sort = "placa", direction = Sort.Direction.ASC) }
