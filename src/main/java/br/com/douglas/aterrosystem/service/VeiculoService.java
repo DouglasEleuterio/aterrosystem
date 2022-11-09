@@ -1,12 +1,16 @@
 package br.com.douglas.aterrosystem.service;
 
+import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.entity.Veiculo;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.TransportadorRepository;
 import br.com.douglas.aterrosystem.repository.VeiculoRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -40,5 +44,12 @@ public class VeiculoService {
         if(Objects.isNull(veiculo.getPlaca()) || veiculo.getPlaca().length() < 7){
             throw new DomainException("Placa inválida");
         }
+    }
+
+    public List<Veiculo> findAll(Sort sort) {
+//        List<Veiculo> all = repository.findAll();
+//        all.forEach(transportador -> transportador.getVeiculos().forEach(veiculo -> veiculo.getTransportador().setVeiculos(new ArrayList<>())));
+//        return all;
+        return repository.findAll();
     }
 }

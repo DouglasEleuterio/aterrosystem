@@ -4,10 +4,13 @@ import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.entity.Veiculo;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.service.VeiculoService;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -25,4 +28,15 @@ public class VeiculoController {
     public Veiculo create(@Valid @RequestBody Veiculo entity) throws DomainException {
         return entityService.save(entity);
     }
+
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @GetMapping
+    public List<Veiculo> findAll (
+            @SortDefault.SortDefaults(
+                    { @SortDefault(sort = "placa", direction = Sort.Direction.ASC) }
+            ) Sort sort){
+        return entityService.findAll(sort);
+    }
+
+
 }
