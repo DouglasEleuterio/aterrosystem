@@ -3,8 +3,10 @@ package br.com.douglas.aterrosystem.service;
 import br.com.douglas.aterrosystem.entity.Gerador;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.GeradorRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -25,8 +27,8 @@ public class GeradorService {
         if(Objects.isNull(gerador.getRetirada())){
             throw new DomainException("Endereço de Retirada inválida");
         }
-        if(Objects.isNull(gerador.getNome()) || gerador.getNome().length() < 2){
-            throw new DomainException("Nome inválido");
+        if((Objects.isNull(gerador.getNome()) || gerador.getNome().length() < 2) && (Objects.isNull(gerador.getRazaoSocial()) || gerador.getRazaoSocial().length() < 3)){
+            throw new DomainException("Nome/Razão Social inválido");
         }
         if(Objects.isNull(gerador.getCpf()) && Objects.isNull(gerador.getCnpj())){
             throw new DomainException("Necessário informar documento CPF ou CNPJ");
@@ -37,5 +39,9 @@ public class GeradorService {
         if(Objects.isNull(gerador.getCnpj()) && (Objects.nonNull(gerador.getCnpj()) && gerador.getCnpj().length() < 14)){
             throw new DomainException("CNPJ inválido");
         }
+    }
+
+    public List<Gerador> findAll(Sort sort) {
+        return repository.findAll();
     }
 }

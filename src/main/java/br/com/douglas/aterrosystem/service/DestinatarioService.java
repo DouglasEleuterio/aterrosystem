@@ -4,6 +4,7 @@ import br.com.douglas.aterrosystem.entity.Destinatario;
 import br.com.douglas.aterrosystem.entity.Gerador;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.DestinatarioRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -35,5 +36,9 @@ public class DestinatarioService {
         if(Objects.isNull(destinatario.getCnpj()) || destinatario.getCnpj().length() < 14){
             throw new DomainException("CNPJ inválido");
         }
+    }
+
+    public Iterable<Destinatario> findAll(Sort sort) {
+        return repository.findAll();
     }
 }
