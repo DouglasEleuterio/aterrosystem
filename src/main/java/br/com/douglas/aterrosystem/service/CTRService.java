@@ -4,24 +4,30 @@ import br.com.douglas.aterrosystem.entity.CTR;
 import br.com.douglas.aterrosystem.entity.Pagamento;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.CTRRepository;
+import br.com.douglas.aterrosystem.repository.PagamentoRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Objects;
 
 @Service
 public class CTRService {
 
     private final CTRRepository repository;
+    private final PagamentoRepository pagamentoRepository;
 
-    public CTRService(CTRRepository repository) {
+    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository) {
         this.repository = repository;
-
+        this.pagamentoRepository = pagamentoRepository;
     }
 
     @Transactional
     public CTR save(CTR ctr) throws DomainException {
         validate(ctr);
+        ctr.getPagamentos().forEach(pagamento -> pagamento.setCtr(ctr));
+        List<Pagamento> pagamentos = pagamentoRepository.saveAll(ctr.getPagamentos());
+        ctr.setPagamentos(pagamentos);
         return repository.save(ctr);
     }
 

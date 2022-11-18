@@ -24,8 +24,8 @@ public class CTR {
     private Destinatario destinatario;
     @ManyToOne(optional = false)
     private Transportador transportador;
-    @OneToMany(mappedBy = "ctr", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "ctr", cascade = CascadeType.ALL)
     private List<Pagamento> pagamentos;
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private TipoDescarte tipoDescarte;
 }

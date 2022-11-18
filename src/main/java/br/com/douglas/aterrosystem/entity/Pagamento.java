@@ -1,5 +1,6 @@
 package br.com.douglas.aterrosystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Pagamento {
     @ManyToOne(optional = false)
     private FormaPagamento formaPagamento;
     private boolean ativo;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
     private CTR ctr;
 }
