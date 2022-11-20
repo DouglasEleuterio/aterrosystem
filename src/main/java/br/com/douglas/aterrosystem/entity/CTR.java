@@ -3,6 +3,7 @@ package br.com.douglas.aterrosystem.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -28,4 +29,8 @@ public class CTR {
     private List<Pagamento> pagamentos;
     @ManyToOne(optional = false)
     private TipoDescarte tipoDescarte;
+    @Column
+    private LocalDate geracao;
+    @Column
+    private String motorista;
 }

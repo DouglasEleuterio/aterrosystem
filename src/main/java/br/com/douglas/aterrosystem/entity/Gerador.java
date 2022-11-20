@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.time.LocalDate;
 
 @Entity
@@ -28,5 +29,9 @@ public class Gerador {
     private String cpf;
     @OneToOne(optional = false, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Endereco retirada;
-
+    @Column
+    private String telefone;
+    @Column
+    @Email
+    private String email;
 }
