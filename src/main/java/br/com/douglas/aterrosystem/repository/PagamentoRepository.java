@@ -15,4 +15,7 @@ public interface PagamentoRepository extends JpaRepository<Pagamento, Long> {
 
     @Query(value = "select sum(p.valor) from Pagamento p where p.dataPagamento between :inicio and :fim")
     Optional<Integer> somaMensal(LocalDate inicio, LocalDate fim);
+
+    @Query(value = "select sum(p.valor) from Pagamento p where p.dataPagamento =:data ")
+    Optional<Integer> somaSemanal(LocalDate data);
 }

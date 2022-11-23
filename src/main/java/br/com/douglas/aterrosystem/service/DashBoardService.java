@@ -1,9 +1,11 @@
 package br.com.douglas.aterrosystem.service;
 
 import br.com.douglas.aterrosystem.entity.AcumuladoMensalDto;
+import br.com.douglas.aterrosystem.entity.AcumuladoSemanalDTO;
 import br.com.douglas.aterrosystem.repository.PagamentoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.temporal.ChronoField;
@@ -18,6 +20,7 @@ public class DashBoardService {
     private String ANO_ATUAL = String.valueOf(Year.now().getValue());
     private String ANO_ANTERIOR = String.valueOf(Year.now().minusYears(1L).getValue());
     private String INICIO_MES = "1";
+    private final LocalDate dataAtual = LocalDate.now();
 
     public DashBoardService(PagamentoRepository pagamentoRepository) {
         this.pagamentoRepository = pagamentoRepository;
@@ -30,6 +33,39 @@ public class DashBoardService {
                 .dataAnoAtual(getTotaisPagamentoAno(ANO_ATUAL))
                 .dataAnoAnterior(getTotaisPagamentoAno(ANO_ANTERIOR))
                 .build();
+    }
+
+    public AcumuladoSemanalDTO acumuladoSemanal(){
+        return AcumuladoSemanalDTO.builder()
+                .semanaAtual(getTotaisPagamentoSemanaAtual())
+                .semanaPassada(getTotaisPagamentoSemanaAnterior())
+                .build();
+    }
+
+    private List<Integer> getTotaisPagamentoSemanaAnterior() {
+        List<Integer> totais = new ArrayList<>();
+
+        totais.add(geraSegundaSemanaAnterior());
+        totais.add(geraTercaSemanaAnterior());
+        totais.add(geraQuartaSemanaAnterior());
+        totais.add(geraQuintaSemanaAnterior());
+        totais.add(geraSextaSemanaAnterior());
+        totais.add(geraSabadoSemanaAnterior());
+        totais.add(geraDomingoSemanaAnterior());
+        return totais;
+    }
+
+    private List<Integer> getTotaisPagamentoSemanaAtual() {
+        List<Integer> totais = new ArrayList<>();
+        totais.add(geraSegundaSemanaAtual());
+        totais.add(geraTercaSemanaAtual());
+        totais.add(geraQuartaSemanaAtual());
+        totais.add(geraQuintaSemanaAtual());
+        totais.add(geraSextaSemanaAtual());
+        totais.add(geraSabadoSemanaAtual());
+        totais.add(geraDomingoSemanaAtual());
+
+        return totais;
     }
 
     private List<Integer> getTotaisPagamentoAno(String ano){
@@ -141,6 +177,98 @@ public class DashBoardService {
         pagamentoRepository.somaMensal(getPrimeiroDiaMes(Integer.parseInt(ano), Calendar.JANUARY + 1), getUltimoDiaMes(Integer.parseInt(ano), Calendar.JANUARY + 1)
         ).ifPresent(value::set);
         return value.get();
+    }
+
+    private Integer geraSegundaSemanaAtual(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAtual()).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraTercaSemanaAtual(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAtual().plusDays(1)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraQuartaSemanaAtual(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAtual().plusDays(2)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraQuintaSemanaAtual(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAtual().plusDays(3)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraSextaSemanaAtual(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAtual().plusDays(4)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraSabadoSemanaAtual(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAtual().plusDays(5)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraDomingoSemanaAtual(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAtual().plusDays(5)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraSegundaSemanaAnterior(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAnterior()).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraTercaSemanaAnterior(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAnterior().plusDays(1)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraQuartaSemanaAnterior(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAnterior().plusDays(2)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraQuintaSemanaAnterior(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAnterior().plusDays(3)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraSextaSemanaAnterior(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAnterior().plusDays(4)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraSabadoSemanaAnterior(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAnterior().plusDays(5)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private Integer geraDomingoSemanaAnterior(){
+        AtomicReference<Integer> value = new AtomicReference<>(0);
+        pagamentoRepository.somaSemanal(obterSegundaFeiraSemanaAnterior().plusDays(6)).ifPresent(value::set);
+        return value.get();
+    }
+
+    private LocalDate obterSegundaFeiraSemanaAtual(){
+        return dataAtual.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    }
+
+    private LocalDate obterSegundaFeiraSemanaAnterior(){
+        return dataAtual.minusWeeks(1).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
     }
 
     private LocalDate getUltimoDiaMes(Integer ano, Integer mes){

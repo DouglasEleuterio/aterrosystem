@@ -1,6 +1,7 @@
 package br.com.douglas.aterrosystem.controller;
 
 import br.com.douglas.aterrosystem.entity.AcumuladoMensalDto;
+import br.com.douglas.aterrosystem.entity.AcumuladoSemanalDTO;
 import br.com.douglas.aterrosystem.entity.CTR;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.service.DashBoardService;
@@ -24,5 +25,11 @@ public class DashBoardFinanceiro {
     @GetMapping("/acumulado-mensal")
     public AcumuladoMensalDto getDashAcumuladoMensam (){
         return dashBoardService.acumuladoMensal();
+    }
+
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @GetMapping("/acumulado-semanal")
+    public AcumuladoSemanalDTO getDashAcumuladoSemanal(){
+        return dashBoardService.acumuladoSemanal();
     }
 }
