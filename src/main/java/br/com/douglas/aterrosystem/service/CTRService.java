@@ -8,6 +8,7 @@ import br.com.douglas.aterrosystem.repository.PagamentoRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,6 +26,7 @@ public class CTRService {
     @Transactional
     public CTR save(CTR ctr) throws DomainException {
         validate(ctr);
+        ctr.setGeracao(LocalDate.now());
         ctr.getPagamentos().forEach(pagamento -> pagamento.setCtr(ctr));
         List<Pagamento> pagamentos = pagamentoRepository.saveAll(ctr.getPagamentos());
         ctr.setPagamentos(pagamentos);
@@ -55,5 +57,11 @@ public class CTRService {
             if(Objects.isNull(pagamento.getDataPagamento()))
                 throw new DomainException("Data de Pagamento inválido");
         }
+    }
+
+    public CTR findById(String id) throws DomainException {
+        CTR ctr = repository.findById(Long.parseLong(id)).orElseThrow(() -> new DomainException("CTR com Id não encontrado!"));
+        ctr.getVeiculo().getTransportador().setVeiculos(null);
+        return ctr;
     }
 }
