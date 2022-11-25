@@ -1,8 +1,10 @@
 package br.com.douglas.aterrosystem.controller;
 
 import br.com.douglas.aterrosystem.entity.CTR;
+import br.com.douglas.aterrosystem.entity.Destinatario;
 import br.com.douglas.aterrosystem.entity.FormaPagamento;
 import br.com.douglas.aterrosystem.exception.DomainException;
+import br.com.douglas.aterrosystem.models.TipoDescarteResponse;
 import br.com.douglas.aterrosystem.service.CTRService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
@@ -36,5 +38,14 @@ public class CTRController {
     @GetMapping(path = "/{id}")
     public CTR find(@PathVariable String id) throws DomainException {
         return entityService.findById(id);
+    }
+
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @GetMapping("/all")
+    public Iterable<CTR> findAll (
+            @SortDefault.SortDefaults(
+                    { @SortDefault(sort = "geracao", direction = Sort.Direction.DESC) }
+            ) Sort sort){
+        return entityService.findAll(sort);
     }
 }

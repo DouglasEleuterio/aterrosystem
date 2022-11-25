@@ -5,6 +5,7 @@ import br.com.douglas.aterrosystem.entity.Pagamento;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.CTRRepository;
 import br.com.douglas.aterrosystem.repository.PagamentoRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -63,5 +64,11 @@ public class CTRService {
         CTR ctr = repository.findById(Long.parseLong(id)).orElseThrow(() -> new DomainException("CTR com Id não encontrado!"));
         ctr.getVeiculo().getTransportador().setVeiculos(null);
         return ctr;
+    }
+
+    public Iterable<CTR> findAll(Sort sort) {
+        List<CTR> all = repository.findAll(sort);
+        all.forEach(ctr -> ctr.getVeiculo().getTransportador().setVeiculos(null));
+        return all;
     }
 }
