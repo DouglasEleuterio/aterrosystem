@@ -1,5 +1,6 @@
 package br.com.douglas.aterrosystem.service;
 
+import br.com.douglas.aterrosystem.entity.RelacaoPagamentosDTO;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.entity.FormaPagamento;
 import br.com.douglas.aterrosystem.repository.FormaPagamentoRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -54,5 +56,17 @@ public class FormaPagamentoService {
             optFormaPagamento.get().setAtivo(!optFormaPagamento.get().isAtivo());
             formaPagamentoRepository.save(optFormaPagamento.get());
         }
+    }
+
+    public List<RelacaoPagamentosDTO> getRelacaoPagamentos() {
+        return formaPagamentoRepository.agruparPagamentosPorFormaDePagamento();
+    }
+
+    public List<RelacaoPagamentosDTO> getRelacaoPagamentosTransportadora() {
+        List<RelacaoPagamentosDTO> relacaoPagamentosDTOS = formaPagamentoRepository.agruparPagamentosPorTransportadora2();
+        if(relacaoPagamentosDTOS.size() > 4){
+            return relacaoPagamentosDTOS.subList(0, 4);
+        }
+        return relacaoPagamentosDTOS;
     }
 }
