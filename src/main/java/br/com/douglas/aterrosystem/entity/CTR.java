@@ -27,8 +27,8 @@ public class CTR {
     private Transportador transportador;
     @OneToMany(mappedBy = "ctr", cascade = CascadeType.ALL)
     private List<Pagamento> pagamentos;
-    @ManyToOne(optional = false)
-    private TipoDescarte tipoDescarte;
+    @ManyToMany()
+    private List<TipoDescarte> tipoDescartes;
     @Column
     private LocalDate geracao;
     @Column

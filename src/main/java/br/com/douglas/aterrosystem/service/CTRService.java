@@ -2,9 +2,11 @@ package br.com.douglas.aterrosystem.service;
 
 import br.com.douglas.aterrosystem.entity.CTR;
 import br.com.douglas.aterrosystem.entity.Pagamento;
+import br.com.douglas.aterrosystem.entity.TipoDescarte;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.CTRRepository;
 import br.com.douglas.aterrosystem.repository.PagamentoRepository;
+import br.com.douglas.aterrosystem.repository.TipoDescarteRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,12 @@ public class CTRService {
 
     private final CTRRepository repository;
     private final PagamentoRepository pagamentoRepository;
+    private final TipoDescarteRepository tipoDescarteRepository;
 
-    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository) {
+    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository, TipoDescarteRepository tipoDescarteRepository) {
         this.repository = repository;
         this.pagamentoRepository = pagamentoRepository;
+        this.tipoDescarteRepository = tipoDescarteRepository;
     }
 
     @Transactional
@@ -31,12 +35,16 @@ public class CTRService {
         ctr.getPagamentos().forEach(pagamento -> pagamento.setCtr(ctr));
         List<Pagamento> pagamentos = pagamentoRepository.saveAll(ctr.getPagamentos());
         ctr.setPagamentos(pagamentos);
+        ctr.setTipoDescartes(ctr.getTipoDescartes());
         return repository.save(ctr);
     }
 
     private void validate(CTR ctr) throws DomainException {
         if(Objects.isNull(ctr.getGerador())){
             throw new DomainException("Gerador Inválido");
+        }
+        if(Objects.isNull(ctr.getTipoDescartes()) || ctr.getTipoDescartes().isEmpty()){
+            throw new DomainException("Tipo de Descarte não informado");
         }
         if(Objects.isNull(ctr.getVeiculo())){
             throw new DomainException("Gerador Inválido");
