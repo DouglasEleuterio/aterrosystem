@@ -26,4 +26,8 @@ public class Destinatario {
     private Endereco enderecoRecebimento;
     @OneToMany
     private List<CTR> ctrList;
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
+    private String telefone;
+    private String email;
 }

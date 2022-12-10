@@ -20,6 +20,7 @@ public class GeradorService {
 
     public Gerador save(Gerador gerador) throws DomainException {
         validate(gerador);
+        gerador.setAtivo(true);
         return repository.save(gerador);
     }
 

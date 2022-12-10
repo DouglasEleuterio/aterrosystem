@@ -45,7 +45,7 @@ public class FormaPagamentoService {
         FormaPagamento response = FormaPagamento.builder()
                 .id(entity.getId())
                 .nome(entity.getNome())
-                .ativo(entity.isAtivo())
+                .ativo(entity.getAtivo())
                 .build();
         return response;
     }
@@ -53,7 +53,7 @@ public class FormaPagamentoService {
     public void alterarStatus(Long id) {
         Optional<FormaPagamento> optFormaPagamento = formaPagamentoRepository.findById(id);
         if(optFormaPagamento.isPresent()) {
-            optFormaPagamento.get().setAtivo(!optFormaPagamento.get().isAtivo());
+            optFormaPagamento.get().setAtivo(!optFormaPagamento.get().getAtivo());
             formaPagamentoRepository.save(optFormaPagamento.get());
         }
     }

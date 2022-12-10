@@ -16,4 +16,5 @@ public class TipoDescarteResponse {
     private Long id;
     private String nome;
     private Double valor;
+    private Boolean ativo;
 }

@@ -46,6 +46,17 @@ public class TipoDescarteController {
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @GetMapping("/all-ativo")
+    public List<TipoDescarteResponse> findAllAtivo (
+            @SortDefault.SortDefaults(
+                    { @SortDefault(sort = "nome", direction = Sort.Direction.ASC) }
+            ) Sort sort){
+        List<TipoDescarteResponse> result = new ArrayList<>();
+        entityService.findAllAtivo(sort).forEach(tipoDescarte -> result.add(convert(tipoDescarte)));
+        return result;
+    }
+
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @PostMapping
     public TipoDescarteResponse create(@Valid @RequestBody TipoDescarte entity) throws DomainException {
         return convert(entityService.save(entity));
@@ -69,6 +80,7 @@ public class TipoDescarteController {
                 .id(entity.getId())
                 .nome(entity.getNome())
                 .valor(entity.getValor())
+                .ativo(entity.getAtivo())
                 .build();
     }
 }

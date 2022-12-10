@@ -28,4 +28,8 @@ public class Transportador {
     private List<CTR> ctrList;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportador")
     private List<Veiculo> veiculos;
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
+    private String telefone;
+    private String email;
 }

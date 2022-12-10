@@ -29,4 +29,6 @@ public class TipoDescarte {
     private Long id;
     private String nome;
     private Double valor;
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
 }

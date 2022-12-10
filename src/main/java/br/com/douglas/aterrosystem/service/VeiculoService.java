@@ -28,6 +28,7 @@ public class VeiculoService {
     @Transactional
     public Veiculo save(Veiculo veiculo) throws DomainException {
         validate(veiculo);
+        veiculo.setAtivo(true);
         veiculo.setTransportador(transportadorRepository.findById(veiculo.getTransportador().getId()).get());
         return repository.save(veiculo);
     }

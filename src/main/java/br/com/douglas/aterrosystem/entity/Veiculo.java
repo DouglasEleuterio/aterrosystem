@@ -22,4 +22,6 @@ public class Veiculo {
     private String placa;
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     private Transportador transportador;
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
 }

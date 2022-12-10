@@ -21,7 +21,8 @@ public class Pagamento {
     private Double valor;
     @ManyToOne(optional = false)
     private FormaPagamento formaPagamento;
-    private boolean ativo;
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnore
     private CTR ctr;

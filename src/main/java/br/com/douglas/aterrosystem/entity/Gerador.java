@@ -34,4 +34,6 @@ public class Gerador {
     @Column
     @Email
     private String email;
+    @Column(name = "ativo", nullable = false)
+    private Boolean ativo;
 }

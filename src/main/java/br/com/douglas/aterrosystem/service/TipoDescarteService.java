@@ -8,6 +8,7 @@ import br.com.douglas.aterrosystem.repository.TipoDescarteRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -25,7 +26,13 @@ public class TipoDescarteService {
 
     public TipoDescarte save(TipoDescarte entity) throws DomainException{
         validate(entity);
+        if(!isEditing(entity))
+            entity.setAtivo(true);
         return this.tipoDescarteRepository.save(entity);
+    }
+
+    private boolean isEditing(TipoDescarte entity) {
+        return Objects.nonNull(entity.getId());
     }
 
     private void validate(TipoDescarte entity) throws DomainException {
@@ -35,6 +42,10 @@ public class TipoDescarteService {
 
     public List<TipoDescarte> findAll(Sort sort){
         return tipoDescarteRepository.findAll(sort);
+    }
+
+    public List<TipoDescarte> findAllAtivo(Sort sort){
+        return tipoDescarteRepository.findAllAtivo(sort);
     }
 
     public TipoDescarte update(TipoDescarte entity) throws DomainException {
@@ -48,12 +59,13 @@ public class TipoDescarteService {
         }
     }
 
+    @Transactional
     public void delete(Long id) throws DomainException{
         Optional<TipoDescarte> optTipoDescarte = tipoDescarteRepository.findById(id);
         if(optTipoDescarte.isPresent()){
             TipoDescarte entity = optTipoDescarte.get();
-            validaSePodeSerExcluido(entity);
-            tipoDescarteRepository.delete(entity);
+//            validaSePodeSerExcluido(entity);
+            entity.setAtivo(false);
         }else {
             throw new DomainException(String.format("Tipo de descarte com id %s não encontrado", id));
         }

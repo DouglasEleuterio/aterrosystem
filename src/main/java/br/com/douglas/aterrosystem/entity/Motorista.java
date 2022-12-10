@@ -10,14 +10,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "forma_pagamento")
-public class FormaPagamento {
-
+public class Motorista {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
+    @Column(name = "nome", nullable = false)
     private String nome;
-    @Column(name = "ativo", nullable = false)
-    private Boolean ativo;
+    @Column(nullable = false)
+    private String telefone;
+    @Column(name = "cnh", nullable = true)
+    private String cnh;
 }

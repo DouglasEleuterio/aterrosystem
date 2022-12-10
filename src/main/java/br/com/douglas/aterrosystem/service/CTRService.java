@@ -31,6 +31,7 @@ public class CTRService {
     @Transactional
     public CTR save(CTR ctr) throws DomainException {
         validate(ctr);
+        ctr.setAtivo(true);
         ctr.setGeracao(LocalDate.now());
         ctr.getPagamentos().forEach(pagamento -> pagamento.setCtr(ctr));
         List<Pagamento> pagamentos = pagamentoRepository.saveAll(ctr.getPagamentos());

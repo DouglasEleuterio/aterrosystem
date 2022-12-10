@@ -29,8 +29,10 @@ public class CTR {
     private List<Pagamento> pagamentos;
     @ManyToMany()
     private List<TipoDescarte> tipoDescartes;
+    @ManyToOne(optional = false)
+    private Motorista motorista;
     @Column
     private LocalDate geracao;
-    @Column
-    private String motorista;
+    @Column(name = "ativo", nullable = true)
+    private Boolean ativo;
 }

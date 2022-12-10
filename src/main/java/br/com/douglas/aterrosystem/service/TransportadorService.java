@@ -1,6 +1,5 @@
 package br.com.douglas.aterrosystem.service;
 
-import br.com.douglas.aterrosystem.entity.TipoDescarte;
 import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.TransportadorRepository;
@@ -25,6 +24,7 @@ public class TransportadorService {
 
     public Transportador save(Transportador transportador) throws DomainException {
         validate(transportador);
+        transportador.setAtivo(true);
         return repository.save(transportador);
     }
 

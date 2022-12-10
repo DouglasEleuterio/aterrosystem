@@ -36,7 +36,7 @@ public class PagamentoService {
 
     public void alterarStatus(Long id) throws DomainException {
         Pagamento pagamento = repository.findById(id).orElseThrow(() -> new DomainException("Pagamento não encontrado!"));
-        pagamento.setAtivo(!pagamento.isAtivo());
+        pagamento.setAtivo(!pagamento.getAtivo());
         repository.save(pagamento);
     }
 }

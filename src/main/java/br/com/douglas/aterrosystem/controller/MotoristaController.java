@@ -1,8 +1,9 @@
 package br.com.douglas.aterrosystem.controller;
 
 import br.com.douglas.aterrosystem.entity.CTR;
+import br.com.douglas.aterrosystem.entity.Motorista;
 import br.com.douglas.aterrosystem.exception.DomainException;
-import br.com.douglas.aterrosystem.service.CTRService;
+import br.com.douglas.aterrosystem.service.MotoristaService;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,33 +13,26 @@ import javax.validation.Valid;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/ctr")
-public class CTRController {
+@RequestMapping("/api/motorista")
+public class MotoristaController {
 
-    private final CTRService entityService;
+    private final MotoristaService entityService;
 
-    public CTRController(CTRService service) {
-        this.entityService = service;
+    public MotoristaController(MotoristaService entityService) {
+        this.entityService = entityService;
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @PostMapping
-    public CTR create(@Valid @RequestBody CTR entity) throws DomainException {
-//        return entityService.convert(entityService.save(entity));
+    public Motorista create(@Valid @RequestBody Motorista entity) throws DomainException {
         return entityService.save(entity);
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-    @GetMapping(path = "/{id}")
-    public CTR find(@PathVariable String id) throws DomainException {
-        return entityService.findById(id);
-    }
-
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/all")
-    public Iterable<CTR> findAll (
+    public Iterable<Motorista> findAll (
             @SortDefault.SortDefaults(
-                    { @SortDefault(sort = "geracao", direction = Sort.Direction.DESC) }
+                    { @SortDefault(sort = "nome", direction = Sort.Direction.ASC) }
             ) Sort sort){
         return entityService.findAll(sort);
     }
