@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MotoristaService {
@@ -30,9 +31,9 @@ public class MotoristaService {
     }
 
     private void validate (Motorista entity) throws DomainException {
-        if(entity.getNome().isEmpty())
+        if(Objects.isNull(entity.getNome()) || entity.getNome().isEmpty())
             throw new DomainException("Nome obrigatório");
-        if(entity.getTelefone().isEmpty())
+        if(Objects.isNull(entity.getTelefone()) || entity.getTelefone().isEmpty())
             throw new DomainException("Telefone obrigatório");
     }
 }
