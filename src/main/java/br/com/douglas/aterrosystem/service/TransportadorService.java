@@ -12,23 +12,22 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class TransportadorService {
+public class TransportadorService extends BaseService<Transportador> {
 
     private final TransportadorRepository repository;
     private final EnderecoService enderecoService;
 
     public TransportadorService(TransportadorRepository repository, EnderecoService enderecoService) {
+        super(repository);
         this.repository = repository;
         this.enderecoService = enderecoService;
     }
-
     public Transportador save(Transportador transportador) throws DomainException {
-        validate(transportador);
         transportador.setAtivo(true);
-        return repository.save(transportador);
+        return super.save(transportador);
     }
 
-    private void validate(Transportador transportador) throws DomainException{
+    void validate(Transportador transportador) throws DomainException{
         if(Objects.isNull(transportador.getEndereco())){
             throw new DomainException("Endereço inválido");
         }

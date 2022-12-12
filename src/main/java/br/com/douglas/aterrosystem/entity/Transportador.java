@@ -1,5 +1,6 @@
 package br.com.douglas.aterrosystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.validator.constraints.br.CNPJ;
 
@@ -26,7 +27,8 @@ public class Transportador {
     private Endereco endereco;
     @OneToMany
     private List<CTR> ctrList;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "transportador")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transportador")
+    @JsonIgnore
     private List<Veiculo> veiculos;
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;

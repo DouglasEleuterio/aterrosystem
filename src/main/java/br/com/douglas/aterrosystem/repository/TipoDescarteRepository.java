@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface TipoDescarteRepository extends JpaRepository<TipoDescarte, Long> {
+public interface TipoDescarteRepository extends BaseRepository<TipoDescarte> {
 
     @Query("select t from TipoDescarte t where t.ativo = true")
     List<TipoDescarte> findAllAtivo(Sort sort);
