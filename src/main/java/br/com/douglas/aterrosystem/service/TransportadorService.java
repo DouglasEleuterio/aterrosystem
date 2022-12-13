@@ -43,10 +43,8 @@ public class TransportadorService extends BaseService<Transportador> {
         enderecoService.validate(transportador.getEndereco());
     }
 
-    public List<Transportador> findAll(Sort sort) {
-        List<Transportador> all = repository.findAll();
-        all.forEach(transportador -> transportador.getVeiculos().forEach(veiculo -> veiculo.getTransportador().setVeiculos(new ArrayList<>())));
-        return all;
+    public List<Transportador> findAll (Sort sort) {
+        return repository.findAll();
     }
 
     public void delete(Long id) throws DomainException{

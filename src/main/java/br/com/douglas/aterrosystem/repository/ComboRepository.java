@@ -17,4 +17,7 @@ public interface ComboRepository extends BaseRepository<Combo> {
 
     @Query("select c from Combo c where c.ativo = true")
     List<Combo> findAllAtivo(Sort sort);
+
+    @Query("select sum (c.saldo) from Combo c where c.ativo = true and c.transportador.id = :idTransportadora and c.tipoDescarte.id = :idTipoDescarte")
+    Integer retornaQuantidadeDeComboPorCategoria(Long idTransportadora, Long idTipoDescarte);
 }

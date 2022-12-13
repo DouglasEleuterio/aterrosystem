@@ -1,6 +1,7 @@
 package br.com.douglas.aterrosystem.service;
 
 import br.com.douglas.aterrosystem.entity.CTR;
+import br.com.douglas.aterrosystem.entity.Combo;
 import br.com.douglas.aterrosystem.entity.Pagamento;
 import br.com.douglas.aterrosystem.entity.TipoDescarte;
 import br.com.douglas.aterrosystem.exception.DomainException;
@@ -12,8 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class CTRService {
@@ -21,16 +21,20 @@ public class CTRService {
     private final CTRRepository repository;
     private final PagamentoRepository pagamentoRepository;
     private final TipoDescarteRepository tipoDescarteRepository;
+    private final ComboService comboService;
 
-    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository, TipoDescarteRepository tipoDescarteRepository) {
+    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository, TipoDescarteRepository tipoDescarteRepository, ComboService comboService) {
         this.repository = repository;
         this.pagamentoRepository = pagamentoRepository;
         this.tipoDescarteRepository = tipoDescarteRepository;
+        this.comboService = comboService;
     }
 
     @Transactional
     public CTR save(CTR ctr) throws DomainException {
         validate(ctr);
+        if(isDescarteSomenteCombo(ctr))
+            processaBaixaCombo(ctr);
         ctr.setAtivo(true);
         ctr.setGeracao(LocalDate.now());
         ctr.getPagamentos().forEach(pagamento -> pagamento.setCtr(ctr));
@@ -38,6 +42,16 @@ public class CTRService {
         ctr.setPagamentos(pagamentos);
         ctr.setTipoDescartes(ctr.getTipoDescartes());
         return repository.save(ctr);
+    }
+
+    private void processaBaixaCombo(CTR ctr) {
+        List<Long> ids = retornaListaDeIdsDosTiposDescarteParaBaixa(ctr);
+        Map<Long, Integer> quantidadeNecessaria = retornaQuantidadeNecessariaDeCombosPorTipoDeDescarte(ids);
+        List<Combo> combosABaixar = new ArrayList<>();
+        for(Long id : quantidadeNecessaria.keySet()){
+            combosABaixar.addAll(comboService.retornaComboParaConsumirSaldoNoDescarte(quantidadeNecessaria.get(id), ctr.getTransportador().getId(), id));
+        }
+
     }
 
     private void validate(CTR ctr) throws DomainException {
@@ -60,12 +74,22 @@ public class CTRService {
             throw new DomainException("Necessita informar pagamento(s)");
         }
         for (Pagamento pagamento : ctr.getPagamentos()) {
-            if(pagamento.getValor() < 0.01)
+            if(!isDescarteSomenteCombo(ctr) && pagamento.getValor() < 0.01 )
                 throw new DomainException("Valor de pagamento inválido");
             if(Objects.isNull(pagamento.getFormaPagamento()))
                 throw new DomainException("Forma de Pagamento inválido");
             if(Objects.isNull(pagamento.getDataPagamento()))
                 throw new DomainException("Data de Pagamento inválido");
+        }
+        validaSePossuiPagamentoComboEOutro(ctr);
+        checaSePossuiSaldoSuficiente(ctr);
+    }
+
+    private void validaSePossuiPagamentoComboEOutro(CTR ctr) throws DomainException {
+        for (Pagamento pagamento : ctr.getPagamentos()) {
+            if(pagamento.getFormaPagamento().getNome().contains("Combo") && ctr.getPagamentos().size() > 1){
+                throw new DomainException("Se o CTR possuir pagamento via Combo, não pode existir outra forma de pagamento no mesmo CTR!");
+            }
         }
     }
 
@@ -79,5 +103,47 @@ public class CTRService {
         List<CTR> all = repository.findAll(sort);
         all.forEach(ctr -> ctr.getVeiculo().getTransportador().setVeiculos(null));
         return all;
+    }
+
+    private boolean isDescarteSomenteCombo(CTR ctr){
+        if(ctr.getPagamentos().size() == 1 && ctr.getPagamentos().get(0).getFormaPagamento().getNome().contains("Combo"))
+            return true;
+        return false;
+    }
+
+    private boolean checaSePossuiSaldoSuficiente(CTR ctr) throws DomainException {
+        List<Long> idsTipoDescarte = retornaListaDeIdsDosTiposDescarteParaBaixa(ctr);
+
+        Map<Long, Integer> quantidadeDescartePorTipo = retornaQuantidadeNecessariaDeCombosPorTipoDeDescarte(idsTipoDescarte);
+
+        for (Long id : quantidadeDescartePorTipo.keySet()){
+            int quantidadeABaixar = quantidadeDescartePorTipo.get(id);
+            int saldoDisponivel = comboService.retornaQuantidadeDeComboPorCategoria(ctr.getTransportador().getId(), id );
+            if(quantidadeABaixar > saldoDisponivel)
+                throw new DomainException(String.format("Quantidade de descarte '%s' excede a quantidade de combo disponível!", ctr.getTipoDescartes().stream().filter(tipoDescarte -> tipoDescarte.getId() == Integer.parseInt(id.toString())).findFirst().get().getNome()));
+        }
+        return true;
+    }
+
+    private List<Long> retornaListaDeIdsDosTiposDescarteParaBaixa(CTR ctr) {
+        List<Long> idsTipoDescarte = new ArrayList<>();
+        for (TipoDescarte tipoDescarte : ctr.getTipoDescartes()) {
+            idsTipoDescarte.add(tipoDescarte.getId());
+        }
+        return idsTipoDescarte;
+    }
+
+    private Map<Long, Integer> retornaQuantidadeNecessariaDeCombosPorTipoDeDescarte(List<Long> idsTipoDescarte){
+        Map<Long, Integer> quantidadeDescartePorTipo = new HashMap<>();
+        for (Long id : idsTipoDescarte) {
+            if(quantidadeDescartePorTipo.containsKey(id)){
+                int acumulador = quantidadeDescartePorTipo.get(id);
+                quantidadeDescartePorTipo.remove(id);
+                quantidadeDescartePorTipo.put(id, ++acumulador);
+            } else {
+                quantidadeDescartePorTipo.put(id, 1);
+            }
+        }
+        return quantidadeDescartePorTipo;
     }
 }
