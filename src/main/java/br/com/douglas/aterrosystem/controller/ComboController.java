@@ -9,12 +9,12 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/combos")
-public class ComboController {
+@RequestMapping("/api/combo")
+public class ComboController{
 
     private final ComboService entityService;
 
