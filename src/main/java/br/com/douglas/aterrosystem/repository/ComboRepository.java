@@ -3,6 +3,7 @@ package br.com.douglas.aterrosystem.repository;
 import br.com.douglas.aterrosystem.entity.Combo;
 import br.com.douglas.aterrosystem.entity.TipoDescarte;
 import br.com.douglas.aterrosystem.entity.Transportador;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,8 @@ public interface ComboRepository extends BaseRepository<Combo> {
 
     @Query("select sum (c.saldo) from Combo c where c.ativo = true and c.transportador.id = :idTransportadora and c.tipoDescarte.id = :idTipoDescarte")
     Integer retornaQuantidadeDeComboPorCategoria(Long idTransportadora, Long idTipoDescarte);
+
+    @ReadOnlyProperty
+    @Query(value = "from Combo c where c.transportador.id =:idTransportadora and c.tipoDescarte.id =:idTipoDescarte and c.saldo > 0")
+    List<Combo> findAllByTransportadoraIdAndTipoDescarteId(long idTransportadora, long idTipoDescarte);
 }

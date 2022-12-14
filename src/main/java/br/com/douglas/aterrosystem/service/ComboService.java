@@ -56,10 +56,10 @@ public class ComboService extends BaseService<Combo> {
 
     public List<Combo> retornaComboParaConsumirSaldoNoDescarte(int quantidadeDesejada, long idTransportadora, long idTipoDescarte){
         List<Combo> combosParaBaixa = new ArrayList<>();
-        List<Combo> combos = getRepository().findAllByTransportadoraIdAndTipoDescarteId(idTransportadora, idTipoDescarte);
+        List<Combo> combos = ((ComboRepository) getRepository()).findAllByTransportadoraIdAndTipoDescarteId(idTransportadora, idTipoDescarte);
         int acumulador = 0;
         for (Combo combo : combos) {
-            if(acumulador <= quantidadeDesejada) {
+            if(acumulador < quantidadeDesejada) {
                 combosParaBaixa.add(combo);
                 acumulador += combo.getSaldo();
             }
