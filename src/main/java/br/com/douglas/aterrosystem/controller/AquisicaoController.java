@@ -36,4 +36,13 @@ public class AquisicaoController {
     public Aquisicao create(@Valid @RequestBody Aquisicao entity) throws DomainException {
         return entityService.save(entity);
     }
+
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @GetMapping("/combo-id/{comboId}")
+    public Aquisicao findByComboId (
+            @SortDefault.SortDefaults(
+                    { @SortDefault(sort = "dataPagamento", direction = Sort.Direction.DESC) }
+            ) Sort sort, @PathVariable String comboId) throws DomainException {
+        return entityService.findByComboId(comboId);
+    }
 }

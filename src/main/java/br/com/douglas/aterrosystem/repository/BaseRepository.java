@@ -7,5 +7,4 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface BaseRepository<R> extends JpaRepository<R, Long> {
 
-
 }

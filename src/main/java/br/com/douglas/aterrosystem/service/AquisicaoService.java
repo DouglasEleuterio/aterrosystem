@@ -1,9 +1,11 @@
 package br.com.douglas.aterrosystem.service;
 
 import br.com.douglas.aterrosystem.entity.Aquisicao;
+import br.com.douglas.aterrosystem.entity.Combo;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.AquisicaoRepository;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.DOMException;
 
 import java.util.Objects;
 
@@ -50,5 +52,11 @@ public class AquisicaoService extends BaseService<Aquisicao>{
 
     private Double getValorAdquirido(Aquisicao aquisicao) {
         return aquisicao.getCombo().getTipoDescarte().getValor() * quantidadeAdquirida(aquisicao);
+    }
+
+    public Aquisicao findByComboId(String comboId) throws DomainException {
+        Long idCombo = Long.parseLong(comboId);
+        return ((AquisicaoRepository) getRepository()).findByComboId(idCombo)
+                .orElseThrow(() -> new DomainException(String.format("Aquisição do Combo id: $ não encontrado!", comboId)));
     }
 }
