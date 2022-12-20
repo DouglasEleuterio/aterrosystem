@@ -109,7 +109,7 @@ public class CTRService {
             throw new DomainException("Necessita informar pagamento(s)");
         }
         for (Pagamento pagamento : ctr.getPagamentos()) {
-            if(!isDescarteSomenteCombo(ctr) && pagamento.getValor() < 0.01 )
+            if(!isDescarteSomenteCombo(ctr) && (Objects.isNull(pagamento.getValor()) || pagamento.getValor() < 0.01 ) )
                 throw new DomainException("Valor de pagamento inválido");
             if(Objects.isNull(pagamento.getFormaPagamento()))
                 throw new DomainException("Forma de Pagamento inválido");
