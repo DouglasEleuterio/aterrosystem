@@ -21,7 +21,7 @@ public class Veiculo {
     private String modelo;
     @Column(unique = true)
     private String placa;
-    @ManyToOne(optional = false, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private Transportador transportador;
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;

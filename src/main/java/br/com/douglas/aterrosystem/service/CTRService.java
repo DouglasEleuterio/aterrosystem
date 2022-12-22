@@ -130,13 +130,11 @@ public class CTRService {
 
     public CTR findById(String id) throws DomainException {
         CTR ctr = repository.findById(Long.parseLong(id)).orElseThrow(() -> new DomainException("CTR com Id não encontrado!"));
-        ctr.getVeiculo().getTransportador().setVeiculos(null);
         return ctr;
     }
 
     public Iterable<CTR> findAll(Sort sort) {
         List<CTR> all = repository.findAll(sort);
-        all.forEach(ctr -> ctr.getVeiculo().getTransportador().setVeiculos(null));
         return all;
     }
 

@@ -4,6 +4,9 @@ import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.entity.Veiculo;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.service.VeiculoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +35,17 @@ public class VeiculoController {
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/all")
-    public List<Veiculo> findAll (
+    public Page<Veiculo> findAll (
+            @RequestParam(required = false) String placa,
+            @RequestParam(required = false) String modelo,
+            @RequestParam(defaultValue = "0") String page,
+            @RequestParam(defaultValue = "5") String size,
             @SortDefault.SortDefaults(
                     { @SortDefault(sort = "placa", direction = Sort.Direction.ASC) }
             ) Sort sort){
-        return entityService.findAll(sort);
+        Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), sort);
+        paging.getSort().and(sort);
+        return entityService.findAll(paging, placa, modelo);
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")

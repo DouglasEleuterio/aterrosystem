@@ -25,11 +25,6 @@ public class Transportador {
     private String cnpj;
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE} )
     private Endereco endereco;
-    @OneToMany
-    private List<CTR> ctrList;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "transportador")
-    @JsonIgnore
-    private List<Veiculo> veiculos;
     @Column(name = "ativo", nullable = false)
     private Boolean ativo;
     private String telefone;

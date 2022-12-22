@@ -1,18 +1,17 @@
 package br.com.douglas.aterrosystem.service;
 
-import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.entity.Veiculo;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.TransportadorRepository;
 import br.com.douglas.aterrosystem.repository.VeiculoRepository;
+import org.hibernate.Hibernate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class VeiculoService {
@@ -48,10 +47,14 @@ public class VeiculoService {
         }
     }
 
-    public List<Veiculo> findAll(Sort sort) {
-        List<Veiculo> all = repository.findAll();
-        //Limpando os veículos da transportadora
-        all.forEach(veiculo -> veiculo.setTransportador(null));
+    public Page<Veiculo> findAll(Pageable page, String placa, String modelo) {
+        Page<Veiculo> all = null;
+        if(Objects.isNull(placa) && Objects.isNull(modelo))
+            all = repository.findAll(page);
+        else if(Objects.nonNull(placa) && Objects.nonNull(modelo))
+            all = repository.findAllByPlacaAndModelo(page, placa, modelo);
+        else if(Objects.isNull(placa) || Objects.isNull(modelo))
+            all = repository.findAllByOneParam(page, placa, modelo);
         return all;
     }
 
