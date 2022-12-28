@@ -3,6 +3,8 @@ package br.com.douglas.aterrosystem.service;
 import br.com.douglas.aterrosystem.entity.Gerador;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.GeradorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +44,8 @@ public class GeradorService {
         }
     }
 
-    public List<Gerador> findAll(Sort sort) {
-        return repository.findAll();
+    public Page<Gerador> findAll(Pageable paging, String nome, String cpf, String cnpj, String email, String ativoP) {
+        Boolean ativo = Boolean.valueOf(ativoP);
+        return repository.findAll(paging);
     }
 }

@@ -4,6 +4,9 @@ import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.models.TipoDescarteResponse;
 import br.com.douglas.aterrosystem.service.TransportadorService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
@@ -33,11 +36,19 @@ public class TransportadorController {
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/all")
-    public List<Transportador> findAll (
+    public Page<Transportador> findAll (
+            @RequestParam(required = false, defaultValue = "") String nome,
+            @RequestParam(required = false, defaultValue = "") String cpf,
+            @RequestParam(required = false, defaultValue = "") String cnpj,
+            @RequestParam(required = false, defaultValue = "") String email,
+            @RequestParam(defaultValue = "0") String page,
+            @RequestParam(defaultValue = "5") String size,
             @SortDefault.SortDefaults(
                     { @SortDefault(sort = "nome", direction = Sort.Direction.ASC) }
-            ) Sort sort){
-        return entityService.findAll(sort);
+            ) Sort sort) {
+        Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), sort);
+        paging.getSort().and(sort);
+        return entityService.findAll(paging);
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")

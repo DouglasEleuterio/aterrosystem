@@ -3,6 +3,8 @@ package br.com.douglas.aterrosystem.service;
 import br.com.douglas.aterrosystem.entity.Transportador;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.TransportadorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -43,8 +45,8 @@ public class TransportadorService extends BaseService<Transportador> {
         enderecoService.validate(transportador.getEndereco());
     }
 
-    public List<Transportador> findAll (Sort sort) {
-        return repository.findAll();
+    public Page<Transportador> findAll (Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public void delete(Long id) throws DomainException{
