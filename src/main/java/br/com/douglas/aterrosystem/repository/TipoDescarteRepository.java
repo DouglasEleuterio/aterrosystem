@@ -16,7 +16,7 @@ public interface TipoDescarteRepository extends BaseRepository<TipoDescarte> {
     @Query("select t from TipoDescarte t where t.ativo = true")
     List<TipoDescarte> findAllAtivo(Sort sort);
 
-    @Query(value = "from TipoDescarte td where td.nome like %:name% and td.ativo =:ativo")
-    <T> Page<T> findAllWithParams(Pageable pageable, String name, Boolean ativo);
+    @Query(value = "from TipoDescarte td where td.nome like %:nome% and td.ativo =:ativo")
+    <T> Page<T> findAllWithParams(Pageable pageable, String nome, Boolean ativo);
 
 }

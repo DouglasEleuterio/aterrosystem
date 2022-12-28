@@ -4,6 +4,8 @@ import br.com.douglas.aterrosystem.entity.RelacaoPagamentosDTO;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.entity.FormaPagamento;
 import br.com.douglas.aterrosystem.repository.FormaPagamentoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +35,8 @@ public class FormaPagamentoService {
         return formaPagamentoRepository.save(formaPagamento);
     }
 
-    public List<FormaPagamento> findAll(Sort sort){
-        return formaPagamentoRepository.findAll(sort);
+    public Page<FormaPagamento> findAll(Pageable pageable, String nome, String ativo){
+        return formaPagamentoRepository.findAllWithParams(pageable, nome, Boolean.valueOf(ativo));
     }
 
     private void validate(FormaPagamento formaPagamento) throws DomainException{

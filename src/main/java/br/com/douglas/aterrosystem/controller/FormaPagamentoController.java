@@ -3,6 +3,9 @@ package br.com.douglas.aterrosystem.controller;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.entity.FormaPagamento;
 import br.com.douglas.aterrosystem.service.FormaPagamentoService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +30,17 @@ public class FormaPagamentoController {
 
 //    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/all")
-    public List<FormaPagamento> findAll (
+    public Page<FormaPagamento> findAll (
+            @RequestParam(required = false, defaultValue = "") String nome,
+            @RequestParam(required = false, defaultValue = "true") String ativo,
+            @RequestParam(defaultValue = "0") String page,
+            @RequestParam(defaultValue = "5") String size,
             @SortDefault.SortDefaults(
                     { @SortDefault(sort = "nome", direction = Sort.Direction.ASC) }
             ) Sort sort){
-        List<FormaPagamento> result = new ArrayList<>();
-        entityService.findAll(sort).forEach(entity -> result.add(entityService.convert(entity)));
-        return result;
+        Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), sort);
+        paging.getSort().and(sort);
+        return entityService.findAll(paging, nome, ativo);
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
