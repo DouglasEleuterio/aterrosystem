@@ -6,6 +6,8 @@ import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.BaseRepository;
 import br.com.douglas.aterrosystem.repository.ComboRepository;
 import br.com.douglas.aterrosystem.repository.TipoDescarteRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -60,5 +62,12 @@ public class TipoDescarteService extends BaseService<TipoDescarte> {
         }else {
             throw new DomainException(String.format("Tipo de descarte com id %s não encontrado", id));
         }
+    }
+
+    public Page<TipoDescarte> findAll(Pageable pageable, String name, String ativo){
+        if(Objects.isNull(name) && Objects.isNull(ativo))
+            return getRepository().findAll(pageable);
+        else
+            return ((TipoDescarteRepository) getRepository()).findAllWithParams(pageable, name, Boolean.valueOf(ativo));
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,7 +23,8 @@ public class FormaPagamentoService {
 
     public FormaPagamento save(FormaPagamento formaPagamento) throws DomainException{
         validate(formaPagamento);
-        formaPagamento.setAtivo(true);
+        if(Objects.isNull(formaPagamento.getAtivo()))
+            formaPagamento.setAtivo(true);
         return formaPagamentoRepository.save(formaPagamento);
     }
 

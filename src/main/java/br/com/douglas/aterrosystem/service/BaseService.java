@@ -2,9 +2,13 @@ package br.com.douglas.aterrosystem.service;
 
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.BaseRepository;
+import br.com.douglas.aterrosystem.repository.TipoDescarteRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public abstract class BaseService <T> {
