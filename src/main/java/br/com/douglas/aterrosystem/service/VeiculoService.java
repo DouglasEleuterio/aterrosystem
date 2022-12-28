@@ -4,14 +4,13 @@ import br.com.douglas.aterrosystem.entity.Veiculo;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.TransportadorRepository;
 import br.com.douglas.aterrosystem.repository.VeiculoRepository;
-import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class VeiculoService {
@@ -47,14 +46,15 @@ public class VeiculoService {
         }
     }
 
-    public Page<Veiculo> findAll(Pageable page, String placa, String modelo) {
+    public Page<Veiculo> findAll(Pageable page, String placa, String modelo, String ativoP) {
+        Boolean ativo = Boolean.valueOf(ativoP);
         Page<Veiculo> all = null;
         if(Objects.isNull(placa) && Objects.isNull(modelo))
-            all = repository.findAll(page);
+            all = repository.findAllByAtivo(page, ativo);
         else if(Objects.nonNull(placa) && Objects.nonNull(modelo))
-            all = repository.findAllByPlacaAndModelo(page, placa, modelo);
+            all = repository.findAllByPlacaAndModelo(page, placa, modelo, ativo);
         else if(Objects.isNull(placa) || Objects.isNull(modelo))
-            all = repository.findAllByOneParam(page, placa, modelo);
+            all = repository.findAllByOneParam(page, placa, modelo, ativo);
         return all;
     }
 
@@ -62,7 +62,8 @@ public class VeiculoService {
         Optional<Veiculo> optTipoDescarte = repository.findById(id);
         if(optTipoDescarte.isPresent()){
             Veiculo entity = optTipoDescarte.get();
-            repository.delete(entity);
+            entity.setAtivo(false);
+            repository.save(entity);
         }else {
             throw new DomainException(String.format("Veículo com id %s não encontrado", id));
         }

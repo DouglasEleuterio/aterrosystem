@@ -36,8 +36,9 @@ public class VeiculoController {
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/all")
     public Page<Veiculo> findAll (
-            @RequestParam(required = false) String placa,
-            @RequestParam(required = false) String modelo,
+            @RequestParam(required = false, defaultValue = "") String modelo,
+            @RequestParam(required = false, defaultValue = "") String placa,
+            @RequestParam(required = false, defaultValue = "true") String ativo,
             @RequestParam(defaultValue = "0") String page,
             @RequestParam(defaultValue = "5") String size,
             @SortDefault.SortDefaults(
@@ -45,7 +46,7 @@ public class VeiculoController {
             ) Sort sort){
         Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), sort);
         paging.getSort().and(sort);
-        return entityService.findAll(paging, placa, modelo);
+        return entityService.findAll(paging, placa, modelo, ativo);
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
