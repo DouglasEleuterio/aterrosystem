@@ -4,6 +4,9 @@ import br.com.douglas.aterrosystem.entity.Combo;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.models.ComboResponse;
 import br.com.douglas.aterrosystem.service.ComboService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,11 +27,17 @@ public class ComboController{
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping("/all")
-    public List<Combo> findAll (
+    public Page<Combo> findAll (
+            @RequestParam(required = false) String transportadorId,
+            @RequestParam(required = false) String tipoDescarteId,
+            @RequestParam(defaultValue = "0") String page,
+            @RequestParam(defaultValue = "5") String size,
             @SortDefault.SortDefaults(
-                    { @SortDefault(sort = "saldo", direction = Sort.Direction.ASC) }
+                    { @SortDefault(sort = "saldo", direction = Sort.Direction.DESC) }
             ) Sort sort){
-        return entityService.findAll(sort);
+        Pageable paging = PageRequest.of(Integer.parseInt(page), Integer.parseInt(size), sort);
+        paging.getSort().and(sort);
+        return entityService.findAll(paging, transportadorId, tipoDescarteId);
     }
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")

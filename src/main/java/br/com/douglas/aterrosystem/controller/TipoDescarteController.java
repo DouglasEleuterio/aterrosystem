@@ -36,7 +36,6 @@ public class TipoDescarteController {
             @RequestParam(required = false, defaultValue = "true") String ativo,
             @RequestParam(defaultValue = "0") String page,
             @RequestParam(defaultValue = "5") String size,
-
             @SortDefault.SortDefaults(
                     { @SortDefault(sort = "nome", direction = Sort.Direction.ASC) }
             ) Sort sort){

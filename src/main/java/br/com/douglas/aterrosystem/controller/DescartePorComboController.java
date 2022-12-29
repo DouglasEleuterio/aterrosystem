@@ -1,6 +1,5 @@
 package br.com.douglas.aterrosystem.controller;
 
-import br.com.douglas.aterrosystem.entity.Aquisicao;
 import br.com.douglas.aterrosystem.entity.DescartePorCombo;
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.service.DescartePorComboService;

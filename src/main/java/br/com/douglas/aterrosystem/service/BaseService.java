@@ -2,16 +2,17 @@ package br.com.douglas.aterrosystem.service;
 
 import br.com.douglas.aterrosystem.exception.DomainException;
 import br.com.douglas.aterrosystem.repository.BaseRepository;
-import br.com.douglas.aterrosystem.repository.TipoDescarteRepository;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 public abstract class BaseService <T> {
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     private BaseRepository repository;
 
@@ -35,6 +36,11 @@ public abstract class BaseService <T> {
         }
         return (T) byId.get();
     }
+
+    public EntityManager getEm(){
+        return entityManager;
+    }
+
 
     public <T extends BaseRepository> T getRepository(){
         return (T) repository;

@@ -7,9 +7,17 @@ import br.com.douglas.aterrosystem.repository.BaseRepository;
 import br.com.douglas.aterrosystem.repository.ComboRepository;
 import br.com.douglas.aterrosystem.repository.TipoDescarteRepository;
 import br.com.douglas.aterrosystem.repository.TransportadorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -65,5 +73,57 @@ public class ComboService extends BaseService<Combo> {
             }
         }
         return combosParaBaixa;
+    }
+
+    public Page<Combo> findAll(Pageable pageable, String transportadorId, String tipoDescarteId) {
+        //Predicate para transportador
+        CriteriaBuilder criteriaBuilder =  getEm().getCriteriaBuilder();
+        CriteriaQuery<Combo> query = criteriaBuilder.createQuery(Combo.class);
+        Root<Combo> root = query.from(Combo.class);
+        query.select(root);
+        getEm().createQuery(query);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if(Objects.nonNull(transportadorId) && !transportadorId.equals("null")){
+            Predicate predicateForTransportador = criteriaBuilder.equal(root.get("transportador").get("id"), Long.parseLong(transportadorId));
+            predicates.add(predicateForTransportador);
+        }
+        if(Objects.nonNull(tipoDescarteId) && !tipoDescarteId.equals("null")){
+            Predicate predicateForTipoDescarte = criteriaBuilder.equal(root.get("tipoDescarte").get("id"), Long.parseLong(tipoDescarteId));
+            predicates.add(predicateForTipoDescarte);
+        }
+        if(!predicates.isEmpty())
+            query.where(predicates.toArray(new Predicate[predicates.size()]));
+        query.orderBy(criteriaBuilder.desc(root.get("saldo")));
+
+        List<Combo> resultList = getEm().createQuery(query)
+                .setFirstResult((int) pageable.getOffset())
+                .setMaxResults(pageable.getPageSize())
+                .getResultList();
+
+        return new PageImpl<>(resultList, pageable, count(predicates));
+    }
+
+    private Long count(List<Predicate> predicates) {
+        CriteriaQuery<Long> countQuery = getCriteriaBuilder().createQuery(Long.class);
+        Root<Combo> root = countQuery.from(Combo.class);
+        countQuery
+                .select(getCriteriaBuilder().count(root))
+                .where(getCriteriaBuilder().and(predicates.toArray(new Predicate[predicates.size()])));
+
+        return getEm().createQuery(countQuery).getSingleResult();
+    }
+
+    private CriteriaBuilder getCriteriaBuilder(){
+        return getEm().getCriteriaBuilder();
+    }
+
+    private Root<Combo> getRoot(){
+        return getCriteriaQuery().from(Combo.class);
+    }
+
+    private CriteriaQuery<Combo> getCriteriaQuery (){
+         return getCriteriaBuilder().createQuery(Combo.class);
     }
 }
