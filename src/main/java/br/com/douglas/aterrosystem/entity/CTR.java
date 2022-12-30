@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -14,7 +15,6 @@ import java.util.List;
 @Builder
 public class CTR {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
     @ManyToOne(optional = false)
@@ -32,7 +32,7 @@ public class CTR {
     @ManyToOne(optional = false)
     private Motorista motorista;
     @Column
-    private LocalDate geracao;
+    private LocalDateTime geracao;
     @Column(name = "ativo", nullable = true)
     private Boolean ativo;
 }
