@@ -13,6 +13,12 @@ public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
     @Query(value = "from Veiculo v where v.placa like %:placa% or v.modelo like %:modelo% and v.ativo =:ativo")
     Page<Veiculo> findAllByOneParam(Pageable pageable, String placa, String modelo, Boolean ativo);
 
+    @Query(value = "from Veiculo v where v.placa like %:placa% and v.ativo =:ativo")
+    Page<Veiculo> findAllByPlaca(Pageable pageable, String placa, Boolean ativo);
+
+    @Query(value = "from Veiculo v where v.modelo like %:modelo% and v.ativo =:ativo")
+    Page<Veiculo> findAllByModelo(Pageable pageable, String modelo, Boolean ativo);
+
     @Query(value = "from Veiculo v where v.placa like %:placa% and v.modelo like %:modelo% and v.ativo =:ativo")
     Page<Veiculo> findAllByPlacaAndModelo(Pageable pageable,  String placa, String modelo, Boolean ativo);
 

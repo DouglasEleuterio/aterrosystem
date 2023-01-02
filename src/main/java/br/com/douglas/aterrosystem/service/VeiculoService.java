@@ -48,14 +48,22 @@ public class VeiculoService {
 
     public Page<Veiculo> findAll(Pageable page, String placa, String modelo, String ativoP) {
         Boolean ativo = Boolean.valueOf(ativoP);
-        Page<Veiculo> all = null;
+        if( placa.equals("null") || placa.equals("") )
+            placa = null;
+        if( modelo.equals("null") || modelo.equals("") )
+            modelo = null;
+        if( ativoP.equals("null") || ativoP.equals("") )
+            ativo = true;
+
         if(Objects.isNull(placa) && Objects.isNull(modelo))
-            all = repository.findAllByAtivo(page, ativo);
+            return repository.findAllByAtivo(page, ativo);
         else if(Objects.nonNull(placa) && Objects.nonNull(modelo))
-            all = repository.findAllByPlacaAndModelo(page, placa, modelo, ativo);
-        else if(Objects.isNull(placa) || Objects.isNull(modelo))
-            all = repository.findAllByOneParam(page, placa, modelo, ativo);
-        return all;
+            return repository.findAllByPlacaAndModelo(page, placa, modelo, ativo);
+        else if(Objects.nonNull(placa))
+            return repository.findAllByPlaca(page, placa, ativo);
+        else if(Objects.nonNull(modelo))
+            return repository.findAllByModelo(page, modelo, ativo);
+        return null;
     }
 
     public void delete(Long id) throws DomainException{

@@ -65,9 +65,10 @@ public class TipoDescarteService extends BaseService<TipoDescarte> {
     }
 
     public Page<TipoDescarte> findAll(Pageable pageable, String name, String ativo){
-        if(Objects.isNull(name) && Objects.isNull(ativo))
-            return getRepository().findAll(pageable);
+        String nomeNull = name.equals("null") ? null : name;
+        if(Objects.isNull(nomeNull))
+            return ((TipoDescarteRepository) getRepository()).findAllByAtivo(pageable, Boolean.valueOf(ativo));
         else
-            return ((TipoDescarteRepository) getRepository()).findAllWithParams(pageable, name, Boolean.valueOf(ativo));
+            return ((TipoDescarteRepository) getRepository()).findAllWithParams(pageable, nomeNull, Boolean.valueOf(ativo));
     }
 }

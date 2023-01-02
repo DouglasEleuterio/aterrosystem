@@ -36,7 +36,10 @@ public class FormaPagamentoService {
     }
 
     public Page<FormaPagamento> findAll(Pageable pageable, String nome, String ativo){
-        return formaPagamentoRepository.findAllWithParams(pageable, nome, Boolean.valueOf(ativo));
+        if(Objects.isNull(nome) || nome.equals("null") || nome.equals("") || nome.equals("undefined"))
+            return formaPagamentoRepository.findAllByAtivo(pageable, Boolean.valueOf(ativo));
+        else
+            return formaPagamentoRepository.findAllWithParams(pageable, nome, Boolean.valueOf(ativo));
     }
 
     private void validate(FormaPagamento formaPagamento) throws DomainException{

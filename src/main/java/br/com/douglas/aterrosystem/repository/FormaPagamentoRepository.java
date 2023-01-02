@@ -24,4 +24,7 @@ public interface FormaPagamentoRepository extends JpaRepository<FormaPagamento, 
 
     @Query(value = "from FormaPagamento fp where fp.nome like %:nome% and fp.ativo =:ativo")
     <T> Page<T> findAllWithParams(Pageable pageable, String nome, Boolean ativo);
+
+    @Query(value = "from FormaPagamento fp where fp.ativo =:ativo")
+    <T> Page<T> findAllByAtivo(Pageable pageable, Boolean ativo);
 }
