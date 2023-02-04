@@ -51,7 +51,7 @@ public class RecoverPasswordService implements IRecoverPasswordService {
         return tokenService.create(Token.builder()
                 .expiration(LocalDateTime.now().plus(24, ChronoUnit.HOURS))
                 .user(user)
-                .token(TokenService.getToken())
+                .key(TokenService.getToken())
                 .build());
     }
 
@@ -59,7 +59,7 @@ public class RecoverPasswordService implements IRecoverPasswordService {
     @Async
     public void sendEmail(User user, Token token) throws DomainException {
         var params = new HashMap<String, Object>();
-        params.put("token", token.getToken());
+        params.put("token", token.getKey());
         params.put("user", user.getFirstname().concat(" ").concat(user.getLastname()));
         params.put("sistema", "AterroSystem");
 

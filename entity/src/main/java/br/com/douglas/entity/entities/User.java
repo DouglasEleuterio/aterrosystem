@@ -21,37 +21,37 @@ import java.util.Set;
 public class User extends BaseEntity {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "USR_ID", unique = true, nullable = false)
     private String id;
 
-    @Column(name = "USERNAME", length = 50, unique = true, nullable = false)
+    @Column(name = "USR_DS_USERNAME", length = 50, unique = true, nullable = false)
     @Size(min = 4, max = 50)
     private String username;
 
-    @Column(name = "PASSWORD", length = 100, nullable = false)
-    @Size(min = 4, max = 100)
+    @Column(name = "USR_DS_PASSWORD", length = 255, nullable = false)
+    @Size(min = 4, max = 255)
     private String password;
 
-    @Column(name = "FIRSTNAME", length = 50, nullable = false)
+    @Column(name = "USR_DS_FIRSTNAME", length = 50, nullable = false)
     @Size(min = 4, max = 50)
     private String firstname;
 
-    @Column(name = "LASTNAME", length = 50, nullable = false)
+    @Column(name = "USR_DS_LASTNAME", length = 50, nullable = false)
     @Size(min = 4, max = 50)
     private String lastname;
 
-    @Column(name = "EMAIL", length = 50, nullable = false)
+    @Column(name = "USR_DS_EMAIL", length = 50, nullable = false)
     @Size(min = 4, max = 50)
     private String email;
 
-    @Column(name = "ACTIVATED", nullable = false)
+    @Column(name = "USR_ST_ACTIVATED", nullable = false)
     private boolean activated;
 
     @ManyToMany
     @JoinTable(
-            name = "USER_AUTHORITY",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+            name = "USA_USER_AUTHORITY",
+            joinColumns = {@JoinColumn(name = "USR_ID", referencedColumnName = "USR_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "AUT_ID", referencedColumnName = "AUT_ID")})
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 }

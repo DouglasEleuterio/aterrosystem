@@ -1,6 +1,6 @@
 package br.com.douglas.service.impls.user;
 
-import br.com.douglas.common.commons.TokenUtils;
+import br.com.douglas.shared.TokenUtils;
 import br.com.douglas.entity.entities.Token;
 import br.com.douglas.entity.entities.User;
 import br.com.douglas.exception.exceptions.DomainException;

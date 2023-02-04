@@ -10,20 +10,20 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Table(name = "AUT_AUTHORITY")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "AUT_AUTHORITY")
 public class Authority extends BaseEntity {
 
    @Id
-   @Column(name = "ID", length = 36)
+   @Column(name = "AUT_ID", length = 36)
    private String id;
 
-   @Column(name = "NAME", length = 50, unique = true)
+   @Column(name = "AUT_DS_NAME", length = 50, unique = true)
    @NotNull
    private String name;
 }

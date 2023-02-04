@@ -12,6 +12,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +21,9 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
 
     private static final String ERROR_PROPERTY = "error.notfound";
     private final BaseRepository<T> repository;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     protected BaseService(BaseRepository<T> repository) {
         this.repository = repository;
@@ -88,5 +93,9 @@ public abstract class BaseService<T extends BaseEntity> implements IBaseService<
     @Override
     public Page<T> findAll(Specification<T> specification, Pageable pageable) {
         return repository.findAll(specification, pageable);
+    }
+
+    protected EntityManager getEm(){
+        return entityManager;
     }
 }

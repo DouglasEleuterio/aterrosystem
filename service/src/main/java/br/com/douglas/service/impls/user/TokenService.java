@@ -23,7 +23,7 @@ public class TokenService extends BaseService<Token> {
     }
 
     public Token findByToken(String token) throws ChangePasswordException {
-        return tokenRepository.findByTokenEquals(token)
+        return tokenRepository.findByKeyEquals(token)
                 .orElseThrow(() -> new ChangePasswordException(Message.toLocale("change_password.token.notfound")));
     }
 }

@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 public interface TokenRepository extends BaseRepository<Token> {
     @NonNull
-    Optional<Token> findByTokenEquals(@NonNull String token);
+    Optional<Token> findByKeyEquals(@NonNull String key);
 }

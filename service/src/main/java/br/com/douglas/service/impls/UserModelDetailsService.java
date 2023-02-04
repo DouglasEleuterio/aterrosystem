@@ -2,7 +2,7 @@ package br.com.douglas.service.impls;
 
 import br.com.douglas.entity.entities.User;
 import br.com.douglas.exception.exceptions.UserNotActivatedException;
-import br.com.douglas.repository.repositories.UserRepository;
+import br.com.douglas.repository.repositories.user.UserRepository;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

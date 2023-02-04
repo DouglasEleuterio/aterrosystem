@@ -21,17 +21,21 @@
     </properties>
 
     <modules>
-        <module>controler</module>
-        <module>entity</module>
-        <module>exception</module>
         <module>message</module>
+        <module>exception</module>
+        <module>entity</module>
         <module>repository</module>
         <module>rsql</module>
         <module>service</module>
         <module>security</module>
-        <module>common</module>
+        <module>controler</module>
     </modules>
     <dependencies>
+        <dependency>
+            <groupId>br.com.douglas</groupId>
+            <artifactId>shared</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>

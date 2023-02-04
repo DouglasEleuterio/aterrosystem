@@ -6,7 +6,7 @@ import br.com.douglas.entity.entities.User;
 import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.message.messages.Message;
 import br.com.douglas.repository.repositories.TokenRepository;
-import br.com.douglas.repository.repositories.UserRepository;
+import br.com.douglas.repository.repositories.user.UserRepository;
 import br.com.douglas.service.impls.user.TokenService;
 import br.com.douglas.service.user.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;

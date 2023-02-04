@@ -3,11 +3,9 @@ package br.com.douglas.controler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = "br.com.douglas")
-@EntityScan(basePackages = "br.com.douglas")
+@EntityScan(basePackages = "br.com.douglas.entity.entities.temp")
 public class ControlerApplication {
 
     public static void main(String[] args) {
