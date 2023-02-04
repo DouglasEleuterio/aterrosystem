@@ -28,7 +28,7 @@
         <module>repository</module>
         <module>rsql</module>
         <module>service</module>
-        <module>jwt-spring-security</module>
+        <module>security</module>
         <module>common</module>
     </modules>
     <dependencies>
