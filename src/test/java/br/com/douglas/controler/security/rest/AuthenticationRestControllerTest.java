@@ -1,14 +1,20 @@
 package br.com.douglas.controler.security.rest;
 
+import br.com.douglas.controler.util.BaseTest;
 import br.com.douglas.controller.mapper.mappers.JWTTokenResponse;
 import br.com.douglas.controler.util.AbstractRestControllerTest;
 import br.com.douglas.controler.util.LogInUtils;
+import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityRequest;
+import br.com.douglas.controller.mapper.mappers.user.UserRequest;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Set;
 
 import static br.com.douglas.controler.util.LogInUtils.getTokenForLogin;
 import static org.hamcrest.Matchers.containsString;
@@ -19,32 +25,43 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AuthenticationRestControllerTest extends AbstractRestControllerTest {
+public class AuthenticationRestControllerTest extends BaseTest {
 
    private final String AUTHENTICATE_URL = "authenticate";
+   private final String SIGNUP_URL = "api/signup";
 
 
    @Test
+   @Rollback
    public void successfulAuthenticationWithUser() throws Exception {
+      createAuthorities("ROLE_ADMIN");
+      signUpWithSuccess(Set.of(AuthorityRequest.builder().name("ROLE_ADMIN").build()));
+
       getMockMvc().perform(post(API_URL + AUTHENTICATE_URL)
          .contentType(MediaType.APPLICATION_JSON)
-         .content("{\"password\": \"password\", \"username\": \"user\"}"))
+         .content("{\"password\": \"&senh4Mui$togrande!@\", \"username\": \"douglasferreira\"}"))
          .andExpect(status().isOk())
          .andExpect(content().string(containsString("id_token")));
    }
 
    @Test
+   @Rollback
    public void successfulAuthenticationWithAdmin() throws Exception {
+      createAuthorities("ROLE_ADMIN");
+      signUpWithSuccess(Set.of(AuthorityRequest.builder().name("ROLE_ADMIN").build()));
       getMockMvc().perform(post(API_URL + AUTHENTICATE_URL)
          .contentType(MediaType.APPLICATION_JSON)
-         .content("{\"password\": \"admin\", \"username\": \"admin\"}"))
+         .content("{\"password\": \"&senh4Mui$togrande!@\", \"username\": \"douglasferreira\"}"))
          .andExpect(status().isOk())
          .andExpect(content().string(containsString("id_token")));
    }
 
    @Test
+   @Rollback
    public void realizarLoginComSucesso() throws Exception {
-      ResultActions result = getMockMvc().perform(LogInUtils.realizarLoginComoAdmin("admin", "admin"))
+      createAuthorities("ROLE_ADMIN");
+      signUpWithSuccess(Set.of(AuthorityRequest.builder().name("ROLE_ADMIN").build()));
+      ResultActions result = getMockMvc().perform(LogInUtils.realizarLoginComoAdmin("douglasferreira", "&senh4Mui$togrande!@"))
          .andDo(log())
          .andExpect(status().isOk());
 
@@ -53,15 +70,34 @@ public class AuthenticationRestControllerTest extends AbstractRestControllerTest
       Assert.assertNotNull(token.getIdToken());
    }
 
+   private UserRequest getUsuarioAdmin() {
+      var admin = AuthorityRequest.builder().name("RULE_ADMIN").build();
+      var user = AuthorityRequest.builder().name("RULE_USER").build();
+      return UserRequest.builder()
+              .authorities(Set.of(admin, user))
+              .email("douglas.versato@gmail.com")
+              .lastname("Eleutério")
+              .firstname("Douglas")
+              .username("douglas")
+              .password("Senha#@1Forte")
+              .build();
+   }
+
    @Test()
+   @Rollback
    public void realizarLoginComNomeUsuarioOuSenhaIncorreto() throws Exception {
+      createAuthorities("ROLE_ADMIN");
+      signUpWithSuccess(Set.of(AuthorityRequest.builder().name("ROLE_ADMIN").build()));
       getMockMvc().perform(LogInUtils.realizarLoginComoAdmin("amin", "admin"))
          .andDo(log())
          .andExpect(status().isUnauthorized());
    }
 
    @Test
+   @Rollback
    public void unsuccessfulAuthenticationWithDisabled() throws Exception {
+      createAuthorities("ROLE_ADMIN");
+      signUpWithSuccess(Set.of(AuthorityRequest.builder().name("ROLE_ADMIN").build()));
       getMockMvc().perform(post(API_URL + AUTHENTICATE_URL)
          .contentType(MediaType.APPLICATION_JSON)
          .content("{\"password\": \"password\", \"username\": \"disabled\"}"))
@@ -70,6 +106,7 @@ public class AuthenticationRestControllerTest extends AbstractRestControllerTest
    }
 
    @Test
+   @Rollback
    public void unsuccessfulAuthenticationWithWrongPassword() throws Exception {
       getMockMvc().perform(post(API_URL  + AUTHENTICATE_URL)
          .contentType(MediaType.APPLICATION_JSON)
@@ -79,6 +116,7 @@ public class AuthenticationRestControllerTest extends AbstractRestControllerTest
    }
 
    @Test
+   @Rollback
    public void unsuccessfulAuthenticationWithNotExistingUser() throws Exception {
       getMockMvc().perform(post(API_URL  + AUTHENTICATE_URL)
          .contentType(MediaType.APPLICATION_JSON)
@@ -88,8 +126,11 @@ public class AuthenticationRestControllerTest extends AbstractRestControllerTest
    }
 
    @Test
+   @Rollback
    public void successfulRefreshToken() throws Exception {
-      final String token = getTokenForLogin("user", "password", getMockMvc());
+      createAuthorities("ROLE_ADMIN");
+      signUpWithSuccess(Set.of(AuthorityRequest.builder().name("ROLE_ADMIN").build()));
+      final String token = getTokenForLogin("douglasferreira", "&senh4Mui$togrande!@", getMockMvc());
 
       getMockMvc().perform(get(API_URL  + "token")
             .contentType(MediaType.APPLICATION_JSON)
@@ -100,11 +141,11 @@ public class AuthenticationRestControllerTest extends AbstractRestControllerTest
    }
 
    @Test
+   @Rollback
    public void unsuccessfulRefreshToken() throws Exception{
       getMockMvc().perform(get(API_URL  + "token")
             .contentType(MediaType.APPLICATION_JSON))
          .andExpect(status().isUnauthorized())
          .andExpect(content().string(not(containsString("id_token"))));
    }
-
 }

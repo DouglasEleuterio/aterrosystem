@@ -23,4 +23,6 @@ public class UserRequest {
     private String email;
 
     Set<AuthorityRequest> authorities;
+
+    private boolean activated;
 }

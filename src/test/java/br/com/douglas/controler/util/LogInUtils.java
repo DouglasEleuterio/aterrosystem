@@ -33,8 +33,8 @@ public final class LogInUtils {
 
    public static MockHttpServletRequestBuilder realizarLoginComoAdmin(@NotNull final String nomeUsuario, @NotNull final String senha) throws Exception {
       var usuario = LoginDto.builder()
-         .password(nomeUsuario)
-         .username(senha)
+         .password(senha)
+         .username(nomeUsuario)
          .rememberMe(true)
          .build();
 
