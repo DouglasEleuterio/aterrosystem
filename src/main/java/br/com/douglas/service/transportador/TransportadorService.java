@@ -28,9 +28,6 @@ public class TransportadorService extends BaseService<Transportador> {
 
     @Override
     public void validate(Transportador transportador) throws DomainException{
-        if(Objects.isNull(transportador.getEndereco())){
-            throw new DomainException("Endereço inválido");
-        }
         if(Objects.isNull(transportador.getNome()) || transportador.getNome().length() < 3){
             throw new DomainException("Nome inválido");
         }

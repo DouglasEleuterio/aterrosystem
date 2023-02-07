@@ -25,7 +25,7 @@ public class Transportador extends BaseEntity {
     @CNPJ
     @Column(name = "TRS_NM_CNPJ", unique = true)
     private String cnpj;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "END_ID", nullable = false)
     private Endereco endereco;
     @Column(name = "TRS_ST_ATIVO", nullable = false)
@@ -34,6 +34,6 @@ public class Transportador extends BaseEntity {
     private String telefone;
     @Column(name = "TRS_DS_EMAIL")
     private String email;
-    @OneToMany(mappedBy = "transportador", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "transportador", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Veiculo> veiculos;
 }

@@ -1,23 +1,27 @@
 package br.com.douglas.controler.util;
 
-import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityRequest;
-import br.com.douglas.controller.mapper.mappers.user.UserRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.ResultHandler;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.result.ContentResultMatchers;
+import org.springframework.test.web.servlet.result.StatusResultMatchers;
 
-import java.util.Set;
+import javax.validation.constraints.NotNull;
+import java.nio.charset.StandardCharsets;
 
-import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 
 @RunWith(SpringRunner.class)
@@ -33,11 +37,6 @@ public abstract class AbstractRestControllerTest {
    @Autowired
    private ObjectMapper mapper;
 
-   @Before
-   public void setUp() throws Exception {
-      SecurityContextHolder.clearContext();
-   }
-
    public MockMvc getMockMvc() {
       return mockMvc;
    }
@@ -46,5 +45,36 @@ public abstract class AbstractRestControllerTest {
       return mapper;
    }
 
+   protected MockHttpServletRequestBuilder getPost(@NotNull String url){
+      return post(url).characterEncoding(StandardCharsets.UTF_8);
+   }
+
+   protected MockHttpServletRequestBuilder getDelete(@NotNull String url){
+      return delete(url).characterEncoding(StandardCharsets.UTF_8);
+   }
+
+   protected MockHttpServletRequestBuilder getPut(@NotNull String url){
+      return put(url).characterEncoding(StandardCharsets.UTF_8);
+   }
+
+   protected MockHttpServletRequestBuilder getGet(@NotNull String url){
+      return get(url).characterEncoding(StandardCharsets.UTF_8);
+   }
+
+   protected StatusResultMatchers getStatus(){
+      return  status();
+   }
+
+   protected ResultHandler getLog(){
+      return  log();
+   }
+
+   protected ContentResultMatchers getContent(){
+      return content();
+   }
+
+   protected org.mockito.Mockito getMockito(){
+      return new org.mockito.Mockito();
+   }
 
 }

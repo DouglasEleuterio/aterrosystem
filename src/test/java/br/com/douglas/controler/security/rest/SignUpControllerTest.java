@@ -31,8 +31,8 @@ public class SignUpControllerTest extends BaseTest {
 
     @Test
     public void signUpWithSuccess() throws Exception {
-        createAuthorities("ROLE_ADMIN");
-        createAuthorities("ROLE_USER");
+        saveAuthoritie("ROLE_ADMIN");
+        saveAuthoritie("ROLE_USER");
         getMockMvc().perform(getPost(API_URL + SIGNIN_URL)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(createUserWithAuthorities(getAuthorityes(), "&senh4Mui$togrande!@"))))

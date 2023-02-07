@@ -25,6 +25,9 @@ public class EnderecoService extends BaseService<Endereco> {
 
     @Override
     public void validate(Endereco endereco) throws DomainException{
+        if(Objects.isNull(endereco)){
+            throw new DomainException("Endereço inválido");
+        }
         if(Objects.isNull(endereco.getLogradouro()) || endereco.getLogradouro().isEmpty() || endereco.getLogradouro().length() < 3){
             throw new DomainException("Logradouro Inválido");
         }
