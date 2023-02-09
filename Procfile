@@ -1,1 +1,1 @@
-web: java -jar build/libs/aterrosystem-2.0.0.jar
+web: java -jar target/aterrosystem-2.0.0.jar
