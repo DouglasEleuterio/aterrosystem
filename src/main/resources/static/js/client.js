@@ -26,7 +26,7 @@ $(function () {
 
    function doLogin(loginData) {
       $.ajax({
-         url: "/api/authenticate",
+         url: "/api/authenticate/",
          type: "POST",
          data: JSON.stringify(loginData),
          contentType: "application/json; charset=utf-8",
@@ -76,7 +76,7 @@ $(function () {
 
    function showUserInformation() {
       $.ajax({
-         url: "/api/user",
+         url: "/api/user/",
          type: "GET",
          contentType: "application/json; charset=utf-8",
          dataType: "json",
@@ -136,7 +136,7 @@ $(function () {
 
    $("#exampleServiceBtn").click(function () {
       $.ajax({
-         url: "/api/person",
+         url: "/api/person/",
          type: "GET",
          contentType: "application/json; charset=utf-8",
          dataType: "json",
@@ -152,7 +152,7 @@ $(function () {
 
    $("#adminServiceBtn").click(function () {
       $.ajax({
-         url: "/api/hiddenmessage",
+         url: "/api/hiddenmessage/",
          type: "GET",
          contentType: "application/json; charset=utf-8",
          dataType: "json",

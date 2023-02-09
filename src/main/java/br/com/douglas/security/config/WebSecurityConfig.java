@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    public void configure(WebSecurity web) {
       web.ignoring()
          .antMatchers(HttpMethod.OPTIONS, "/**")
-         .antMatchers("/swagger-ui/**", "/bus/v3/api-docs/**")
+            .antMatchers("/swagger-ui/**", "/bus/v3/api-docs/**")
 
          // allow anonymous resource requests
          .antMatchers(
@@ -76,15 +76,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity httpSecurity) throws Exception {
       httpSecurity
-         // we don't need CSRF because our token is invulnerable
          .csrf().disable()
-
          .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-
          .exceptionHandling()
          .authenticationEntryPoint(authenticationErrorHandler)
          .accessDeniedHandler(jwtAccessDeniedHandler)
-
          // enable h2-console
          .and()
          .headers()
@@ -98,6 +94,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
       httpSecurity = adicionarEnderecosPublicos(httpSecurity);
       httpSecurity = adicionarEnderecosPrivadosPeloPerfil(httpSecurity);
+      httpSecurity.authorizeRequests().anyRequest().authenticated();
 
       httpSecurity.apply(securityConfigurerAdapter());
    }
