@@ -107,11 +107,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    }
 
    private HttpSecurity adicionarEnderecosPublicos(HttpSecurity httpSecurity) {
-// .antMatchers("/api/authenticate").permitAll()
-// .antMatchers("/api/register").permitAll()
-// .antMatchers("/api/activate").permitAll()
-// .antMatchers("/api/account/reset-password/init").permitAll()
-// .antMatchers("/api/account/reset-password/finish").permitAll()
       properties.getUrlsPublicas().forEach(url -> {
          try {
             httpSecurity.authorizeRequests().antMatchers(url).permitAll();
@@ -122,9 +117,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       return httpSecurity;
    }
 
-   private HttpSecurity adicionarEnderecosPrivadosPeloPerfil(HttpSecurity httpSecurity) throws Exception {
-//         .antMatchers("/api/person").hasAuthority("ROLE_USER")
-//         .antMatchers("/api/hiddenmessage").hasAuthority("ROLE_ADMIN")
+   private HttpSecurity adicionarEnderecosPrivadosPeloPerfil(HttpSecurity httpSecurity) {
       properties.getUrlsPrivadas().forEach((s, s2) ->
          Arrays.stream(s2.split(","))
             .collect(Collectors.toList()).forEach(url ->
@@ -137,7 +130,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                   throw new RuntimeException(e);
                }
             }));
-      httpSecurity.authorizeRequests().anyRequest().authenticated();
       return httpSecurity;
    }
 }
