@@ -1,0 +1,1 @@
+web: java -jar build/libs/aterrosystem-2.0.0.jar
