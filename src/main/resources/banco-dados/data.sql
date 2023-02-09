@@ -1,31 +1,31 @@
--- # noinspection SqlNoDataSourceInspectionForFile
-INSERT INTO USR_USER (USR_ID, USR_DS_USERNAME, USR_DS_PASSWORD, USR_DS_FIRSTNAME, USR_DS_LASTNAME, USR_DS_EMAIL, USR_ST_ACTIVATED)
-VALUES ('62134742-a36e-4d9a-a076-e7c2a098f915', 'admin', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi',
+-- # noinspection sqlnodatasourceinspectionforfile
+insert into usr_user (usr_id, usr_ds_username, usr_ds_password, usr_ds_firstname, usr_ds_lastname, usr_ds_email, usr_st_activated)
+values ('62134742-a36e-4d9a-a076-e7c2a098f915', 'admin', '$2a$08$ldnhpz7euksi6ao14twuau08mzhwrl4kyzggu5xfigalo/vxd5doi',
         'admin', 'admin', 'admin@admin.com', 1);
-INSERT INTO USR_USER (USR_ID, USR_DS_USERNAME, USR_DS_PASSWORD, USR_DS_FIRSTNAME, USR_DS_LASTNAME, USR_DS_EMAIL, USR_ST_ACTIVATED)
+insert into usr_user (usr_id, usr_ds_username, usr_ds_password, usr_ds_firstname, usr_ds_lastname, usr_ds_email, usr_st_activated)
 
-VALUES ('bc6ed14c-75d0-46f7-b414-ee7772c93271', 'user', '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC',
+values ('bc6ed14c-75d0-46f7-b414-ee7772c93271', 'user', '$2a$08$ukvvwpulis18s19s5pzfn.yhpzt3oaqhzndwqbcw9pft6uftkxkdc',
         'user', 'user', 'enabled@user.com', 1);
-INSERT INTO USR_USER (USR_ID, USR_DS_USERNAME, USR_DS_PASSWORD, USR_DS_FIRSTNAME, USR_DS_LASTNAME, USR_DS_EMAIL, USR_ST_ACTIVATED)
+insert into usr_user (usr_id, usr_ds_username, usr_ds_password, usr_ds_firstname, usr_ds_lastname, usr_ds_email, usr_st_activated)
 
-VALUES ('1fd6358c-8275-4d73-a6ad-058a73192411', 'disabled',
-        '$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC',
+values ('1fd6358c-8275-4d73-a6ad-058a73192411', 'disabled',
+        '$2a$08$ukvvwpulis18s19s5pzfn.yhpzt3oaqhzndwqbcw9pft6uftkxkdc',
         'user', 'user', 'disabled@user.com', 0);
 
-INSERT INTO USR_USER (USR_ID, USR_DS_USERNAME, USR_DS_PASSWORD, USR_DS_FIRSTNAME, USR_DS_LASTNAME, USR_DS_EMAIL, USR_ST_ACTIVATED)
-VALUES ('621ASÇ42-s36e-4d9a-a076-e7c2a098f915', 'douglas', '$2a$08$lDnHPz7eUkSi6ao14Twuau08mzhWrL4kyZGGU5xfiGALO/Vxd5DOi',
+insert into usr_user (usr_id, usr_ds_username, usr_ds_password, usr_ds_firstname, usr_ds_lastname, usr_ds_email, usr_st_activated)
+values ('621asç42-s36e-4d9a-a076-e7c2a098f915', 'douglas', '$2a$08$ldnhpz7euksi6ao14twuau08mzhwrl4kyzggu5xfigalo/vxd5doi',
         'admin', 'admin', 'admin@admin.com', 1);
 
-INSERT INTO AUT_AUTHORITY
-VALUES ('62134732-a36e-497a-a076-e7c2a098f915', 'ROLE_USER');
-INSERT INTO AUT_AUTHORITY
-VALUES ('62134742-a36e-4d9a-1876-eaftr098f915', 'ROLE_ADMIN');
+insert into aut_authority
+values ('62134732-a36e-497a-a076-e7c2a098f915', 'role_user');
+insert into aut_authority
+values ('62134742-a36e-4d9a-1876-eaftr098f915', 'role_admin');
 
-INSERT INTO USA_USER_AUTHORITY (USR_ID, AUT_ID)
-VALUES ('62134742-a36e-4d9a-a076-e7c2a098f915', '62134732-a36e-497a-a076-e7c2a098f915');
-INSERT INTO USA_USER_AUTHORITY (USR_ID, AUT_ID)
-VALUES ('62134742-a36e-4d9a-a076-e7c2a098f915', '62134742-a36e-4d9a-1876-eaftr098f915');
-INSERT INTO USA_USER_AUTHORITY (USR_ID, AUT_ID)
-VALUES ('bc6ed14c-75d0-46f7-b414-ee7772c93271', '62134732-a36e-497a-a076-e7c2a098f915');
-INSERT INTO USA_USER_AUTHORITY (USR_ID, AUT_ID)
-VALUES ('1fd6358c-8275-4d73-a6ad-058a73192411', '62134732-a36e-497a-a076-e7c2a098f915');
+insert into usa_user_authority (usr_id, aut_id)
+values ('62134742-a36e-4d9a-a076-e7c2a098f915', '62134732-a36e-497a-a076-e7c2a098f915');
+insert into usa_user_authority (usr_id, aut_id)
+values ('62134742-a36e-4d9a-a076-e7c2a098f915', '62134742-a36e-4d9a-1876-eaftr098f915');
+insert into usa_user_authority (usr_id, aut_id)
+values ('bc6ed14c-75d0-46f7-b414-ee7772c93271', '62134732-a36e-497a-a076-e7c2a098f915');
+insert into usa_user_authority (usr_id, aut_id)
+values ('1fd6358c-8275-4d73-a6ad-058a73192411', '62134732-a36e-497a-a076-e7c2a098f915');
