@@ -1,7 +1,7 @@
 package br.com.douglas.controler.security.rest;
 
-import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityRequest;
-import br.com.douglas.controller.mapper.mappers.user.UserRequest;
+import br.com.douglas.mapper.mappers.authoritie.AuthorityRequest;
+import br.com.douglas.mapper.mappers.user.UserRequest;
 import br.com.douglas.controler.util.BaseTest;
 import br.com.douglas.message.messages.Message;
 import com.fasterxml.jackson.databind.ObjectMapper;

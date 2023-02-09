@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import br.com.douglas.controller.mapper.mappers.user.ChangePasswordWithTokenRequest;
+import br.com.douglas.mapper.mappers.user.ChangePasswordWithTokenRequest;
 
 import javax.validation.Valid;
 import java.net.URI;

@@ -2,7 +2,7 @@ package br.com.douglas.controller.core;
 
 import br.com.douglas.entity.base.BaseEntity;
 import br.com.douglas.exception.exceptions.DomainException;
-import br.com.douglas.controller.mapper.BaseMapper;
+import br.com.douglas.mapper.BaseMapper;
 import br.com.douglas.service.interfaces.IBaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;

@@ -1,10 +1,10 @@
 package br.com.douglas.controler.transportador;
 
 import br.com.douglas.controler.util.BaseTest;
-import br.com.douglas.controller.mapper.transportador.TransportadorRequest;
-import br.com.douglas.controller.mapper.transportador.TransportadorResponse;
-import br.com.douglas.controller.mapper.veiculo.VeiculoRequest;
-import br.com.douglas.controller.mapper.veiculo.VeiculoResponse;
+import br.com.douglas.mapper.transportador.TransportadorRequest;
+import br.com.douglas.mapper.transportador.TransportadorResponse;
+import br.com.douglas.mapper.veiculo.VeiculoRequest;
+import br.com.douglas.mapper.veiculo.VeiculoResponse;
 import br.com.douglas.exception.model.ErrorResponse;
 import br.com.douglas.model.entity.BaseEntityRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -14,8 +14,6 @@ import org.junit.jupiter.api.Assertions;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.ResultActions;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
