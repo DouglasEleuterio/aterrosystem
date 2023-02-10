@@ -11,6 +11,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.filter.CorsFilter;
 import br.com.douglas.security.JwtAccessDeniedHandler;
 import br.com.douglas.security.JwtAuthenticationEntryPoint;
@@ -25,7 +26,6 @@ import java.util.stream.Collectors;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
    private final TokenProvider tokenProvider;
-   private final CorsFilter corsFilter;
    private final JwtAuthenticationEntryPoint authenticationErrorHandler;
    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
@@ -33,12 +33,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
    public WebSecurityConfig(
       TokenProvider tokenProvider,
-      CorsFilter corsFilter,
       JwtAuthenticationEntryPoint authenticationErrorHandler,
       JwtAccessDeniedHandler jwtAccessDeniedHandler,
       UrlsProperties properties) {
       this.tokenProvider = tokenProvider;
-      this.corsFilter = corsFilter;
       this.authenticationErrorHandler = authenticationErrorHandler;
       this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
       this.properties = properties;
@@ -77,7 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
    protected void configure(HttpSecurity httpSecurity) throws Exception {
       httpSecurity
          .csrf().disable()
-         .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
          .exceptionHandling()
          .authenticationEntryPoint(authenticationErrorHandler)
          .accessDeniedHandler(jwtAccessDeniedHandler)
@@ -95,7 +92,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       httpSecurity = adicionarEnderecosPublicos(httpSecurity);
       httpSecurity = adicionarEnderecosPrivadosPeloPerfil(httpSecurity);
       httpSecurity.authorizeRequests().anyRequest().authenticated();
-
+      httpSecurity.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
       httpSecurity.apply(securityConfigurerAdapter());
    }
 
