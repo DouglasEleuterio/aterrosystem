@@ -19,6 +19,7 @@ import javax.validation.Valid;
  * Controller to authenticate users.
  */
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api")
 public class AuthenticationRestController {
 
@@ -39,7 +40,7 @@ public class AuthenticationRestController {
       HttpHeaders httpHeaders = new HttpHeaders();
       httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-      return new ResponseEntity<>(new JWTTokenResponse(jwt), httpHeaders, HttpStatus.OK);
+      return new ResponseEntity<>(new JWTTokenResponse(jwt, SecurityContextHolder.getContext().getAuthentication().getPrincipal()), httpHeaders, HttpStatus.OK);
 
    }
 
@@ -57,6 +58,6 @@ public class AuthenticationRestController {
       HttpHeaders httpHeaders = new HttpHeaders();
       httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-      return new ResponseEntity<>(new JWTTokenResponse(jwt), httpHeaders, HttpStatus.OK);
+      return new ResponseEntity<>(new JWTTokenResponse(jwt, SecurityContextHolder.getContext().getAuthentication().getPrincipal()), httpHeaders, HttpStatus.OK);
    }
 }
