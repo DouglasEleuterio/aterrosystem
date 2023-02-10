@@ -61,7 +61,7 @@ public class ErrorResponse {
     public static ErrorResponse constraintException(Exception ex) {
         return ErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST.value())
-                .message(Message.toLocale("error.constraint"))
+                .message(ex.getCause().getCause().getMessage())
                 .exception(ex.getMessage())
                 .stackTrace(ExceptionUtils.getStackTrace(ex))
                 .build();
