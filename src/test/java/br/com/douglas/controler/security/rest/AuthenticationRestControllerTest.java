@@ -2,9 +2,9 @@ package br.com.douglas.controler.security.rest;
 
 import br.com.douglas.controler.util.BaseTest;
 import br.com.douglas.controler.util.LogInUtils;
-import br.com.douglas.controller.mapper.mappers.JWTTokenResponse;
-import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityRequest;
-import br.com.douglas.controller.mapper.mappers.user.UserRequest;
+import br.com.douglas.mapper.mappers.JWTTokenResponse;
+import br.com.douglas.mapper.mappers.authoritie.AuthorityRequest;
+import br.com.douglas.mapper.mappers.user.UserRequest;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

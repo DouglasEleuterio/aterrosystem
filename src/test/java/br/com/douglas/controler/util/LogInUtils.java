@@ -1,6 +1,6 @@
 package br.com.douglas.controler.util;
 
-import br.com.douglas.controller.mapper.mappers.LoginDto;
+import br.com.douglas.mapper.mappers.LoginDto;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;

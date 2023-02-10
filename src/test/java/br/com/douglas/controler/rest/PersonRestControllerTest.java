@@ -2,7 +2,7 @@ package br.com.douglas.controler.rest;
 
 import br.com.douglas.controler.util.BaseTest;
 import br.com.douglas.controler.util.LogInUtils;
-import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityRequest;
+import br.com.douglas.mapper.mappers.authoritie.AuthorityRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

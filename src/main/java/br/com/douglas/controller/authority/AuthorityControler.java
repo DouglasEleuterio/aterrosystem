@@ -1,9 +1,9 @@
 package br.com.douglas.controller.authority;
 
 import br.com.douglas.controller.core.BaseController;
-import br.com.douglas.controller.mapper.BaseMapper;
-import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityRequest;
-import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityResponse;
+import br.com.douglas.mapper.BaseMapper;
+import br.com.douglas.mapper.mappers.authoritie.AuthorityRequest;
+import br.com.douglas.mapper.mappers.authoritie.AuthorityResponse;
 import br.com.douglas.entity.entities.Authority;
 import br.com.douglas.service.interfaces.IBaseService;
 import org.springframework.web.bind.annotation.RequestMapping;

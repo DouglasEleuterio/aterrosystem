@@ -1,12 +1,11 @@
 package br.com.douglas.controler.util;
 
 
-import br.com.douglas.controller.mapper.endereco.EnderecoRequest;
-import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityRequest;
-import br.com.douglas.controller.mapper.mappers.authoritie.AuthorityResponse;
-import br.com.douglas.controller.mapper.mappers.user.UserRequest;
-import br.com.douglas.controller.mapper.mappers.user.UserResponse;
-import br.com.douglas.controller.mapper.transportador.TransportadorResponse;
+import br.com.douglas.mapper.endereco.EnderecoRequest;
+import br.com.douglas.mapper.mappers.authoritie.AuthorityRequest;
+import br.com.douglas.mapper.mappers.authoritie.AuthorityResponse;
+import br.com.douglas.mapper.mappers.user.UserRequest;
+import br.com.douglas.mapper.mappers.user.UserResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
@@ -18,7 +17,7 @@ import java.util.Set;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
-public class BaseTest extends AbstractRestControllerTest {
+public abstract class BaseTest extends AbstractRestControllerTest {
 
    private static final String AUTHORITY_URL = "authority";
    protected final String SIGNUP_URL = "signup";

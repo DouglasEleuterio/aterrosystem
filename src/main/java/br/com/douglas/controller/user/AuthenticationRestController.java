@@ -1,6 +1,6 @@
 package br.com.douglas.controller.user;
 
-import br.com.douglas.controller.mapper.mappers.JWTTokenResponse;
+import br.com.douglas.mapper.mappers.JWTTokenResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import br.com.douglas.controller.mapper.mappers.LoginDto;
+import br.com.douglas.mapper.mappers.LoginDto;
 import br.com.douglas.security.jwt.JWTFilter;
 import br.com.douglas.security.jwt.TokenProvider;
 

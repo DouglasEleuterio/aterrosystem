@@ -1,9 +1,9 @@
 package br.com.douglas.controller.transportador;
 
 import br.com.douglas.controller.core.BaseController;
-import br.com.douglas.controller.mapper.BaseMapper;
-import br.com.douglas.controller.mapper.transportador.TransportadorRequest;
-import br.com.douglas.controller.mapper.transportador.TransportadorResponse;
+import br.com.douglas.mapper.BaseMapper;
+import br.com.douglas.mapper.transportador.TransportadorRequest;
+import br.com.douglas.mapper.transportador.TransportadorResponse;
 import br.com.douglas.entity.entities.temp.Transportador;
 import br.com.douglas.service.interfaces.IBaseService;
 import org.springframework.web.bind.annotation.RequestMapping;
