@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/formaPagamento")
+@RequestMapping("/api/forma-pagamento")
 public class FormaPagamentoController extends BaseController<FormaPagamento, FormaPagamentoRequest, FormaPagamentoResponse> {
     protected FormaPagamentoController(IBaseService<FormaPagamento> service, BaseMapper<FormaPagamento, FormaPagamentoRequest, FormaPagamentoResponse> responseMapper) {
         super(service, responseMapper);

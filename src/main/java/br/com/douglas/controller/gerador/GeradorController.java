@@ -6,12 +6,10 @@ import br.com.douglas.mapper.BaseMapper;
 import br.com.douglas.mapper.gerador.GeradorRequest;
 import br.com.douglas.mapper.gerador.GeradorResponse;
 import br.com.douglas.service.interfaces.IBaseService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api/gerador")
 public class GeradorController extends BaseController<Gerador, GeradorRequest, GeradorResponse> {
 
