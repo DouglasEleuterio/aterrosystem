@@ -7,6 +7,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -23,4 +24,8 @@ public interface ComboRepository extends BaseRepository<Combo> {
     @ReadOnlyProperty
     @Query(value = "from Combo c where c.transportador.id =:idTransportadora and c.tipoDescarte.id =:idTipoDescarte and c.saldo > 0")
     List<Combo> findAllByTransportadoraIdAndTipoDescarteId(String idTransportadora, String idTipoDescarte);
+
+    @ReadOnlyProperty
+    @Query(value = "select a.dataPagamento from Aquisicao a where a.combo.id =:comboId")
+    LocalDateTime getAquisicaoByCombo(String comboId);
 }

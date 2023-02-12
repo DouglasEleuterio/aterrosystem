@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -27,7 +28,7 @@ public class Aquisicao extends BaseEntity {
     @Column(name = "AQS_QT_ADQUIRIDA")
     private Integer quantidadeAdquirida;
     @Column(name = "AQS_DH_PAGAMENTO")
-    private LocalDate dataPagamento;
+    private LocalDateTime dataPagamento;
     @Column(name = "AQS_VL_PAGO")
     private Double valorPago;
     @Column(name = "AQS_VL_DESCONTO")

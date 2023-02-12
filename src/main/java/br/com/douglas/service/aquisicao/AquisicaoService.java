@@ -37,6 +37,11 @@ public class AquisicaoService extends BaseService<Aquisicao> {
         }
     }
 
+    @Override
+    public Aquisicao create(Aquisicao entity) throws DomainException {
+        return save(entity);
+    }
+
     public Aquisicao save(Aquisicao aquisicao) throws DomainException {
         comboService.preparaCombo(aquisicao.getCombo());
         Double totalDoCombo =  getValorAdquirido(aquisicao);

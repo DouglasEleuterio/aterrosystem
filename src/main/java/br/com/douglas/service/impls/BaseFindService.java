@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public abstract class BaseFindService<T extends BaseEntity> implements IBaseServ
         return repository.findAll(specification, sort);
     }
 
+    @Transactional(readOnly = true)
     public Page<T> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }

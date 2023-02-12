@@ -1,12 +1,14 @@
 package br.com.douglas.mapper.combo;
 
+import br.com.douglas.mapper.tipodescarte.TipoDescarteResponse;
 import br.com.douglas.mapper.transportador.TransportadorResponse;
-import br.com.douglas.entity.entities.temp.TipoDescarte;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,7 +19,8 @@ public class ComboResponse {
 
     private String id;
     private TransportadorResponse transportador;
-    private TipoDescarte tipoDescarte;
+    private TipoDescarteResponse tipoDescarte;
     private Integer saldo;
     private Boolean ativo;
+    private LocalDateTime dataPagamento;
 }

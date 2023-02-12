@@ -2,6 +2,8 @@ package br.com.douglas.service.combo;
 
 import br.com.douglas.entity.entities.temp.Combo;
 import br.com.douglas.exception.exceptions.DomainException;
+import br.com.douglas.mapper.combo.ComboMapper;
+import br.com.douglas.mapper.combo.ComboResponse;
 import br.com.douglas.repositories.combo.ComboRepository;
 import br.com.douglas.service.impls.BaseService;
 import br.com.douglas.service.tipodescarte.TipoDescarteService;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -26,12 +29,14 @@ public class ComboService extends BaseService<Combo> {
     private final TransportadorService transportadorService;
     private final TipoDescarteService tipoDescarteService;
     private final ComboRepository comboRepository;
+    private final ComboMapper comboMapper;
 
-    public ComboService(ComboRepository repository, TransportadorService transportadorService, TipoDescarteService tipoDescarteService, ComboRepository comboRepository) {
+    public ComboService(ComboRepository repository, TransportadorService transportadorService, TipoDescarteService tipoDescarteService, ComboRepository comboRepository, ComboMapper comboMapper) {
         super(repository);
         this.transportadorService = transportadorService;
         this.tipoDescarteService = tipoDescarteService;
         this.comboRepository = comboRepository;
+        this.comboMapper = comboMapper;
     }
 
     @Override
@@ -69,6 +74,21 @@ public class ComboService extends BaseService<Combo> {
             }
         }
         return combosParaBaixa;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ComboResponse> findPageAll(Pageable pageable) {
+        Page<Combo> all = super.findAll(pageable);
+        var responseList = comboMapper.toResponseList(all.getContent());
+
+        return new PageImpl<>(inserirDataAquisicao(responseList));
+    }
+
+    private List<ComboResponse> inserirDataAquisicao(List<ComboResponse> list){
+        for (ComboResponse comboResponse : list) {
+            comboResponse.setDataPagamento(comboRepository.getAquisicaoByCombo(comboResponse.getId()));
+        }
+        return list;
     }
 
     public Page<Combo> findAll(Pageable pageable, String transportadorId, String tipoDescarteId) {

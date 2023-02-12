@@ -1,8 +1,7 @@
 package br.com.douglas.mapper.combo;
 
 
-import br.com.douglas.mapper.tipodescarte.TipoDescarteRequest;
-import br.com.douglas.mapper.transportador.TransportadorRequest;
+import br.com.douglas.model.entity.BaseEntityRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,11 +13,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ComboRequest {
+public class ComboAquisicaoRequest {
 
     private String id;
-    private TransportadorRequest transportador;
-    private TipoDescarteRequest tipoDescarte;
-    private Integer saldo;
+    private BaseEntityRequest transportador;
+    private BaseEntityRequest tipoDescarte;
     private Boolean ativo;
+    private Integer saldo;
 }
