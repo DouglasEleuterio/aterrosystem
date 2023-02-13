@@ -2,10 +2,13 @@ package br.com.douglas.service.destinatario;
 
 import br.com.douglas.entity.entities.temp.Destinatario;
 import br.com.douglas.exception.exceptions.DomainException;
+import br.com.douglas.mapper.destinatario.DestinatarioMapper;
+import br.com.douglas.mapper.destinatario.DestinatarioResponse;
 import br.com.douglas.repositories.destinatario.DestinatarioRepository;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -41,8 +44,9 @@ public class DestinatarioService extends BaseService<Destinatario> {
         }
     }
 
-    @Override
-    public List<Destinatario> findAll(Sort sort) {
-        return repository.findAll();
+    @Transactional
+    public List<DestinatarioResponse> findAllWithFunction(Sort sort, DestinatarioMapper mapper) {
+        var all = repository.findAll(sort);
+        return mapper.toResponseList(all);
     }
 }
