@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class InstituicaoBancaria extends BaseEntity {
 
     @Id
-    @Column(name = "IBC_ID", length = 26)
+    @Column(name = "IBC_ID")
     private String id;
 
     @Column(name = "IBC_DS_NOME")
@@ -27,4 +27,6 @@ public class InstituicaoBancaria extends BaseEntity {
     private String agencia;
     @Column(name = "IBC_NM_CONTA")
     private String conta;
+    @Column(name = "IBC_ST_ATIVO", nullable = false)
+    private Boolean ativo;
 }

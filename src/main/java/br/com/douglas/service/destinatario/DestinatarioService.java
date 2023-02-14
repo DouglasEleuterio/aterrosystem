@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 @Service
 @Slf4j
@@ -49,9 +48,7 @@ public class DestinatarioService extends BaseService<Destinatario> {
 
     @Transactional
     public List<DestinatarioResponse> findAllWithFunction(Sort sort, DestinatarioMapper mapper) {
-        log.info("Novo método acionado");
         var all = repository.findAll(sort);
-        all.forEach(d -> log.info(d.getId()));
         return mapper.toResponseList(all);
     }
 }
