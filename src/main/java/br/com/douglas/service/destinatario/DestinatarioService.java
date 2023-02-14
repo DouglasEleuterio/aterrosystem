@@ -6,14 +6,17 @@ import br.com.douglas.mapper.destinatario.DestinatarioMapper;
 import br.com.douglas.mapper.destinatario.DestinatarioResponse;
 import br.com.douglas.repositories.destinatario.DestinatarioRepository;
 import br.com.douglas.service.impls.BaseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 @Service
+@Slf4j
 public class DestinatarioService extends BaseService<Destinatario> {
 
     private final DestinatarioRepository repository;
@@ -46,7 +49,9 @@ public class DestinatarioService extends BaseService<Destinatario> {
 
     @Transactional
     public List<DestinatarioResponse> findAllWithFunction(Sort sort, DestinatarioMapper mapper) {
+        log.info("Novo método acionado");
         var all = repository.findAll(sort);
+        all.forEach(d -> log.info(d.getId()));
         return mapper.toResponseList(all);
     }
 }
