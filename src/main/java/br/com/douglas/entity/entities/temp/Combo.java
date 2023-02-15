@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -31,4 +33,6 @@ public class Combo extends BaseEntity {
     private Integer saldo;
     @Column(name = "CMB_ST_ATIVO", nullable = false)
     private Boolean ativo;
+    @Transient
+    private LocalDate dataPagamento;
 }

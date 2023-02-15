@@ -34,6 +34,4 @@ public class Transportador extends BaseEntity {
     private String telefone;
     @Column(name = "TRS_DS_EMAIL")
     private String email;
-    @OneToMany(mappedBy = "transportador", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Veiculo> veiculos;
 }

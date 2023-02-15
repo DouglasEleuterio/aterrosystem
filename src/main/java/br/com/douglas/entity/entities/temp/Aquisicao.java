@@ -27,8 +27,8 @@ public class Aquisicao extends BaseEntity {
     private FormaPagamento formaPagamento;
     @Column(name = "AQS_QT_ADQUIRIDA")
     private Integer quantidadeAdquirida;
-    @Column(name = "AQS_DH_PAGAMENTO")
-    private LocalDateTime dataPagamento;
+    @Column(name = "AQS_DT_PAGAMENTO")
+    private LocalDate dataPagamento;
     @Column(name = "AQS_VL_PAGO")
     private Double valorPago;
     @Column(name = "AQS_VL_DESCONTO")

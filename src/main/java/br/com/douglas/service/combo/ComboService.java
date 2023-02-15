@@ -2,8 +2,6 @@ package br.com.douglas.service.combo;
 
 import br.com.douglas.entity.entities.temp.Combo;
 import br.com.douglas.exception.exceptions.DomainException;
-import br.com.douglas.mapper.combo.ComboMapper;
-import br.com.douglas.mapper.combo.ComboResponse;
 import br.com.douglas.repositories.combo.ComboRepository;
 import br.com.douglas.service.impls.BaseService;
 import br.com.douglas.service.tipodescarte.TipoDescarteService;
@@ -12,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,14 +28,12 @@ public class ComboService extends BaseService<Combo> {
     private final TransportadorService transportadorService;
     private final TipoDescarteService tipoDescarteService;
     private final ComboRepository comboRepository;
-    private final ComboMapper comboMapper;
 
-    public ComboService(ComboRepository repository, TransportadorService transportadorService, TipoDescarteService tipoDescarteService, ComboRepository comboRepository, ComboMapper comboMapper) {
+    public ComboService(ComboRepository repository, TransportadorService transportadorService, TipoDescarteService tipoDescarteService, ComboRepository comboRepository) {
         super(repository);
         this.transportadorService = transportadorService;
         this.tipoDescarteService = tipoDescarteService;
         this.comboRepository = comboRepository;
-        this.comboMapper = comboMapper;
     }
 
     @Override
@@ -76,17 +73,33 @@ public class ComboService extends BaseService<Combo> {
         return combosParaBaixa;
     }
 
-    @Transactional(readOnly = true)
-    public Page<ComboResponse> findPageAll(Pageable pageable) {
-        Page<Combo> all = super.findAll(pageable);
-        var responseList = comboMapper.toResponseList(all.getContent());
-
-        return new PageImpl<>(inserirDataAquisicao(responseList));
+    @Override
+    @Transactional
+    public Page<Combo> findAll(Specification<Combo> specification, Pageable pageable) {
+        return findPageAll(specification, pageable);
     }
 
-    private List<ComboResponse> inserirDataAquisicao(List<ComboResponse> list){
-        for (ComboResponse comboResponse : list) {
-            comboResponse.setDataPagamento(comboRepository.getAquisicaoByCombo(comboResponse.getId()));
+    @Override
+    @Transactional
+    public Page<Combo> findAll(Pageable pageable) {
+        return findPageAll(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Combo> findPageAll(Specification<Combo> specification, Pageable pageable) {
+        Page<Combo> all = comboRepository.findAll(specification, pageable);
+        return new PageImpl<>(inserirDataAquisicao(all.getContent()));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Combo> findPageAll( Pageable pageable) {
+        Page<Combo> all = comboRepository.findAll(pageable);
+        return new PageImpl<>(inserirDataAquisicao(all.getContent()), pageable, all.getTotalElements());
+    }
+
+    private List<Combo> inserirDataAquisicao(List<Combo> list){
+        for (Combo combo : list) {
+            combo.setDataPagamento(comboRepository.getAquisicaoByCombo(combo.getId()));
         }
         return list;
     }
@@ -133,9 +146,5 @@ public class ComboService extends BaseService<Combo> {
 
     private CriteriaBuilder getCriteriaBuilder(){
         return getEm().getCriteriaBuilder();
-    }
-
-    private CriteriaQuery<Combo> getCriteriaQuery (){
-        return getCriteriaBuilder().createQuery(Combo.class);
     }
 }

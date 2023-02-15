@@ -23,6 +23,12 @@ public class AquisicaoService extends BaseService<Aquisicao> {
 
     @Override
     public void validate(Aquisicao aquisicao) throws DomainException {
+        if(Objects.isNull(aquisicao.getCombo().getTransportador()))
+            throw new DomainException("Transportadora não informada");
+        if(Objects.isNull(aquisicao.getCombo().getTipoDescarte()))
+            throw new DomainException("Tipo de Descarte não informado");
+        if(Objects.isNull(aquisicao.getFormaPagamento()))
+            throw new DomainException("Forma de Pagamento não informado");
         if(Objects.isNull(aquisicao.getQuantidadeAdquirida()) || aquisicao.getQuantidadeAdquirida() < 1){
             throw new DomainException("Quantidade inválida");
         }
@@ -35,11 +41,6 @@ public class AquisicaoService extends BaseService<Aquisicao> {
         if(Objects.isNull(aquisicao.getFormaPagamento()) || aquisicao.getFormaPagamento().getId() == null){
             throw new DomainException("Forma de Pagamento inválido");
         }
-    }
-
-    @Override
-    public Aquisicao create(Aquisicao entity) throws DomainException {
-        return save(entity);
     }
 
     public Aquisicao save(Aquisicao aquisicao) throws DomainException {

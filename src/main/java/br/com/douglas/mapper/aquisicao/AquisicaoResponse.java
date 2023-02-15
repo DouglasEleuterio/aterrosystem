@@ -1,7 +1,7 @@
 package br.com.douglas.mapper.aquisicao;
 
-import br.com.douglas.entity.entities.temp.Combo;
-import br.com.douglas.entity.entities.temp.FormaPagamento;
+import br.com.douglas.mapper.combo.ComboResponse;
+import br.com.douglas.mapper.formapagamento.FormaPagamentoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,8 +18,8 @@ import java.time.LocalDate;
 public class AquisicaoResponse {
 
     private String id;
-    private Combo combo;
-    private FormaPagamento formaPagamento;
+    private ComboResponse combo;
+    private FormaPagamentoResponse formaPagamento;
     private Integer quantidadeAdquirida;
     private LocalDate dataPagamento;
     private Double valorPago;

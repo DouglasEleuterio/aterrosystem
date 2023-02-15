@@ -1,12 +1,17 @@
 package br.com.douglas.service.ctr;
 
-import br.com.douglas.entity.entities.temp.*;
+import br.com.douglas.entity.entities.temp.CTR;
+import br.com.douglas.entity.entities.temp.Combo;
+import br.com.douglas.entity.entities.temp.DescartePorCombo;
+import br.com.douglas.entity.entities.temp.Pagamento;
+import br.com.douglas.entity.entities.temp.TipoDescarte;
+import br.com.douglas.entity.entities.temp.Transportador;
+import br.com.douglas.exception.exceptions.DomainException;
+import br.com.douglas.mapper.ctr.CtrMapper;
 import br.com.douglas.repositories.ctr.CTRRepository;
 import br.com.douglas.repositories.descarteporcombo.DescartePorComboRepository;
 import br.com.douglas.repositories.pagamento.PagamentoRepository;
 import br.com.douglas.service.combo.ComboService;
-import br.com.douglas.exception.exceptions.DomainException;
-
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -20,7 +25,11 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class CTRService extends BaseService<CTR> {
@@ -29,13 +38,15 @@ public class CTRService extends BaseService<CTR> {
     private final PagamentoRepository pagamentoRepository;
     private final ComboService comboService;
     private final DescartePorComboRepository descartePorComboRepository;
+    private final CtrMapper mapper;
 
-    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository,  ComboService comboService, DescartePorComboRepository descartePorComboRepository) {
+    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository, ComboService comboService, DescartePorComboRepository descartePorComboRepository, CtrMapper mapper) {
         super(repository);
         this.repository = repository;
         this.pagamentoRepository = pagamentoRepository;
         this.comboService = comboService;
         this.descartePorComboRepository = descartePorComboRepository;
+        this.mapper = mapper;
     }
 
     @Transactional
@@ -183,6 +194,7 @@ public class CTRService extends BaseService<CTR> {
         return quantidadeDescartePorTipo;
     }
 
+    @Transactional
     public Page<CTR> findAll(Pageable pageable, String transportadorId, String numero, String dataDe, String dataAte) {
         CriteriaBuilder criteriaBuilder =  getEm().getCriteriaBuilder();
         CriteriaQuery<CTR> query = criteriaBuilder.createQuery(CTR.class);
@@ -218,8 +230,17 @@ public class CTRService extends BaseService<CTR> {
                 .setFirstResult((int) pageable.getOffset())
                 .setMaxResults(pageable.getPageSize())
                 .getResultList();
+        List<CTR> responseList = new ArrayList<>();
+        for (CTR ctr : resultList) {
+            responseList.add(CTR.builder()
+                    .numero(ctr.getNumero())
+                            .geracao(ctr.getGeracao())
+                            .transportador(Transportador.builder().nome(ctr.getTransportador().getNome()).build())
+                            .pagamentos(ctr.getPagamentos())
+                    .build());
+        }
 
-        return new PageImpl<>(resultList, pageable, count(predicates));
+        return new PageImpl<>(responseList, pageable, count(predicates));
     }
 
     private Long count(List<Predicate> predicates) {

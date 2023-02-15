@@ -12,6 +12,7 @@ import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +38,7 @@ public abstract class BaseRsqlFindController<T extends BaseEntity,R, P> {
     public Page<P> findPage(@Parameter(description = BaseControllerConstants.FIND_PAGE_DOC)
                             @RequestParam(required = false) String search,
                             @SortDefault.SortDefaults({@SortDefault(sort = "id", direction = Sort.Direction.ASC)})
-                            Pageable pageable) {
+                            @PageableDefault(size = 5)Pageable pageable) {
         if(Objects.nonNull(search) && !search.isBlank() && !search.isEmpty()) {
             return service.findAll(SpecificationUtils.rsqlToSpecification(search), pageable)
                     .map(mapper::toResponse);

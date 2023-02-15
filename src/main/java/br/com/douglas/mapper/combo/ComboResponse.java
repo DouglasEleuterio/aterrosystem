@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -22,5 +22,5 @@ public class ComboResponse {
     private TipoDescarteResponse tipoDescarte;
     private Integer saldo;
     private Boolean ativo;
-    private LocalDateTime dataPagamento;
+    private LocalDate dataPagamento;
 }

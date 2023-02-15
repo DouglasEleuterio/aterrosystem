@@ -1,12 +1,12 @@
 package br.com.douglas.mapper.ctr;
 
-import br.com.douglas.entity.entities.temp.Destinatario;
-import br.com.douglas.entity.entities.temp.Gerador;
-import br.com.douglas.entity.entities.temp.Motorista;
-import br.com.douglas.entity.entities.temp.Pagamento;
-import br.com.douglas.entity.entities.temp.TipoDescarte;
-import br.com.douglas.entity.entities.temp.Transportador;
-import br.com.douglas.entity.entities.temp.Veiculo;
+import br.com.douglas.mapper.destinatario.DestinatarioResponse;
+import br.com.douglas.mapper.gerador.GeradorResponse;
+import br.com.douglas.mapper.motorista.MotoristaResponse;
+import br.com.douglas.mapper.pagamento.PagamentoResponse;
+import br.com.douglas.mapper.tipodescarte.TipoDescarteResponse;
+import br.com.douglas.mapper.transportador.TransportadorResponse;
+import br.com.douglas.mapper.veiculo.VeiculoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,13 +25,13 @@ public class CtrResponse {
 
     private String id;
     private Integer numero;
-    private Gerador gerador;
-    private Veiculo veiculo;
-    private Destinatario destinatario;
-    private Transportador transportador;
-    private List<Pagamento> pagamentos;
-    private List<TipoDescarte> tipoDescartes;
-    private Motorista motorista;
+    private GeradorResponse gerador;
+    private VeiculoResponse veiculo;
+    private DestinatarioResponse destinatario;
+    private TransportadorResponse transportador;
+    private List<PagamentoResponse> pagamentos;
+    private List<TipoDescarteResponse> tipoDescartes;
+    private MotoristaResponse motorista;
     private LocalDateTime geracao;
     private Boolean ativo;
 }
