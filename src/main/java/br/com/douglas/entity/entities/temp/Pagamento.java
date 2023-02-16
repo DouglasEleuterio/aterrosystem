@@ -25,7 +25,7 @@ public class Pagamento extends BaseEntity {
     @Column(name = "PGT_VL_PRECO", nullable = false)
     private Double valor;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "FRP_ID")
     private FormaPagamento formaPagamento;
 
@@ -37,7 +37,7 @@ public class Pagamento extends BaseEntity {
     @JsonIgnore
     private CTR ctr;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "IBC_ID", nullable = false)
     private InstituicaoBancaria instituicaoBancaria;
 }

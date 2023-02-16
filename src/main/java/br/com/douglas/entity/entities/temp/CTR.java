@@ -41,7 +41,7 @@ public class CTR extends BaseEntity {
     @OneToMany(mappedBy = "ctr", cascade = CascadeType.ALL)
     private List<Pagamento> pagamentos;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "CTT_CTR_TIPO_DESCARTE", joinColumns = {
             @JoinColumn(name = "CTR_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_CTT_CTR"))},
             inverseJoinColumns = {
@@ -49,7 +49,7 @@ public class CTR extends BaseEntity {
             })
     private List<TipoDescarte> tipoDescartes;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "MTR_ID", foreignKey = @ForeignKey(name = "FK_CTR_MTR"))
     private Motorista motorista;
 

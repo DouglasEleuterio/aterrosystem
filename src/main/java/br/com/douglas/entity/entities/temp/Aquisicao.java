@@ -19,10 +19,10 @@ public class Aquisicao extends BaseEntity {
     @Id
     @Column(name = "AQS_ID", nullable = false)
     private String id;
-    @OneToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "CMB_ID")
     private Combo combo;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "FRP_ID", nullable = false)
     private FormaPagamento formaPagamento;
     @Column(name = "AQS_QT_ADQUIRIDA")

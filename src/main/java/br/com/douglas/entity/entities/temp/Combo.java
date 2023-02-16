@@ -23,10 +23,10 @@ public class Combo extends BaseEntity {
     @Id
     @Column(name = "CMB_ID", nullable = false)
     private String id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TRS_ID", nullable = false)
     private Transportador transportador;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TDS_ID", nullable = false)
     private TipoDescarte tipoDescarte;
     @Column(name = "CMB_VL_SALDO", nullable = false)

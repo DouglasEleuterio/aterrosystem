@@ -17,10 +17,10 @@ public class DescartePorCombo extends BaseEntity {
     @Id
     @Column(name = "DSC_ID", nullable = false)
     private String id;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CMB_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_DSC_CMB"))
     private Combo combo;
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "CTR_ID", nullable = false, foreignKey = @ForeignKey(name = "FK_DSC_CTR"))
     private CTR ctr;
     @Column(name = "DSC_NM_QUANTIDADE", nullable = false)

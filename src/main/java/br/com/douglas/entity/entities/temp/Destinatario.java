@@ -25,7 +25,7 @@ public class Destinatario extends BaseEntity {
     @CNPJ
     @Column(name = "DST_NM_CNPJ", length = 18)
     private String cnpj;
-    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "END_ID")
     private Endereco enderecoRecebimento;
     @Column(name = "DST_NM_TELEFONE", nullable = false)

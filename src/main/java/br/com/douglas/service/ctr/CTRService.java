@@ -210,20 +210,20 @@ public class CTRService extends BaseService<CTR> {
         List<Predicate> predicates = new ArrayList<>();
 
         if(Objects.nonNull(transportadorId) && !transportadorId.equals("null")){
-            Predicate predicateForTransportador = criteriaBuilder.equal(root.get("transportador").get("id"), Long.parseLong(transportadorId));
+            Predicate predicateForTransportador = criteriaBuilder.equal(root.get("transportador").get("id"), transportadorId);
             predicates.add(predicateForTransportador);
         }
         if(Objects.nonNull(numero) && !numero.equals("null")){
-            Predicate predicateForId = criteriaBuilder.equal(root.get("id"), Long.parseLong(numero));
+            Predicate predicateForId = criteriaBuilder.like(root.get("numero").as(String.class), "%"+ numero +"%");
             predicates.add(predicateForId);
         }
         if(Objects.nonNull(dataDe) && !dataDe.equals("null")){
-            LocalDateTime data = convertStringToDate(dataDe);
+            LocalDateTime data = convertStringToDate(dataDe, false);
             Predicate predicateForDataDe = criteriaBuilder.greaterThanOrEqualTo(root.get("geracao"), data);
             predicates.add(predicateForDataDe);
         }
         if(Objects.nonNull(dataAte) && !dataAte.equals("null")){
-            LocalDateTime data = convertStringToDate(dataAte);
+            LocalDateTime data = convertStringToDate(dataAte,true);
             Predicate predicateForDataAte = criteriaBuilder.lessThanOrEqualTo(root.get("geracao"), data);
             predicates.add(predicateForDataAte);
         }
@@ -239,6 +239,8 @@ public class CTRService extends BaseService<CTR> {
         for (CTR ctr : resultList) {
             responseList.add(CTR.builder()
                     .numero(ctr.getNumero())
+                            .id(ctr.getId())
+                            .numero(ctr.getNumero())
                             .geracao(ctr.getGeracao())
                             .transportador(Transportador.builder().nome(ctr.getTransportador().getNome()).build())
                             .pagamentos(ctr.getPagamentos())
@@ -262,9 +264,11 @@ public class CTRService extends BaseService<CTR> {
         return getEm().getCriteriaBuilder();
     }
 
-    private LocalDateTime convertStringToDate(String data) {
-        if(data.length() <= 19)
+    private LocalDateTime convertStringToDate(String data, boolean isDataFim) {
+        if(data.length() <= 19 && !isDataFim)
             data = data.concat(" 00:00:00");
+        if(data.length() <= 19 && isDataFim)
+            data = data.concat(" 23:59:59");
         return LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
