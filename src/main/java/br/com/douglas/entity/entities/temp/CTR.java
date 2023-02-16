@@ -53,7 +53,7 @@ public class CTR extends BaseEntity {
     @JoinColumn(name = "MTR_ID", foreignKey = @ForeignKey(name = "FK_CTR_MTR"))
     private Motorista motorista;
 
-    @Column(name = "CTR_DH_GERACAO", nullable = false)
+    @Column(name = "CTR_DH_GERACAO")
     private LocalDateTime geracao;
 
     @Column(name = "CTR_ST_ATIVO")

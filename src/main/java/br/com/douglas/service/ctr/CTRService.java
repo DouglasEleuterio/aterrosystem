@@ -23,6 +23,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.lang.reflect.Executable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class CTRService extends BaseService<CTR> {
         this.mapper = mapper;
     }
 
-    @Transactional
+    @Transactional(rollbackOn = Exception.class)
     public CTR save(CTR ctr) throws DomainException {
         validate(ctr);
         ctr.setAtivo(true);
@@ -57,6 +58,7 @@ public class CTRService extends BaseService<CTR> {
         List<Pagamento> pagamentos = pagamentoRepository.saveAll(ctr.getPagamentos());
         ctr.setPagamentos(pagamentos);
         ctr.setTipoDescartes(ctr.getTipoDescartes());
+        ctr.setGeracao(LocalDateTime.now());
         CTR save = repository.save(ctr);
         if(isDescarteSomenteCombo(save))
             processaBaixaCombo(ctr);
@@ -139,7 +141,10 @@ public class CTRService extends BaseService<CTR> {
                 throw new DomainException("Instituição bancária inválido!");
         }
         validaSePossuiPagamentoComboEOutro(ctr);
-        checaSePossuiSaldoSuficiente(ctr);
+        //Se possuir pagamento com combo, checa saldo.
+        var result = ctr.getPagamentos().stream().filter(pagamento -> pagamento.getFormaPagamento().getNome().contains("Combo")).toList();
+        if(!result.isEmpty())
+            checaSePossuiSaldoSuficiente(ctr);
     }
 
     private void validaSePossuiPagamentoComboEOutro(CTR ctr) throws DomainException {

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/combo")
 public class ComboController extends BaseController<Combo, ComboRequest, ComboResponse> {
 
-
     protected ComboController(IBaseService<Combo> service, BaseMapper<Combo, ComboRequest, ComboResponse> responseMapper) {
         super(service, responseMapper);
     }
