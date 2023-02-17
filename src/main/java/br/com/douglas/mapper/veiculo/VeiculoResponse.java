@@ -1,5 +1,6 @@
 package br.com.douglas.mapper.veiculo;
 
+import br.com.douglas.mapper.transportador.TransportadorResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,4 +19,5 @@ public class VeiculoResponse {
     private String modelo;
     private String placa;
     private Boolean ativo;
+    private TransportadorResponse transportador;
 }
