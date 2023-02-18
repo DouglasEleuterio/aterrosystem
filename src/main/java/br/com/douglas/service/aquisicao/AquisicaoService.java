@@ -1,5 +1,6 @@
 package br.com.douglas.service.aquisicao;
 
+import br.com.douglas.entity.entities.temp.Pagamento;
 import br.com.douglas.repositories.aquisicao.AquisicaoRepository;
 import br.com.douglas.service.combo.ComboService;
 import br.com.douglas.entity.entities.temp.Aquisicao;
@@ -7,6 +8,7 @@ import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -29,42 +31,47 @@ public class AquisicaoService extends BaseService<Aquisicao> {
             throw new DomainException("Tipo de Descarte não informado");
         if(Objects.isNull(aquisicao.getFormaPagamento()))
             throw new DomainException("Forma de Pagamento não informado");
-        if(Objects.isNull(aquisicao.getQuantidadeAdquirida()) || aquisicao.getQuantidadeAdquirida() < 1){
+        if(Objects.isNull(aquisicao.getQuantidadeAdquirida()) || aquisicao.getQuantidadeAdquirida() < 1)
             throw new DomainException("Quantidade inválida");
-        }
-        if(Objects.isNull(aquisicao.getDataPagamento())){
+        if(Objects.isNull(aquisicao.getDataPagamento()))
             throw new DomainException("Data de pagamento inválida");
-        }
-        if(Objects.isNull(aquisicao.getValorPago()) || aquisicao.getValorPago() < Double.valueOf("0.01")){
-            throw new DomainException("Valor pago inválido");
-        }
-        if(Objects.isNull(aquisicao.getFormaPagamento()) || aquisicao.getFormaPagamento().getId() == null){
+        if(Objects.isNull(aquisicao.getCombo().getPagamentos()))
             throw new DomainException("Forma de Pagamento inválido");
-        }
+
+        if(0 >= getValorTotal(aquisicao.getCombo().getPagamentos()))
+            throw new DomainException("Valor pago inválido");
+    }
+
+    private Integer getValorTotal(List<Pagamento> pagamentos) {
+        var valorTotal = 0;
+        for (Pagamento pagamento : pagamentos)
+            valorTotal += pagamento.getValor();
+        return valorTotal;
+    }
+
+    @Override
+    public Aquisicao create(Aquisicao entity) throws DomainException {
+        validate(entity);
+        return save(entity);
     }
 
     public Aquisicao save(Aquisicao aquisicao) throws DomainException {
         comboService.preparaCombo(aquisicao.getCombo());
         Double totalDoCombo =  getValorAdquirido(aquisicao);
         aquisicao.setAtivo(true);
-        aquisicao.setDesconto(totalDoCombo - aquisicao.getValorPago());
+        aquisicao.setDesconto(totalDoCombo - getValorTotal(aquisicao.getCombo().getPagamentos()));
         aquisicao.getCombo().setSaldo(aquisicao.getQuantidadeAdquirida());
         comboService.validate(aquisicao.getCombo());
         return repository.save(aquisicao);
     }
 
-    private Integer quantidadeAdquirida(Aquisicao aquisicao) {
-        return  aquisicao.getQuantidadeAdquirida();
-    }
-
     private Double getValorAdquirido(Aquisicao aquisicao) {
-        return aquisicao.getCombo().getTipoDescarte().getValor() * quantidadeAdquirida(aquisicao);
+        return aquisicao.getCombo().getTipoDescarte().getValor() * aquisicao.getQuantidadeAdquirida();
     }
 
     public Aquisicao findByComboId(String comboId) throws DomainException {
-        Long idCombo = Long.parseLong(comboId);
-        return repository.findByComboId(idCombo)
-                .orElseThrow(() -> new DomainException(String.format("Aquisição do Combo id: {0} não encontrado!", comboId)));
+        return repository.findByComboId(comboId)
+                .orElseThrow(() -> new DomainException("Aquisição do Combo id: {0} não encontrado!".replace("{0}", comboId)));
     }
 
 }

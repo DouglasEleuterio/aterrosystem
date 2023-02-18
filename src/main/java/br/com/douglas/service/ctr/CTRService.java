@@ -13,6 +13,7 @@ import br.com.douglas.repositories.descarteporcombo.DescartePorComboRepository;
 import br.com.douglas.repositories.pagamento.PagamentoRepository;
 import br.com.douglas.service.combo.ComboService;
 import br.com.douglas.service.impls.BaseService;
+import br.com.douglas.service.pagamento.PagamentoService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.lang.reflect.Executable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -41,13 +41,16 @@ public class CTRService extends BaseService<CTR> {
     private final DescartePorComboRepository descartePorComboRepository;
     private final CtrMapper mapper;
 
-    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository, ComboService comboService, DescartePorComboRepository descartePorComboRepository, CtrMapper mapper) {
+    private final PagamentoService pagamentoService;
+
+    public CTRService(CTRRepository repository, PagamentoRepository pagamentoRepository, ComboService comboService, DescartePorComboRepository descartePorComboRepository, CtrMapper mapper, PagamentoService pagamentoService) {
         super(repository);
         this.repository = repository;
         this.pagamentoRepository = pagamentoRepository;
         this.comboService = comboService;
         this.descartePorComboRepository = descartePorComboRepository;
         this.mapper = mapper;
+        this.pagamentoService = pagamentoService;
     }
 
     @Transactional(rollbackOn = Exception.class)
@@ -74,7 +77,7 @@ public class CTRService extends BaseService<CTR> {
         Integer quantidadeABaixar;
 
         for(Map.Entry<String, Integer> id : quantidadeNecessaria.entrySet()){
-            combosABaixar.addAll(comboService.retornaComboParaConsumirSaldoNoDescarte(quantidadeNecessaria.get(id), ctr.getTransportador().getId(), id.getKey()));
+            combosABaixar.addAll(comboService.retornaComboParaConsumirSaldoNoDescarte(quantidadeNecessaria.get(id.getKey()), ctr.getTransportador().getId(), id.getKey()));
         }
         for (Combo combo : combosABaixar) {
             quantidadeABaixar = quantidadeNecessaria.get(combo.getTipoDescarte().getId());
@@ -131,14 +134,16 @@ public class CTRService extends BaseService<CTR> {
             throw new DomainException("Necessita informar pagamento(s)");
         }
         for (Pagamento pagamento : ctr.getPagamentos()) {
-            if(!isDescarteSomenteCombo(ctr) && (Objects.isNull(pagamento.getValor()) || pagamento.getValor() < 0.01 ) )
-                throw new DomainException("Valor de pagamento inválido!");
-            if(Objects.isNull(pagamento.getFormaPagamento()))
-                throw new DomainException("Forma de Pagamento inválido!");
-            if(Objects.isNull(pagamento.getDataPagamento()))
-                throw new DomainException("Data de Pagamento inválido!");
-            if(Objects.isNull(pagamento.getInstituicaoBancaria()))
-                throw new DomainException("Instituição bancária inválido!");
+            pagamentoService.validate(pagamento);
+//
+//            if(!isDescarteSomenteCombo(ctr) && (Objects.isNull(pagamento.getValor()) || pagamento.getValor() < 0.01 ) )
+//                throw new DomainException("Valor de pagamento inválido!");
+//            if(Objects.isNull(pagamento.getFormaPagamento()))
+//                throw new DomainException("Forma de Pagamento inválido!");
+//            if(Objects.isNull(pagamento.getDataPagamento()))
+//                throw new DomainException("Data de Pagamento inválido!");
+//            if(Objects.isNull(pagamento.getInstituicaoBancaria()))
+//                throw new DomainException("Instituição bancária inválido!");
         }
         validaSePossuiPagamentoComboEOutro(ctr);
         //Se possuir pagamento com combo, checa saldo.
@@ -170,7 +175,7 @@ public class CTRService extends BaseService<CTR> {
         Map<String, Integer> quantidadeDescartePorTipo = retornaQuantidadeNecessariaDeCombosPorTipoDeDescarte(idsTipoDescarte);
 
         for (Map.Entry<String, Integer> id : quantidadeDescartePorTipo.entrySet()){
-            int quantidadeABaixar = quantidadeDescartePorTipo.get(id);
+            int quantidadeABaixar = quantidadeDescartePorTipo.get(id.getKey());
             int saldoDisponivel = comboService.retornaQuantidadeDeComboPorCategoria(ctr.getTransportador().getId(), id.getKey() );
             if(quantidadeABaixar > saldoDisponivel)
                 throw new DomainException(String.format("Quantidade de descarte '%s' excede a quantidade de combo disponível!", ctr.getTipoDescartes().stream().filter(tipoDescarte -> tipoDescarte.getId() == id.getKey()).findFirst().get().getNome()));

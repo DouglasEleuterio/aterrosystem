@@ -30,7 +30,7 @@ public class PagamentoService extends BaseService<Pagamento> {
     public void validate(Pagamento pagamento) throws DomainException{
         if(Objects.isNull(pagamento.getValor()) || pagamento.getValor() < 0.01)
             throw new DomainException("Valor inválido");
-        if(Objects.isNull(pagamento.getDataPagamento()) || pagamento.getDataPagamento().isAfter(LocalDate.now())){
+        if(Objects.isNull(pagamento.getDataPagamento()) || !LocalDate.now().isBefore(pagamento.getDataPagamento())){
             throw new DomainException("Data de pagamento inválido");
         }if(Objects.isNull(pagamento.getFormaPagamento())){
             throw new DomainException("Forma de pagamento inválida");

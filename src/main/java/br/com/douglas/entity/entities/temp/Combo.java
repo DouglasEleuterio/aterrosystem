@@ -1,15 +1,10 @@
 package br.com.douglas.entity.entities.temp;
 
 import br.com.douglas.entity.base.BaseEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +28,7 @@ public class Combo extends BaseEntity {
     private Integer saldo;
     @Column(name = "CMB_ST_ATIVO", nullable = false)
     private Boolean ativo;
-    @Transient
-    private LocalDate dataPagamento;
+
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL)
+    private List<Pagamento> pagamentos;
 }

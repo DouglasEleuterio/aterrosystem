@@ -18,5 +18,5 @@ public interface AquisicaoRepository  extends BaseRepository<Aquisicao> {
 
     @ReadOnlyProperty
     @Query(value = "from Aquisicao aq where aq.combo.id =:idCombo")
-    Optional<Aquisicao> findByComboId(Long idCombo);
+    Optional<Aquisicao> findByComboId(String idCombo);
 }

@@ -5,7 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,4 +35,7 @@ public class Aquisicao extends BaseEntity {
     private Double desconto;
     @Column(name = "AQS_ST_ATIVO")
     private Boolean ativo;
+
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL)
+    private List<Pagamento> pagamentos;
 }

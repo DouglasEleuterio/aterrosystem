@@ -3,6 +3,7 @@ package br.com.douglas.repositories.descarteporcombo;
 import br.com.douglas.entity.entities.temp.DescartePorCombo;
 import br.com.douglas.repositories.BaseRepository;
 import org.springframework.data.annotation.ReadOnlyProperty;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +14,5 @@ public interface DescartePorComboRepository extends BaseRepository<DescartePorCo
 
     @ReadOnlyProperty
     @Query(value = "from DescartePorCombo d where d.combo.id =:idCombo")
-    List<DescartePorCombo> findAllByComboId(long idCombo);
+    List<DescartePorCombo> findAllByComboId(String idCombo, Sort sort);
 }

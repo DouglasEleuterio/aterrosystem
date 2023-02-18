@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -43,6 +44,9 @@ public class ComboService extends BaseService<Combo> {
         }
         if(Objects.isNull(combo.getTransportador())){
             throw new DomainException("Transportador não informado!");
+        }
+        if(Objects.isNull(combo.getPagamentos()) || CollectionUtils.isEmpty(combo.getPagamentos())){
+            throw new DomainException("Pagamento não informado!");
         }
     }
 
@@ -88,20 +92,13 @@ public class ComboService extends BaseService<Combo> {
     @Transactional(readOnly = true)
     public Page<Combo> findPageAll(Specification<Combo> specification, Pageable pageable) {
         Page<Combo> all = comboRepository.findAll(specification, pageable);
-        return new PageImpl<>(inserirDataAquisicao(all.getContent()));
+        return new PageImpl<>(all.getContent());
     }
 
     @Transactional(readOnly = true)
     public Page<Combo> findPageAll( Pageable pageable) {
         Page<Combo> all = comboRepository.findAll(pageable);
-        return new PageImpl<>(inserirDataAquisicao(all.getContent()), pageable, all.getTotalElements());
-    }
-
-    private List<Combo> inserirDataAquisicao(List<Combo> list){
-        for (Combo combo : list) {
-            combo.setDataPagamento(comboRepository.getAquisicaoByCombo(combo.getId()));
-        }
-        return list;
+        return new PageImpl<>(all.getContent(), pageable, all.getTotalElements());
     }
 
     public Page<Combo> findAll(Pageable pageable, String transportadorId, String tipoDescarteId) {

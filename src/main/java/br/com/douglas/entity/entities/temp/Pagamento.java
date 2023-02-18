@@ -32,10 +32,18 @@ public class Pagamento extends BaseEntity {
     @Column(name = "PGT_ST_ATIVO", nullable = false)
     private Boolean ativo;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, optional = false)
-    @JoinColumn(name = "CTR_ID", nullable = false)
+    //Essa modelagem está errada, precisa levar para uma tabela de relacionamento.
+    //TODO refatorar no futuro.
+    //Para não precisar alterar agora, jogando id de ctr e combo e deixando opcional
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "CTR_ID")
     @JsonIgnore
     private CTR ctr;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "CMB_ID")
+    @JsonIgnore
+    private Combo combo;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "IBC_ID", nullable = false)

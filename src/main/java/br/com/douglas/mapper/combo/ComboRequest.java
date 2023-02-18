@@ -1,13 +1,12 @@
 package br.com.douglas.mapper.combo;
 
 
+import br.com.douglas.mapper.pagamento.PagamentoRequest;
 import br.com.douglas.mapper.tipodescarte.TipoDescarteRequest;
 import br.com.douglas.mapper.transportador.TransportadorRequest;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,4 +20,6 @@ public class ComboRequest {
     private TipoDescarteRequest tipoDescarte;
     private Integer saldo;
     private Boolean ativo;
+
+    private Set<PagamentoRequest> pagamentos;
 }

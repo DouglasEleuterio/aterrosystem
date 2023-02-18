@@ -1,14 +1,11 @@
 package br.com.douglas.mapper.combo;
 
+import br.com.douglas.mapper.pagamento.PagamentoResponse;
 import br.com.douglas.mapper.tipodescarte.TipoDescarteResponse;
 import br.com.douglas.mapper.transportador.TransportadorResponse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,5 +19,6 @@ public class ComboResponse {
     private TipoDescarteResponse tipoDescarte;
     private Integer saldo;
     private Boolean ativo;
-    private LocalDate dataPagamento;
+
+    private Set<PagamentoResponse> pagamentos;
 }
