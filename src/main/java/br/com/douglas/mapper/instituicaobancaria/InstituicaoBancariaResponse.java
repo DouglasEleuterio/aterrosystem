@@ -17,4 +17,6 @@ public class InstituicaoBancariaResponse {
     private String nome;
     private String agencia;
     private String conta;
+
+    private Boolean ativo;
 }
