@@ -34,7 +34,7 @@ public class CtrControllerOld {
         return entityService.findById(id);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/all-old")
     public Page<CTR> findAll (
             @RequestParam(required = false) String transportadoraId,
             @RequestParam(required = false) String numero,
