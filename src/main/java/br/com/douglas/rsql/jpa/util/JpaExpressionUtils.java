@@ -12,7 +12,7 @@ import java.util.Optional;
 public class JpaExpressionUtils {
 
     public static Expression<String> expIgnoreAccents(final CriteriaBuilder builder, Path<?> path) {
-        return builder.upper(builder.function("translate", String.class, path,
+        return builder.upper(builder.function("replace", String.class, path,
                 builder.literal("âàãáÁÂÀÃéêÉÊíÍóôõÓÔÕúÚÇç"),
                 builder.literal("AAAAAAAAEEEEIIOOOOOOUUCC")));
     }

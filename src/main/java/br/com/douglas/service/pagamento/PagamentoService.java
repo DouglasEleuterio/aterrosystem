@@ -28,7 +28,7 @@ public class PagamentoService extends BaseService<Pagamento> {
 
     @Override
     public void validate(Pagamento pagamento) throws DomainException{
-        if(Objects.isNull(pagamento.getValor()) || pagamento.getValor() < 0.01)
+        if(Objects.isNull(pagamento.getValor()) || pagamento.getValor() < 0.01 && !Objects.equals(pagamento.getFormaPagamento().getNome(), "Combo"))
             throw new DomainException("Valor inválido");
         if(Objects.isNull(pagamento.getDataPagamento()) || LocalDate.now().isAfter(pagamento.getDataPagamento())){
             throw new DomainException("Data de pagamento inválido");

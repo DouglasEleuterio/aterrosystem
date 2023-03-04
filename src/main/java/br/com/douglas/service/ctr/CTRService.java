@@ -1,11 +1,6 @@
 package br.com.douglas.service.ctr;
 
-import br.com.douglas.entity.entities.temp.CTR;
-import br.com.douglas.entity.entities.temp.Combo;
-import br.com.douglas.entity.entities.temp.DescartePorCombo;
-import br.com.douglas.entity.entities.temp.Pagamento;
-import br.com.douglas.entity.entities.temp.TipoDescarte;
-import br.com.douglas.entity.entities.temp.Transportador;
+import br.com.douglas.entity.entities.temp.*;
 import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.mapper.ctr.CtrMapper;
 import br.com.douglas.repositories.ctr.CTRRepository;
@@ -162,7 +157,20 @@ public class CTRService extends BaseService<CTR> {
 
     @Override
     public CTR findById(String id) throws DomainException {
-       return repository.findById(id).orElseThrow(() -> new DomainException("CTR com Id não encontrado!"));
+       var result = repository.findById(id).orElseThrow(() -> new DomainException("CTR com Id não encontrado!"));
+        if(descartePorComboRepository.findByCtrId(id).isPresent()){
+            result.getPagamentos().add(Pagamento.builder()
+                                    .instituicaoBancaria(InstituicaoBancaria.builder()
+                                    .nome("--")
+                                    .build())
+                                    .valor((double) 0)
+                                    .formaPagamento(FormaPagamento.builder()
+                                    .nome("Combo")
+                                    .build()).build());
+
+        }
+
+        return result;
     }
 
     private boolean isDescarteSomenteCombo(CTR ctr){
