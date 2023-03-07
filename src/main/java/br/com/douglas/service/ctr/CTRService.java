@@ -50,6 +50,8 @@ public class CTRService extends BaseService<CTR> {
 
     @Transactional(rollbackOn = Exception.class)
     public CTR save(CTR ctr) throws DomainException {
+        if(Objects.isNull(ctr.getGerador().getId()))
+            ctr.setGerador(null);
         validate(ctr);
         ctr.setAtivo(true);
         ctr.getPagamentos().forEach(pagamento -> pagamento.setCtr(ctr));
@@ -110,9 +112,6 @@ public class CTRService extends BaseService<CTR> {
      public void validate(CTR ctr) throws DomainException {
         if(Objects.isNull(ctr.getNumero()))
             throw new DomainException("Número Inválido!");
-        if(Objects.isNull(ctr.getGerador())){
-            throw new DomainException("Gerador Inválido!");
-        }
         if(Objects.isNull(ctr.getTipoDescartes()) || ctr.getTipoDescartes().isEmpty()){
             throw new DomainException("Tipo de Descarte não informado!");
         }

@@ -22,7 +22,7 @@ public class CTR extends BaseEntity {
     @Column(name = "CTR_NM_NUMERO", unique = true)
     private Integer numero;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "GRD_ID")
     private Gerador gerador;
 
