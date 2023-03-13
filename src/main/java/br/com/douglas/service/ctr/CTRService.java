@@ -58,7 +58,6 @@ public class CTRService extends BaseService<CTR> {
         List<Pagamento> pagamentos = pagamentoRepository.saveAll(ctr.getPagamentos());
         ctr.setPagamentos(pagamentos);
         ctr.setTipoDescartes(ctr.getTipoDescartes());
-        ctr.setGeracao(LocalDateTime.now());
         CTR save = repository.save(ctr);
         if(isDescarteSomenteCombo(save))
             processaBaixaCombo(ctr);
