@@ -111,6 +111,8 @@ public class CTRService extends BaseService<CTR> {
      public void validate(CTR ctr) throws DomainException {
         if(Objects.isNull(ctr.getNumero()))
             throw new DomainException("Número Inválido!");
+        if(Objects.isNull(ctr.getGeracao()))
+            throw new DomainException("Data de geração inválida!");
         if(Objects.isNull(ctr.getTipoDescartes()) || ctr.getTipoDescartes().isEmpty()){
             throw new DomainException("Tipo de Descarte não informado!");
         }
