@@ -62,6 +62,8 @@ public class AquisicaoService extends BaseService<Aquisicao> {
         aquisicao.setDesconto(totalDoCombo - getValorTotal(aquisicao.getCombo().getPagamentos()));
         aquisicao.getCombo().setSaldo(aquisicao.getQuantidadeAdquirida());
         comboService.validate(aquisicao.getCombo());
+        //Adicionar combo no pagamento
+        aquisicao.getCombo().getPagamentos().forEach(pagamento -> pagamento.setCombo(aquisicao.getCombo()));
         return repository.save(aquisicao);
     }
 
