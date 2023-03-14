@@ -7,6 +7,7 @@ import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.repositories.formapagamento.FormaPagamentoRepository;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -71,7 +72,11 @@ public class FormaPagamentoService extends BaseService<FormaPagamento> {
     }
 
     public List<RelacaoPagamentosDTO> getRelacaoPagamentosTransportadora() {
-        List<RelacaoPagamentosDTO> relacaoPagamentosDTOS = formaPagamentoRepository.agruparPagamentosPorTransportadora2();
+
+
+        List<RelacaoPagamentosDTO> relacaoPagamentosDTOS =
+                formaPagamentoRepository
+                        .agruparPagamentosPorTransportadora2(PageRequest.of(0, 4));
         if(relacaoPagamentosDTOS.size() > 4){
             return relacaoPagamentosDTOS.subList(0, 4);
         }

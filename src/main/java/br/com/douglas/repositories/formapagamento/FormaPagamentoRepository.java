@@ -20,7 +20,7 @@ public interface FormaPagamentoRepository extends BaseRepository<FormaPagamento>
     List<RelacaoPagamentosDTO> agruparPagamentosPorTransportadora();
 
     @Query(value = "select new br.com.douglas.entity.model.RelacaoPagamentosDTO(t.nome, sum(p.valor)) from CTR c join fetch Transportador t on t.id = c.transportador.id join fetch Pagamento p on c.id = p.ctr.id group by t.nome ORDER BY sum(p.valor) DESC")
-    List<RelacaoPagamentosDTO> agruparPagamentosPorTransportadora2();
+    List<RelacaoPagamentosDTO> agruparPagamentosPorTransportadora2(Pageable pageable);
 
     @Query(value = "from FormaPagamento fp where fp.nome like %:nome% and fp.ativo =:ativo")
     <T> Page<T> findAllWithParams(Pageable pageable, String nome, Boolean ativo);
