@@ -113,21 +113,16 @@ public class CTRService extends BaseService<CTR> {
             throw new DomainException("Número Inválido!");
         if(Objects.isNull(ctr.getGeracao()))
             throw new DomainException("Data de geração inválida!");
-        if(Objects.isNull(ctr.getTipoDescartes()) || ctr.getTipoDescartes().isEmpty()){
+        if(Objects.isNull(ctr.getTipoDescartes()) || ctr.getTipoDescartes().isEmpty())
             throw new DomainException("Tipo de Descarte não informado!");
-        }
-        if(Objects.isNull(ctr.getVeiculo())){
+        if(Objects.isNull(ctr.getVeiculo()))
             throw new DomainException("Veículo Inválido!");
-        }
-        if(Objects.isNull(ctr.getDestinatario())){
+        if(Objects.isNull(ctr.getDestinatario()))
             throw new DomainException("Destinatário Inválido!");
-        }
-        if(Objects.isNull(ctr.getTransportador())){
+        if(Objects.isNull(ctr.getTransportador()))
             throw new DomainException("Transportador Inválido!");
-        }
-        if(ctr.getPagamentos().isEmpty()){
+        if(ctr.getPagamentos().isEmpty())
             throw new DomainException("Necessita informar pagamento(s)");
-        }
         for (Pagamento pagamento : ctr.getPagamentos()) {
             pagamentoService.validate(pagamento);
 //
