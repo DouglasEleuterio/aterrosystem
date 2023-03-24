@@ -1,12 +1,10 @@
 package br.com.douglas.mapper.pagamento;
 
+import br.com.douglas.mapper.combo.ComboResponse;
+import br.com.douglas.mapper.ctr.CtrResponse;
 import br.com.douglas.mapper.formapagamento.FormaPagamentoResponse;
 import br.com.douglas.mapper.instituicaobancaria.InstituicaoBancariaResponse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -23,4 +21,6 @@ public class PagamentoResponse {
     private FormaPagamentoResponse formaPagamento;
     private Boolean ativo;
     private InstituicaoBancariaResponse instituicaoBancaria;
+    private ComboResponse combo;
+    private CtrResponse ctr;
 }
