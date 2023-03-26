@@ -6,6 +6,8 @@ import br.com.douglas.repositories.pagamento.PagamentoRepository;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -49,7 +51,17 @@ public class PagamentoService extends BaseService<Pagamento> {
     @Override
     public Page<Pagamento> findAll(Pageable pageable) {
         var all = repository.findAll(pageable);
+        limparReferenciaCiclica(all);
+        return all;
+    }
 
+    public Page<Pagamento> findAll(@Nullable Specification<Pagamento> specification, Pageable pageable){
+        var all = repository.findAll(specification, pageable);
+        limparReferenciaCiclica(all);
+        return all;
+    }
+
+    private void limparReferenciaCiclica(Page<Pagamento> all) {
         all.getContent().forEach(pagamento1 -> {
                     //Limpa CTR
                     if (Objects.nonNull(pagamento1.getCtr()))
@@ -59,6 +71,5 @@ public class PagamentoService extends BaseService<Pagamento> {
                         pagamento1.getCombo().setPagamentos(null);
                 }
         );
-        return all;
     }
 }
