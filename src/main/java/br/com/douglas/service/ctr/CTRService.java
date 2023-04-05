@@ -153,18 +153,6 @@ public class CTRService extends BaseService<CTR> {
     @Override
     public CTR findById(String id) throws DomainException {
        var result = repository.findById(id).orElseThrow(() -> new DomainException("CTR com Id não encontrado!"));
-        if(descartePorComboRepository.findByCtrId(id).isPresent()){
-            result.getPagamentos().add(Pagamento.builder()
-                                    .instituicaoBancaria(InstituicaoBancaria.builder()
-                                    .nome("--")
-                                    .build())
-                                    .valor((double) 0)
-                                    .formaPagamento(FormaPagamento.builder()
-                                    .nome("Combo")
-                                    .build()).build());
-
-        }
-
         return result;
     }
 
