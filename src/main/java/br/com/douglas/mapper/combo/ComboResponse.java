@@ -1,11 +1,8 @@
 package br.com.douglas.mapper.combo;
 
-import br.com.douglas.mapper.pagamento.PagamentoResponse;
 import br.com.douglas.mapper.tipodescarte.TipoDescarteResponse;
 import br.com.douglas.mapper.transportador.TransportadorResponse;
 import lombok.*;
-
-import java.util.Set;
 
 @Getter
 @Setter
@@ -20,5 +17,4 @@ public class ComboResponse {
     private Integer saldo;
     private Boolean ativo;
 
-    private Set<PagamentoResponse> pagamentos;
 }
