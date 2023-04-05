@@ -34,7 +34,7 @@ public class PagamentoService extends BaseService<Pagamento> {
     public void validate(Pagamento pagamento) throws DomainException {
         if (Objects.isNull(pagamento.getValor()) || pagamento.getValor() < 0.01 && !Objects.equals(pagamento.getFormaPagamento().getNome(), "Combo"))
             throw new DomainException("Valor inválido");
-        if (Objects.isNull(pagamento.getDataPagamento()) || (pagamento.getDataPagamento().isAfter(LocalDate.now()))) {
+        if (!pagamento.getFormaPagamento().getNome().toLowerCase().contains("combo") && Objects.isNull(pagamento.getDataPagamento()) || (Objects.nonNull(pagamento.getDataPagamento()) && pagamento.getDataPagamento().isAfter(LocalDate.now()))) {
             throw new DomainException("Data de pagamento inválida");
         }
         if (Objects.isNull(pagamento.getFormaPagamento())) {

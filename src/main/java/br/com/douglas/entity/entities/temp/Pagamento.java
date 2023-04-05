@@ -19,7 +19,7 @@ public class Pagamento extends BaseEntity {
     @Column(name = "PGT_ID", nullable = false)
     private String id;
 
-    @Column(name = "PGT_DT_PAGAMENTO", nullable = false)
+    @Column(name = "PGT_DT_PAGAMENTO", nullable = true)
     private LocalDate dataPagamento;
 
     @Column(name = "PGT_VL_PRECO", nullable = false)
@@ -46,6 +46,6 @@ public class Pagamento extends BaseEntity {
     private Combo combo;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "IBC_ID", nullable = false)
+    @JoinColumn(name = "IBC_ID")
     private InstituicaoBancaria instituicaoBancaria;
 }
