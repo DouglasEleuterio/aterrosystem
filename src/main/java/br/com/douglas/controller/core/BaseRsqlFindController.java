@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Objects;
-@CrossOrigin(origins = {"http://localhost:4200/", "https://aterrosystem.com.br"})
+@CrossOrigin(origins = {"http://localhost:4200/", "https://aterrosystem.com.br", "https://novo.aterrosystem.com.br"})
 public abstract class BaseRsqlFindController<T extends BaseEntity,R, P> {
 
     protected final IBaseService<T> service;
