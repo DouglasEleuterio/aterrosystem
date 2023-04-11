@@ -3,13 +3,11 @@ package br.com.douglas.controller.veiculo;
 import br.com.douglas.controller.core.BaseController;
 import br.com.douglas.controller.core.BaseControllerConstants;
 import br.com.douglas.mapper.BaseMapper;
-import br.com.douglas.mapper.veiculo.VeiculoMapper;
-import br.com.douglas.mapper.veiculo.VeiculoRequest;
-import br.com.douglas.mapper.veiculo.VeiculoResponse;
+import br.com.douglas.mapper.veiculo.*;
 import br.com.douglas.entity.entities.temp.Veiculo;
-import br.com.douglas.mapper.veiculo.VeiculoToVeiculoController;
 import br.com.douglas.rsql.jpa.util.SpecificationUtils;
 import br.com.douglas.service.interfaces.IBaseService;
+import br.com.douglas.service.veiculo.VeiculoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.springdoc.core.converters.models.PageableAsQueryParam;
@@ -57,5 +55,12 @@ public class VeiculoController extends BaseController<Veiculo, VeiculoRequest, V
         return service.findAll(sort).stream().map(veiculoMapper::toVeiculoController).toList();
     }
 
+    @GetMapping("/find-list-from-select")
+    @PageableAsQueryParam
+    @Operation(description = "Retorna lista de Placa com Id do veículo, consulta rápida para atender o select")
+    public List<VeiculoFromSelect> findListCriteria(@SortDefault.SortDefaults({@SortDefault(sort = "placa", direction = Sort.Direction.ASC)}) Sort sort) {
+
+        return ((VeiculoService)service).findAllFromSelect(sort);
+    }
 
 }

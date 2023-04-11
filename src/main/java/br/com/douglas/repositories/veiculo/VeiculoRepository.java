@@ -1,11 +1,15 @@
 package br.com.douglas.repositories.veiculo;
 
 import br.com.douglas.entity.entities.temp.Veiculo;
+import br.com.douglas.mapper.veiculo.VeiculoFromSelect;
 import br.com.douglas.repositories.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface VeiculoRepository extends BaseRepository<Veiculo> {
@@ -23,4 +27,7 @@ public interface VeiculoRepository extends BaseRepository<Veiculo> {
     Page<Veiculo> findAllByPlacaAndModelo(Pageable pageable,  String placa, String modelo, Boolean ativo);
 
     Page<Veiculo> findAllByAtivo(Pageable pageable, Boolean ativo);
+
+    @Query(value = "select new br.com.douglas.mapper.veiculo.VeiculoFromSelect(v.id, v.placa) from Veiculo v ")
+    List<VeiculoFromSelect> findAllFromSelect(Sort sort);
 }

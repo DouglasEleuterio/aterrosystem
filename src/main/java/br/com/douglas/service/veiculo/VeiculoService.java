@@ -2,14 +2,17 @@ package br.com.douglas.service.veiculo;
 
 import br.com.douglas.entity.entities.temp.Veiculo;
 import br.com.douglas.exception.exceptions.DomainException;
+import br.com.douglas.mapper.veiculo.VeiculoFromSelect;
 import br.com.douglas.repositories.transportador.TransportadorRepository;
 import br.com.douglas.repositories.veiculo.VeiculoRepository;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -79,5 +82,9 @@ public class VeiculoService extends BaseService<Veiculo> {
         } else {
             throw new DomainException(String.format("Veículo com id %s não encontrado", id));
         }
+    }
+
+    public List<VeiculoFromSelect> findAllFromSelect(Sort sort) {
+        return repository.findAllFromSelect(sort);
     }
 }
