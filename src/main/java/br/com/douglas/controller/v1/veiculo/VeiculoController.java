@@ -55,12 +55,4 @@ public class VeiculoController extends BaseController<Veiculo, VeiculoRequest, V
         return service.findAll(sort).stream().map(veiculoMapper::toVeiculoController).toList();
     }
 
-    @GetMapping("/find-list-from-select")
-    @PageableAsQueryParam
-    @Operation(description = "Retorna lista de Placa com Id do veículo, consulta rápida para atender o select")
-    public List<VeiculoFromSelect> findListCriteria(@SortDefault.SortDefaults({@SortDefault(sort = "placa", direction = Sort.Direction.ASC)}) Sort sort) {
-
-        return ((VeiculoService)service).findAllFromSelect(sort);
-    }
-
 }

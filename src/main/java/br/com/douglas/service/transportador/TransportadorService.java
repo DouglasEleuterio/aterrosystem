@@ -1,12 +1,16 @@
 package br.com.douglas.service.transportador;
 
+import br.com.douglas.mapper.transportador.TransportadorFromSelect;
+import br.com.douglas.mapper.veiculo.VeiculoFromSelect;
 import br.com.douglas.repositories.transportador.TransportadorRepository;
 import br.com.douglas.service.endereco.EnderecoService;
 import br.com.douglas.entity.entities.temp.Transportador;
 import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.service.impls.BaseService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,5 +54,9 @@ public class TransportadorService extends BaseService<Transportador> {
         }else {
             throw new DomainException(String.format("Tipo de descarte com id %s não encontrado", id));
         }
+    }
+
+    public List<TransportadorFromSelect> findAllFromSelect(Sort sort) {
+        return repository.findAllFromSelect(sort);
     }
 }
