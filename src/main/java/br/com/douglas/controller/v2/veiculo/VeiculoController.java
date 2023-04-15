@@ -51,7 +51,7 @@ public class VeiculoController extends BaseController<Veiculo, VeiculoRequest, V
     @GetMapping("/find-by-list")
     public Page<VeiculoFromList> findPageV2(@Parameter(description = BaseControllerConstants.FIND_PAGE_DOC)
                                           @RequestParam(required = false) String search,
-                                          @SortDefault.SortDefaults({@SortDefault(sort = "id", direction = Sort.Direction.ASC)})
+                                          @SortDefault.SortDefaults({@SortDefault(sort = "placa", direction = Sort.Direction.ASC)})
                                           @PageableDefault(size = 5) Pageable pageable) {
         if(Objects.nonNull(search) && !search.isBlank() && !search.isEmpty()) {
             return veiculoService.findAllFromList(SpecificationUtils.rsqlToSpecification(search), pageable);
