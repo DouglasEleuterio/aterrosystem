@@ -13,6 +13,7 @@ import lombok.Setter;
 @Builder
 public class FormaPagamentoRequest {
 
+    private String id;
     private String nome;
     private Boolean ativo;
 }

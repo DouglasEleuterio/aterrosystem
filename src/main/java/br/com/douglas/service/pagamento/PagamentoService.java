@@ -2,7 +2,9 @@ package br.com.douglas.service.pagamento;
 
 import br.com.douglas.entity.entities.temp.Pagamento;
 import br.com.douglas.exception.exceptions.DomainException;
+import br.com.douglas.mapper.pagamento.PagamentoRequest;
 import br.com.douglas.repositories.pagamento.PagamentoRepository;
+import br.com.douglas.service.formapagamento.FormaPagamentoService;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +19,12 @@ import java.util.Objects;
 public class PagamentoService extends BaseService<Pagamento> {
 
     private final PagamentoRepository repository;
+    private final FormaPagamentoService formaPagamentoService;
 
-    public PagamentoService(PagamentoRepository repository) {
+    public PagamentoService(PagamentoRepository repository, FormaPagamentoService formaPagamentoService) {
         super(repository);
         this.repository = repository;
+        this.formaPagamentoService = formaPagamentoService;
     }
 
     public Pagamento save(Pagamento pagamento) throws DomainException {
@@ -71,5 +75,13 @@ public class PagamentoService extends BaseService<Pagamento> {
                         pagamento1.getCombo().setPagamentos(null);
                 }
         );
+    }
+
+    public Pagamento update(String id, PagamentoRequest entity) throws DomainException {
+        var pgto = this.findById(id);
+        var formaPagamento = formaPagamentoService.findById(entity.getFormaPagamento().getId());
+        pgto.setDataPagamento(entity.getDataPagamento());
+        pgto.setFormaPagamento(formaPagamento);
+        return repository.save(pgto);
     }
 }
