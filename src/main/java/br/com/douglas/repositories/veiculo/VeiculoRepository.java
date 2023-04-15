@@ -1,11 +1,13 @@
 package br.com.douglas.repositories.veiculo;
 
 import br.com.douglas.entity.entities.temp.Veiculo;
+import br.com.douglas.mapper.veiculo.VeiculoFromList;
 import br.com.douglas.mapper.veiculo.VeiculoFromSelect;
 import br.com.douglas.repositories.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -30,4 +32,14 @@ public interface VeiculoRepository extends BaseRepository<Veiculo> {
 
     @Query(value = "select new br.com.douglas.mapper.veiculo.VeiculoFromSelect(v.id, v.placa) from Veiculo v ")
     List<VeiculoFromSelect> findAllFromSelect(Sort sort);
+
+    /**
+     * Nova versão
+     */
+    @Query(value = "select new br.com.douglas.mapper.veiculo.VeiculoFromList(v.id, v.placa, v.transportador.nome, v.ativo) from Veiculo v")
+    Page<VeiculoFromList> findAllFromList(Specification<Veiculo> spec, Pageable pageable);
+
+    @Query(value = "select new br.com.douglas.mapper.veiculo.VeiculoFromList(v.id, v.placa, v.transportador.nome, v.ativo) from Veiculo v")
+    Page<VeiculoFromList> findAllFromList(Pageable pageable);
+
 }

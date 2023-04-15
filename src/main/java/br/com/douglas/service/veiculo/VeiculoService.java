@@ -2,6 +2,7 @@ package br.com.douglas.service.veiculo;
 
 import br.com.douglas.entity.entities.temp.Veiculo;
 import br.com.douglas.exception.exceptions.DomainException;
+import br.com.douglas.mapper.veiculo.VeiculoFromList;
 import br.com.douglas.mapper.veiculo.VeiculoFromSelect;
 import br.com.douglas.repositories.transportador.TransportadorRepository;
 import br.com.douglas.repositories.veiculo.VeiculoRepository;
@@ -9,6 +10,7 @@ import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,5 +88,14 @@ public class VeiculoService extends BaseService<Veiculo> {
 
     public List<VeiculoFromSelect> findAllFromSelect(Sort sort) {
         return repository.findAllFromSelect(sort);
+    }
+
+    /**
+     * Nova Versão
+     */
+    public Page<VeiculoFromList> findAllFromList(Specification<Veiculo> specification, Pageable pageable) {
+        if(Objects.nonNull(specification))
+            return repository.findAllFromList(specification, pageable);
+        return repository.findAllFromList(pageable);
     }
 }
