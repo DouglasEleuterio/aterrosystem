@@ -45,16 +45,16 @@
 		<variableExpression><![CDATA[$F{pgt_vl_preco}]]></variableExpression>
 	</variable>
 	<variable name="bradesco_pix" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Pix") && $F{ibc_ds_nome}.contains("Bradesco"),$F{pgt_vl_preco},0)]]></variableExpression>
+		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Pix") && $F{ibc_ds_nome}.contains("Bradesco"),$F{pgt_vl_preco}, new Double("0.00"))]]></variableExpression>
 	</variable>
 	<variable name="mercantil_pix" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Pix") && $F{ibc_ds_nome}.contains("Mercantil"),$F{pgt_vl_preco},0)]]></variableExpression>
+		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Pix") && $F{ibc_ds_nome}.contains("Mercantil"),$F{pgt_vl_preco}, new Double("0.00"))]]></variableExpression>
 	</variable>
 	<variable name="rotativo_especie" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Especie") && $F{ibc_ds_nome}.contains("Caixa Rotativo"),$F{pgt_vl_preco},0)]]></variableExpression>
+		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Especie") && $F{ibc_ds_nome}.contains("Caixa Rotativo"),$F{pgt_vl_preco}, new Double("0.00"))]]></variableExpression>
 	</variable>
 	<variable name="aberto" class="java.lang.Double" calculation="Sum">
-		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("PAGAMENTO EM ABERTO"),$F{pgt_vl_preco},0)]]></variableExpression>
+		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("PAGAMENTO EM ABERTO"),$F{pgt_vl_preco}, new Double("0.00"))]]></variableExpression>
 	</variable>
 	<variable name="data" class="java.sql.Date"/>
 	<title>
