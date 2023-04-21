@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pagamentos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="80dfe0d4-9e4b-4632-9bf9-592a0d481557">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterroSystem - PROD"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="304"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="687"/>
+	<queryString language="SQL">
+		<![CDATA[select pgt_pagamento.pgt_dt_pagamento, pgt_pagamento.pgt_vl_preco, frp_forma_pagamento.frp_ds_nome, ibc_instituicao_bancaria.ibc_ds_nome,tt.trs_ds_nome
+		from pgt_pagamento
+		inner join frp_forma_pagamento on pgt_pagamento.frp_id = frp_forma_pagamento.frp_id
+		inner join ibc_instituicao_bancaria on pgt_pagamento.ibc_id = ibc_instituicao_bancaria.ibc_id
+		inner join ctr_ctr cc on pgt_pagamento.ctr_id = cc.ctr_id
+		join trs_transportador tt on tt.trs_id = cc.trs_id
+		order by ibc_instituicao_bancaria.ibc_ds_nome, 
+		frp_forma_pagamento.frp_ds_nome, 
+		pgt_pagamento.pgt_dt_pagamento]]>
+	</queryString>
+	<field name="pgt_dt_pagamento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="pgt_dt_pagamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pgt_pagamento"/>
+		<property name="com.jaspersoft.studio.field.name" value="pgt_dt_pagamento"/>
+	</field>
+	<field name="pgt_vl_preco" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.label" value="pgt_vl_preco"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="pgt_pagamento"/>
+		<property name="com.jaspersoft.studio.field.name" value="pgt_vl_preco"/>
+	</field>
+	<field name="frp_ds_nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="frp_ds_nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="frp_forma_pagamento"/>
+		<property name="com.jaspersoft.studio.field.name" value="frp_ds_nome"/>
+	</field>
+	<field name="ibc_ds_nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="ibc_ds_nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="ibc_instituicao_bancaria"/>
+		<property name="com.jaspersoft.studio.field.name" value="ibc_ds_nome"/>
+	</field>
+	<field name="trs_ds_nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="trs_ds_nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="trs_transportador"/>
+	</field>
+	<variable name="valor_total" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{pgt_vl_preco}]]></variableExpression>
+	</variable>
+	<variable name="bradesco_pix" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Pix") && $F{ibc_ds_nome}.contains("Bradesco"),$F{pgt_vl_preco},0)]]></variableExpression>
+	</variable>
+	<variable name="mercantil_pix" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Pix") && $F{ibc_ds_nome}.contains("Mercantil"),$F{pgt_vl_preco},0)]]></variableExpression>
+	</variable>
+	<variable name="rotativo_especie" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("Especie") && $F{ibc_ds_nome}.contains("Caixa Rotativo"),$F{pgt_vl_preco},0)]]></variableExpression>
+	</variable>
+	<variable name="aberto" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[IF($F{frp_ds_nome}.contains("PAGAMENTO EM ABERTO"),$F{pgt_vl_preco},0)]]></variableExpression>
+	</variable>
+	<variable name="data" class="java.sql.Date"/>
+	<title>
+		<band height="92" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="0" width="240" height="30" uuid="9b5f5f38-91bf-46c0-a937-829f5bb954ca"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="19"/>
+				</textElement>
+				<text><![CDATA[Relatorio Financeiro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="52" width="99" height="20" uuid="dd107eff-60c2-4130-bb7f-e021e40de523"/>
+				<text><![CDATA[Instituição bancária: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="52" width="181" height="20" uuid="39e35755-f5f6-43b3-b072-d6c500ab8d0a"/>
+				<text><![CDATA[Bradesco, Mercantil do Brasil e Rotativo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="72" width="99" height="20" uuid="3a856c19-6f46-451f-94c4-7bcafa201c62"/>
+				<text><![CDATA[Forma Pagamento:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="72" width="181" height="20" uuid="325f805b-db8f-4433-80b2-27658dbd6a7b"/>
+				<text><![CDATA[Pix, Especie e Em Aberto]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="3" y="40" width="32" height="20" uuid="f8011a2c-6298-4b7a-a65a-a02d9fcb340a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="59" width="550" height="1" uuid="0078508c-36d7-4e99-9078-4b05c2d0ce5a"/>
+				<graphicElement>
+					<pen lineWidth="0.07"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="60" y="40" width="32" height="20" uuid="5008c8b0-9a47-46f6-af56-1d50e8b6560a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Valor	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="98" y="40" width="95" height="20" uuid="60ef9840-26a5-44e5-9493-0ae1ea1639f9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Forma Pagamento	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="40" width="95" height="20" uuid="d5c8587a-23a0-479f-89aa-d675d2e01873"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Instituição Bancária]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="40" width="95" height="20" uuid="6fab18e5-61be-483c-86ac-350dcf07e566"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<text><![CDATA[Transportadora]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="22">
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="2" y="2" width="60" height="16" uuid="d420c0aa-d429-41ee-8a53-d4b472ecb14f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pgt_dt_pagamento}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="21" width="550" height="1" uuid="c09effd6-fc08-46bd-a173-9297bba7e88a"/>
+				<graphicElement>
+					<pen lineWidth="0.07"/>
+				</graphicElement>
+			</line>
+			<textField pattern="¤#,##0.00#;¤-#,##0.00#">
+				<reportElement x="65" y="2" width="66" height="16" uuid="be93fd44-d164-47c9-b1a4-b5035b337ec1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pgt_vl_preco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="2" width="95" height="16" uuid="fa7b131b-1a70-49ce-8c76-ef97ee15b150"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{frp_ds_nome}.toLowerCase().startsWith("pagamento") ? "Aberto" : $F{frp_ds_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="232" y="2" width="95" height="16" uuid="cd679cad-ba13-4389-a403-529242bb5c41"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{ibc_ds_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="336" y="2" width="216" height="16" uuid="11c87c8f-ae61-4882-9a4f-4718aa86a400"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{trs_ds_nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="99">
+			<staticText>
+				<reportElement x="422" y="70" width="44" height="16" uuid="064fdc5b-260a-4039-a77e-490911a14d35"/>
+				<text><![CDATA[Página ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="70" width="20" height="16" uuid="4c46a3cd-02ef-4294-ae46-9b5efd3f96e2"/>
+				<text><![CDATA[de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="458" y="70" width="20" height="16" uuid="e4fe8112-3336-409b-8e72-72ed998d0ba8"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="483" y="70" width="50" height="16" uuid="156041c6-b61c-4385-9d65-694595d73e79"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement x="0" y="70" width="100" height="16" uuid="8189e67e-a583-4224-a712-0da62bf9a8c2"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="195">
+			<staticText>
+				<reportElement x="380" y="10" width="174" height="15" uuid="4e96fbe5-3491-4661-ad0d-51b3dc2fa0f6"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Bradesco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="50" width="174" height="15" uuid="d24a9000-d54c-4a6f-a579-964c2a2d1f2d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Mercantil do Brasil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="95" width="174" height="15" uuid="223676e5-cb88-425e-833f-42411ab7c0bb"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Caixa Rotativo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="140" width="174" height="15" uuid="4ef18313-8b93-4ebe-bfd1-d9ac38a3ca8b"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Pagamento em Aberto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="180" width="60" height="15" uuid="2172e0ea-d804-4d65-83b3-220d28aff78d"/>
+				<text><![CDATA[Valor total]]></text>
+			</staticText>
+			<textField pattern="¤#, ##0.00;¤-#, ##0.00">
+				<reportElement x="454" y="180" width="100" height="15" uuid="9b19de20-40e6-4f94-a329-95f7849c0b35"/>
+				<textFieldExpression><![CDATA[$V{valor_total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="380" y="25" width="60" height="15" uuid="0fa06b12-ab89-48fe-9546-d6096fdce979"/>
+				<text><![CDATA[Pix	]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="110" width="60" height="15" uuid="c75f2687-5567-44b4-9996-40cefbd48bf1"/>
+				<text><![CDATA[Especie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="65" width="60" height="15" uuid="b50fd612-b550-4796-81bd-fc1c871cd93e"/>
+				<text><![CDATA[Pix	]]></text>
+			</staticText>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="440" y="25" width="114" height="15" uuid="904e7f50-59cc-40b3-b607-d65c07f6ed34"/>
+				<textFieldExpression><![CDATA[$V{bradesco_pix}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="440" y="110" width="114" height="15" uuid="b2609298-7deb-459c-a6d3-d1a58c9f6fcf"/>
+				<textFieldExpression><![CDATA[$V{rotativo_especie}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="440" y="65" width="114" height="15" uuid="13a5c279-ad34-44dc-9f37-9aa337175b59"/>
+				<textFieldExpression><![CDATA[$V{mercantil_pix}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00;¤-#,##0.00">
+				<reportElement x="440" y="155" width="114" height="14" uuid="7199039b-3cd0-4c46-a2f6-bfe1b88b91ca"/>
+				<textFieldExpression><![CDATA[$V{aberto}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="380" y="40" width="174" height="1" uuid="d0a399db-6d3f-4ad2-9d14-d8aa97b56057"/>
+			</line>
+			<line>
+				<reportElement x="380" y="80" width="174" height="1" uuid="2a2deab2-4940-4d47-87ed-9107c1b28ab0"/>
+			</line>
+			<line>
+				<reportElement x="380" y="125" width="174" height="1" uuid="6b7fb116-1128-4454-b040-1afaf205c3a1"/>
+			</line>
+			<line>
+				<reportElement x="380" y="169" width="174" height="1" uuid="fa94ba49-3792-4c80-b4d5-87df40b35cc4"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

@@ -21,8 +21,10 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -35,9 +37,14 @@ import java.util.logging.Logger;
 public class JasperReportService implements IReportService {
 
     private static final Logger logger = Logger.getLogger(JasperReportService.class.getName());
+    private final DataSource dataSource;
 
     @Value("${application.resource-report-folder::#{null}}")
     private String resourceReportFolder;
+
+    public JasperReportService(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public <T> ReportData generate(String jasperFile, List<T> dataset, ReportType reportType, String reportFileName, Map<String, Object> parameters) throws ReportException {
@@ -80,7 +87,7 @@ public class JasperReportService implements IReportService {
         return reportByteArrayOutputStream;
     }
 
-    private <T> JasperPrint createJasperPrint(final List<T> dataset, final Map<String, Object> parameters, final String reportFile) throws JRException, ReportException {
+    private <T> JasperPrint createJasperPrint(final List<T> dataset, final Map<String, Object> parameters, final String reportFile) throws JRException, ReportException, SQLException {
         parameters.put(JRParameter.REPORT_LOCALE, new Locale("pt", "BR"));
         JRRewindableDataSource dataSource = dataset != null && !dataset.isEmpty() ? new JRBeanCollectionDataSource(dataset)
                 : new JREmptyDataSource();
@@ -88,7 +95,7 @@ public class JasperReportService implements IReportService {
         if(Objects.isNull(fileReaded))
             throw new ReportException(Message.toLocale("relatorio.error.read.jasperFile", reportFile));
         return JasperFillManager.fillReport(fileReaded,
-                parameters, dataSource);
+                parameters, this.dataSource.getConnection());
     }
 
     private InputStream readJasperFile(final String reportFile) {
