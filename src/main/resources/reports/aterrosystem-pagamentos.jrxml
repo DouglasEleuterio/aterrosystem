@@ -7,14 +7,15 @@
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="687"/>
 	<queryString language="SQL">
 		<![CDATA[select pgt_pagamento.pgt_dt_pagamento, pgt_pagamento.pgt_vl_preco, frp_forma_pagamento.frp_ds_nome, ibc_instituicao_bancaria.ibc_ds_nome,tt.trs_ds_nome
-		from pgt_pagamento
-		inner join frp_forma_pagamento on pgt_pagamento.frp_id = frp_forma_pagamento.frp_id
-		inner join ibc_instituicao_bancaria on pgt_pagamento.ibc_id = ibc_instituicao_bancaria.ibc_id
-		inner join ctr_ctr cc on pgt_pagamento.ctr_id = cc.ctr_id
-		join trs_transportador tt on tt.trs_id = cc.trs_id
-		order by ibc_instituicao_bancaria.ibc_ds_nome, 
-		frp_forma_pagamento.frp_ds_nome, 
-		pgt_pagamento.pgt_dt_pagamento]]>
+				 from pgt_pagamento
+		         inner join frp_forma_pagamento on pgt_pagamento.frp_id = frp_forma_pagamento.frp_id
+		         inner join ibc_instituicao_bancaria on pgt_pagamento.ibc_id = ibc_instituicao_bancaria.ibc_id
+		         inner join ctr_ctr cc on pgt_pagamento.ctr_id = cc.ctr_id
+		         join trs_transportador tt on tt.trs_id = cc.trs_id
+				where ctr_nm_numero = '28213'
+				order by ibc_instituicao_bancaria.ibc_ds_nome,
+		         frp_forma_pagamento.frp_ds_nome,
+    		     pgt_pagamento.pgt_dt_pagamento]]>
 	</queryString>
 	<field name="pgt_dt_pagamento" class="java.sql.Date">
 		<property name="com.jaspersoft.studio.field.label" value="pgt_dt_pagamento"/>
