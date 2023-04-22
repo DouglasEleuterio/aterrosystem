@@ -62,7 +62,7 @@
 	</variable>
 	<variable name="data" class="java.sql.Date"/>
 	<title>
-		<band height="92" splitType="Stretch">
+		<band height="132" splitType="Stretch">
 			<staticText>
 				<reportElement x="160" y="0" width="240" height="30" uuid="9b5f5f38-91bf-46c0-a937-829f5bb954ca"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -87,21 +87,29 @@
 				<text><![CDATA[Pix, Especie e Em Aberto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="318" y="52" width="52" height="18" uuid="3f28ca55-d21c-40f4-a3b9-11c240996758"/>
-				<text><![CDATA[Período:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="380" y="52" width="100" height="20" uuid="7e7212cb-43af-4139-8c97-5b751064ea31"/>
-				<textFieldExpression><![CDATA["de" + $P{dataDe} + "até" + $P{dataAte}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="318" y="70" width="52" height="22" uuid="2be9fce9-9c72-4045-b192-c15021a703e1"/>
+				<reportElement x="370" y="73" width="52" height="19" uuid="2be9fce9-9c72-4045-b192-c15021a703e1"/>
 				<text><![CDATA[Usuário:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="380" y="70" width="100" height="20" uuid="1c9c4229-dde9-4bf4-b8fb-3abe3fc9a420"/>
+				<reportElement x="422" y="72" width="130" height="20" uuid="1c9c4229-dde9-4bf4-b8fb-3abe3fc9a420"/>
 				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="370" y="52" width="30" height="18" uuid="7a00cff9-e8ba-49e7-9800-3110372f5a04"/>
+				<text><![CDATA[De:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="466" y="52" width="29" height="18" uuid="3883e295-fd23-4e82-8f86-65f620ae5f29"/>
+				<text><![CDATA[De:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="400" y="52" width="66" height="18" uuid="90ba69b9-05b6-42a3-9cba-836a22f48a9a"/>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="495" y="52" width="66" height="18" uuid="d6796eb4-4ff5-44b0-8468-987adfc02577"/>
+				<text><![CDATA[De:]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -192,12 +200,8 @@
 				<reportElement x="483" y="70" width="50" height="16" uuid="156041c6-b61c-4385-9d65-694595d73e79"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy HH:mm:ss">
-				<reportElement x="0" y="70" width="100" height="16" uuid="8189e67e-a583-4224-a712-0da62bf9a8c2"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
 			<textField>
-				<reportElement x="110" y="70" width="300" height="16" uuid="f11012c1-a316-4c57-a688-dd5516ef5ddf"/>
+				<reportElement x="3" y="70" width="300" height="16" uuid="f11012c1-a316-4c57-a688-dd5516ef5ddf"/>
 				<textFieldExpression><![CDATA[$P{localEData}]]></textFieldExpression>
 			</textField>
 		</band>
