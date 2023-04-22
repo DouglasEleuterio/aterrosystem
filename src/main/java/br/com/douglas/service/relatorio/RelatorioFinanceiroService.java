@@ -1,6 +1,5 @@
 package br.com.douglas.service.relatorio;
 
-import br.com.douglas.entity.entities.temp.Pagamento;
 import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.exception.exceptions.ReportException;
 import org.springframework.core.io.Resource;
@@ -13,7 +12,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
