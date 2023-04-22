@@ -34,6 +34,9 @@ public class RelatorioFinanceiroService extends JasperReportService {
 
     private HashMap<String, Object> constrirParametros(LocalDate de, LocalDate ate, String nomeUsuario) {
         var params = new HashMap<String, Object>();
+//        params.put("periodo", "de: " + de.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + " ate: " + ate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        params.put("de", de);
+        params.put("ate", ate);
         params.put("dataDe", de);
         params.put("dataAte", ate);
         params.put("usuario", nomeUsuario);
