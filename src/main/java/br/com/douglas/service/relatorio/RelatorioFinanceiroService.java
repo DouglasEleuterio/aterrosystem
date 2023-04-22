@@ -36,7 +36,7 @@ public class RelatorioFinanceiroService extends JasperReportService {
         var params = new HashMap<String, Object>();
         params.put("dataDe", de);
         params.put("dataAte", ate);
-        params.put("usuário", nomeUsuario);
+        params.put("usuario", nomeUsuario);
         params.put("localEData", "Aparecida de Goiânia, " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy.")));
         return params;
     }
