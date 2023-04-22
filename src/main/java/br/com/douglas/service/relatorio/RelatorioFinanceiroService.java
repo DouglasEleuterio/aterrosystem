@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class RelatorioService extends JasperReportService {
+public class RelatorioFinanceiroService extends JasperReportService {
 
     private final DataSource dataSource;
-    public RelatorioService(DataSource dataSource) {
+    public RelatorioFinanceiroService(DataSource dataSource) {
         super(dataSource);
         this.dataSource = dataSource;
     }
@@ -28,7 +28,7 @@ public class RelatorioService extends JasperReportService {
         Map<String, Object> paramsMap =
                 constrirParametros(pagamentos, SecurityContextHolder.getContext().getAuthentication().getName());
         return
-                gerarRelatorioPdf("relatorio-financeiro" + LocalDateTime.now(), paramsMap).toResponseEntity();
+                gerarRelatorioPdf("relatorio-financeiro-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yy-HH-mm-ss")), paramsMap).toResponseEntity();
     }
 
     private HashMap<String, Object> constrirParametros(List<Pagamento> pagamentos, String nomeUsuario) {

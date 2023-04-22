@@ -1,7 +1,7 @@
 package br.com.douglas.controller.v2.relatorio;
 
 import br.com.douglas.exception.exceptions.DomainException;
-import br.com.douglas.service.relatorio.RelatorioService;
+import br.com.douglas.service.relatorio.RelatorioFinanceiroService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = {"http://localhost:4200/", "https://aterrosystem.com.br", "https://novo.aterrosystem.com.br"})
 public class RelatorioController {
 
-    private final RelatorioService relatorioService;
+    private final RelatorioFinanceiroService relatorioFinanceiroService;
 
-    public RelatorioController(RelatorioService relatorioService) {
-        this.relatorioService = relatorioService;
+    public RelatorioController(RelatorioFinanceiroService relatorioFinanceiroService) {
+        this.relatorioFinanceiroService = relatorioFinanceiroService;
     }
 
     @GetMapping("/financeiro")
     public ResponseEntity<Resource> downloadRelatorioFinanceiro() throws DomainException {
-        return relatorioService.gerarRelatorioPagamentos(null);
+        return relatorioFinanceiroService.gerarRelatorioPagamentos(null);
     }
 }
