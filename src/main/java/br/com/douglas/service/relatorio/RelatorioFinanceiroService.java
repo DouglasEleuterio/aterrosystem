@@ -28,8 +28,7 @@ public class RelatorioFinanceiroService extends JasperReportService {
     public ResponseEntity<Resource> gerarRelatorioPagamentos(LocalDate de, LocalDate ate) throws DomainException {
         Map<String, Object> paramsMap =
                 constrirParametros(de, ate, SecurityContextHolder.getContext().getAuthentication().getName());
-        return
-                gerarRelatorioPdf("relatorio-financeiro-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yy-HH-mm-ss")), paramsMap).toResponseEntity();
+        return gerarRelatorioPdf("relatorio-financeiro-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yy-HH-mm-ss")), paramsMap).toResponseEntity();
     }
 
     private HashMap<String, Object> constrirParametros(LocalDate de, LocalDate ate, String nomeUsuario) {
