@@ -12,7 +12,6 @@
 		         inner join ibc_instituicao_bancaria on pgt_pagamento.ibc_id = ibc_instituicao_bancaria.ibc_id
 		         inner join ctr_ctr cc on pgt_pagamento.ctr_id = cc.ctr_id
 		         join trs_transportador tt on tt.trs_id = cc.trs_id
-				where ctr_nm_numero = '28213'
 				order by ibc_instituicao_bancaria.ibc_ds_nome,
 		         frp_forma_pagamento.frp_ds_nome,
     		     pgt_pagamento.pgt_dt_pagamento]]>
