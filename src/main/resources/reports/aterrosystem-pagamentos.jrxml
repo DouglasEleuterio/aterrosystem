@@ -5,6 +5,8 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterroSystem - PROD"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="304"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="687"/>
+	<parameter name="dataDe" class="java.lang.String"/>
+	<parameter name="dataAte" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select pgt_pagamento.pgt_dt_pagamento, pgt_pagamento.pgt_vl_preco, frp_forma_pagamento.frp_ds_nome, ibc_instituicao_bancaria.ibc_ds_nome,tt.trs_ds_nome
 				 from pgt_pagamento
@@ -12,6 +14,7 @@
 		         inner join ibc_instituicao_bancaria on pgt_pagamento.ibc_id = ibc_instituicao_bancaria.ibc_id
 		         inner join ctr_ctr cc on pgt_pagamento.ctr_id = cc.ctr_id
 		         join trs_transportador tt on tt.trs_id = cc.trs_id
+		         where pgt_pagamento.pgt_dt_pagamento between $P{dataDe} and $P{dataAte}
 				order by ibc_instituicao_bancaria.ibc_ds_nome,
 		         frp_forma_pagamento.frp_ds_nome,
     		     pgt_pagamento.pgt_dt_pagamento]]>

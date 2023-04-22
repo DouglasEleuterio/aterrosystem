@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -24,16 +25,17 @@ public class RelatorioFinanceiroService extends JasperReportService {
         this.dataSource = dataSource;
     }
 
-    public ResponseEntity<Resource> gerarRelatorioPagamentos(List<Pagamento> pagamentos) throws DomainException {
+    public ResponseEntity<Resource> gerarRelatorioPagamentos(LocalDate de, LocalDate ate) throws DomainException {
         Map<String, Object> paramsMap =
-                constrirParametros(pagamentos, SecurityContextHolder.getContext().getAuthentication().getName());
+                constrirParametros(de, ate, SecurityContextHolder.getContext().getAuthentication().getName());
         return
                 gerarRelatorioPdf("relatorio-financeiro-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yy-HH-mm-ss")), paramsMap).toResponseEntity();
     }
 
-    private HashMap<String, Object> constrirParametros(List<Pagamento> pagamentos, String nomeUsuario) {
+    private HashMap<String, Object> constrirParametros(LocalDate de, LocalDate ate, String nomeUsuario) {
         var params = new HashMap<String, Object>();
-        params.put("pagamentos", pagamentos);
+        params.put("dataDe", de);
+        params.put("dataAte", ate);
         params.put("usuário", nomeUsuario);
         params.put("localEData", "Aparecida de Goiânia, " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy.")));
         return params;
