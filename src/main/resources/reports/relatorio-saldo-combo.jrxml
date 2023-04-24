@@ -3,7 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio-saldo-combo" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="868819c0-2e1e-457b-84c5-82067f527855">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterroSystem - PROD"/>
-	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="Title" fontSize="50" isBold="true"/>
 	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Row" mode="Transparent">
@@ -87,14 +87,14 @@ order by trs_ds_nome;]]>
 			<staticText>
 				<reportElement style="Title" x="172" y="0" width="263" height="50" uuid="237ff744-a928-40c9-9236-74c6fb6e5072"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="39" pdfFontName="Times-Roman"/>
+					<font fontName="Arial Black" size="30" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Recover Green]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" x="179" y="140" width="196" height="22" uuid="ea798e7f-73ea-43db-be42-301b5e1037c9"/>
 				<textElement>
-					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[Saldo de Combos]]></text>
 			</staticText>
