@@ -190,7 +190,7 @@ Adquirida]]></text>
 	<detail>
 		<band height="21">
 			<textField>
-				<reportElement x="0" y="0" width="160" height="20" uuid="35247f52-e9aa-4ffa-a277-6d7966a8820e"/>
+				<reportElement x="2" y="0" width="159" height="20" uuid="35247f52-e9aa-4ffa-a277-6d7966a8820e"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -219,7 +219,7 @@ Adquirida]]></text>
 				<textFieldExpression><![CDATA[$F{aqs_qt_adquirida}]]></textFieldExpression>
 			</textField>
 			<textField pattern="¤#,##0.00#;¤-#,##0.00#">
-				<reportElement x="476" y="0" width="79" height="20" uuid="4413429f-6185-4fda-963f-fe52334c1519"/>
+				<reportElement x="476" y="0" width="76" height="20" uuid="4413429f-6185-4fda-963f-fe52334c1519"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{aqs_vl_pago}]]></textFieldExpression>
 			</textField>
@@ -260,7 +260,7 @@ Adquirida]]></text>
 		<band height="74">
 			<componentElement>
 				<reportElement x="315" y="50" width="240" height="21" uuid="ce0c0b4b-7bfd-4d5b-aec5-188565a92b45"/>
-				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
 					<datasetRun subDataset="resumo" uuid="e6e31501-ed59-4ed5-83eb-24cde20a7161">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
