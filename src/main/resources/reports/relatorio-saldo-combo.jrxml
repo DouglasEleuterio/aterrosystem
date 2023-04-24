@@ -4,8 +4,8 @@
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterroSystem - PROD"/>
 	<style name="Title" fontSize="50" isBold="true"/>
-	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontSize="12" isBold="true"/>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -87,14 +87,14 @@ order by trs_ds_nome;]]>
 			<staticText>
 				<reportElement style="Title" x="172" y="0" width="263" height="50" uuid="237ff744-a928-40c9-9236-74c6fb6e5072"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="30" isBold="false"/>
+					<font size="30" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Recover Green]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" x="179" y="140" width="196" height="22" uuid="ea798e7f-73ea-43db-be42-301b5e1037c9"/>
-				<textElement>
-					<font fontName="Arial"/>
+				<textElement textAlignment="Center">
+					<font size="17"/>
 				</textElement>
 				<text><![CDATA[Saldo de Combos]]></text>
 			</staticText>
