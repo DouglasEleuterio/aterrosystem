@@ -27,6 +27,36 @@
 			<![CDATA[]]>
 		</queryString>
 	</subDataset>
+	<subDataset name="resumo" uuid="5d0779df-795d-4c44-9358-bba4b220dd7c">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterroSystem - PROD"/>
+		<queryString language="SQL">
+			<![CDATA[select ttd.tds_ds_nome,
+       sum(cmb.cmb_vl_saldo) as saldo_descarte,
+       sum(aqs.aqs_vl_pago / aqs.aqs_qt_adquirida * cmb_vl_saldo) as saldo_monetario
+from cmb_combo cmb
+         inner join trs_transportador trs on cmb.trs_id = trs.trs_id
+         inner join tds_tipo_descarte ttd on cmb.tds_id = ttd.tds_id
+         inner join aqs_aquisicao aqs on cmb.cmb_id = aqs.cmb_id
+
+WHERE cmb.cmb_st_ativo = true
+  AND cmb.cmb_vl_saldo > 0
+group by ttd.tds_ds_nome]]>
+		</queryString>
+		<field name="tds_ds_nome" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="tds_ds_nome"/>
+			<property name="com.jaspersoft.studio.field.label" value="tds_ds_nome"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="tds_tipo_descarte"/>
+		</field>
+		<field name="saldo_descarte" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.name" value="saldo_descarte"/>
+			<property name="com.jaspersoft.studio.field.label" value="saldo_descarte"/>
+		</field>
+		<field name="saldo_monetario" class="java.lang.Double">
+			<property name="com.jaspersoft.studio.field.name" value="saldo_monetario"/>
+			<property name="com.jaspersoft.studio.field.label" value="saldo_monetario"/>
+		</field>
+	</subDataset>
 	<queryString>
 		<![CDATA[select trs.trs_ds_nome,
        cmb.cmb_vl_saldo,
@@ -226,4 +256,57 @@ Adquirida]]></text>
 			</frame>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="74">
+			<componentElement>
+				<reportElement x="315" y="50" width="240" height="21" uuid="ce0c0b4b-7bfd-4d5b-aec5-188565a92b45"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="resumo" uuid="e6e31501-ed59-4ed5-83eb-24cde20a7161">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="21" width="240">
+						<textField>
+							<reportElement x="0" y="0" width="100" height="20" uuid="34fcd93b-3d0a-4efe-a452-e41fd977d2c7"/>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{tds_ds_nome}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="100" y="0" width="70" height="20" uuid="6baa8ad6-109f-48e0-9237-d8b7af335f46"/>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{saldo_descarte}]]></textFieldExpression>
+						</textField>
+						<textField pattern="¤#,##0.00;¤-#,##0.00">
+							<reportElement x="170" y="0" width="70" height="20" uuid="cab7770f-618b-4517-8c87-28f2d332ea4f"/>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$F{saldo_monetario}]]></textFieldExpression>
+						</textField>
+						<line>
+							<reportElement x="0" y="20" width="240" height="1" uuid="09993825-f417-44fb-a6f6-ff71eeb0a416"/>
+						</line>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<staticText>
+				<reportElement x="485" y="35" width="70" height="15" uuid="c2b3ff1d-aa48-40f0-9dc1-328cd3dffbd1"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Saldo Monetário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="35" width="100" height="15" uuid="7284355c-6d7c-4a1d-ae6e-7911df8655a4"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Tipo Descarte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="35" width="70" height="15" uuid="e27a6504-a385-43fe-8df9-5fecb81af7af"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Saldo Descarte]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>
