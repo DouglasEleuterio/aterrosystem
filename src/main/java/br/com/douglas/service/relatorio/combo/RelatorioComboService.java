@@ -7,6 +7,7 @@ import br.com.douglas.service.relatorio.ReportData;
 import br.com.douglas.service.relatorio.ReportType;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+@Service
 public class RelatorioComboService extends JasperReportService {
 
     private final DataSource dataSource;
