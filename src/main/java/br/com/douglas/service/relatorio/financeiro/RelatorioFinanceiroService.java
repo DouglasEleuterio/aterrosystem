@@ -1,9 +1,12 @@
-package br.com.douglas.service.relatorio;
+package br.com.douglas.service.relatorio.financeiro;
 
 import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.exception.exceptions.ReportException;
 import br.com.douglas.mapper.relatorio.InstituicaoBancariaFilterRequest;
 import br.com.douglas.mapper.relatorio.RelatorioFinanceiroFilterRequest;
+import br.com.douglas.service.relatorio.JasperReportService;
+import br.com.douglas.service.relatorio.ReportData;
+import br.com.douglas.service.relatorio.ReportType;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;

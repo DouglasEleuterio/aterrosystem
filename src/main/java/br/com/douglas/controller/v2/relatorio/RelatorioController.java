@@ -2,7 +2,8 @@ package br.com.douglas.controller.v2.relatorio;
 
 import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.mapper.relatorio.RelatorioFinanceiroFilterRequest;
-import br.com.douglas.service.relatorio.RelatorioFinanceiroService;
+import br.com.douglas.service.relatorio.combo.RelatorioComboService;
+import br.com.douglas.service.relatorio.financeiro.RelatorioFinanceiroService;
 import org.springframework.core.io.Resource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,11 @@ import java.time.LocalDate;
 public class RelatorioController {
 
     private final RelatorioFinanceiroService relatorioFinanceiroService;
+    private final RelatorioComboService relatorioComboService;
 
-    public RelatorioController(RelatorioFinanceiroService relatorioFinanceiroService) {
+    public RelatorioController(RelatorioFinanceiroService relatorioFinanceiroService, RelatorioComboService relatorioComboService) {
         this.relatorioFinanceiroService = relatorioFinanceiroService;
+        this.relatorioComboService = relatorioComboService;
     }
 
     @GetMapping("/financeiro")
@@ -31,5 +34,10 @@ public class RelatorioController {
                                                                     @RequestParam("dataAte") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataAte,
                                                                     @RequestBody(required = true) RelatorioFinanceiroFilterRequest search) throws DomainException {
         return relatorioFinanceiroService.gerarRelatorioPagamentos(dataDe, dataAte, search);
+    }
+
+    @GetMapping("/combo")
+    public ResponseEntity<Resource> downloadRelatorioSaldoCombo() throws DomainException {
+        return relatorioComboService.gerarRelatorioSaldoCombo();
     }
 }

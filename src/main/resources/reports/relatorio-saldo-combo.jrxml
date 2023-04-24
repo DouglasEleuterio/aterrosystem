@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relatorio-saldo-combo" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="868819c0-2e1e-457b-84c5-82067f527855">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterroSystem - PROD"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+			<topPen lineWidth="1.0" lineColor="#000000"/>
+			<leftPen lineWidth="1.0" lineColor="#000000"/>
+			<bottomPen lineWidth="1.0" lineColor="#000000"/>
+			<rightPen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="tableDataset" uuid="7a932465-8e4b-42c1-bf58-7bd598ca78ea">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterroSystem - PROD"/>
+		<queryString language="SQL">
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<queryString>
+		<![CDATA[select trs.trs_ds_nome,
+       cmb.cmb_vl_saldo,
+       aqs.aqs_vl_pago / aqs.aqs_qt_adquirida * cmb_vl_saldo as saldo_financeiro,
+       ttd.tds_ds_nome,
+       aqs.aqs_dt_pagamento,
+       aqs.aqs_qt_adquirida,
+       aqs.aqs_vl_pago
+from cmb_combo cmb
+         inner join trs_transportador trs on cmb.trs_id = trs.trs_id
+         inner join tds_tipo_descarte ttd on cmb.tds_id = ttd.tds_id
+         inner join aqs_aquisicao aqs on cmb.cmb_id = aqs.cmb_id
+
+WHERE cmb.cmb_st_ativo = true
+  AND cmb.cmb_vl_saldo > 0
+order by trs_ds_nome;]]>
+	</queryString>
+	<field name="trs_ds_nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="trs_ds_nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="trs_ds_nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="trs_transportador"/>
+	</field>
+	<field name="cmb_vl_saldo" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="cmb_vl_saldo"/>
+		<property name="com.jaspersoft.studio.field.label" value="cmb_vl_saldo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cmb_combo"/>
+	</field>
+	<field name="saldo_financeiro" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="saldo_financeiro"/>
+		<property name="com.jaspersoft.studio.field.label" value="saldo_financeiro"/>
+	</field>
+	<field name="tds_ds_nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="tds_ds_nome"/>
+		<property name="com.jaspersoft.studio.field.label" value="tds_ds_nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="tds_tipo_descarte"/>
+	</field>
+	<field name="aqs_dt_pagamento" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="aqs_dt_pagamento"/>
+		<property name="com.jaspersoft.studio.field.label" value="aqs_dt_pagamento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="aqs_aquisicao"/>
+	</field>
+	<field name="aqs_qt_adquirida" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="aqs_qt_adquirida"/>
+		<property name="com.jaspersoft.studio.field.label" value="aqs_qt_adquirida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="aqs_aquisicao"/>
+	</field>
+	<field name="aqs_vl_pago" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="aqs_vl_pago"/>
+		<property name="com.jaspersoft.studio.field.label" value="aqs_vl_pago"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="aqs_aquisicao"/>
+	</field>
+	<title>
+		<band height="200" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="164" height="126" uuid="df48645b-e374-4ac8-a329-8227e73c60f9"/>
+				<imageExpression><![CDATA["https://aterrosystem.com.br/imagens_publicas/logo-aterrosystem.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="172" y="0" width="263" height="50" uuid="237ff744-a928-40c9-9236-74c6fb6e5072"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="39" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Recover Green]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="179" y="140" width="196" height="22" uuid="ea798e7f-73ea-43db-be42-301b5e1037c9"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Saldo de Combos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="10" width="74" height="30" uuid="46deef4e-f780-46c9-b56a-fda5541dd517"/>
+				<text><![CDATA[62 99284-4043]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="50" width="262" height="59" uuid="3de9cc0e-f248-402e-8894-333b9c91f1aa"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Fazenda Boa Esperança, Km 85, Qd Gleba, Lt 01
+Setor Santo Antonio - Estrada Velha para Bela Vista 
+Aparecida de Goiania - Go.
+36.758.496/0001-04]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="61">
+			<staticText>
+				<reportElement x="1" y="30" width="139" height="30" uuid="41378be5-3408-4d9e-b360-1aa106039ebc"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Transportadora]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="159" y="30" width="49" height="30" uuid="6258b5a2-1911-4731-ae7f-1b7d0419d2af"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Saldo
+Descarte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="30" width="69" height="30" uuid="3050088a-181f-41d5-af25-e330fc435bbd"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Saldo
+Monetário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="270" y="30" width="70" height="30" uuid="b989192b-fc43-43b6-8ad1-883fc9acc316"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Tipo Descarte]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="352" y="30" width="62" height="30" uuid="e54306b2-342b-47b5-8934-527f9a9016c2"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Data Pagamento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="423" y="30" width="58" height="30" uuid="9cd5d519-1b48-4bf2-b44c-5882dd215f6a"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Quantidade
+Adquirida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="498" y="30" width="54" height="30" uuid="14b9600d-0dc5-4fbd-b011-1c4c7b894808"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Valor pago]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="60" width="552" height="1" uuid="68069abd-1d8e-43b8-941d-3b5a00e1d0b6"/>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="21">
+			<textField>
+				<reportElement x="0" y="0" width="160" height="20" uuid="35247f52-e9aa-4ffa-a277-6d7966a8820e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{trs_ds_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="0" width="49" height="20" uuid="fceeaac2-d2e8-4994-892b-decbd4a4756b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{cmb_vl_saldo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00#;¤-#,##0.00#">
+				<reportElement x="210" y="0" width="69" height="20" uuid="9830b1c7-df85-40c2-b626-ed1a30755962"/>
+				<textFieldExpression><![CDATA[$F{saldo_financeiro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="79" height="20" uuid="7787459e-8702-4e30-ab0d-dda2896e9169"/>
+				<textFieldExpression><![CDATA[$F{tds_ds_nome}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="360" y="0" width="71" height="20" uuid="9101c3f5-66d2-4d70-b626-fb4b498fb48d"/>
+				<textFieldExpression><![CDATA[$F{aqs_dt_pagamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="0" width="44" height="20" uuid="fb4018ce-1cf4-4762-b049-c9a7ab7fdd85"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{aqs_qt_adquirida}]]></textFieldExpression>
+			</textField>
+			<textField pattern="¤#,##0.00#;¤-#,##0.00#">
+				<reportElement x="476" y="0" width="79" height="20" uuid="4413429f-6185-4fda-963f-fe52334c1519"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{aqs_vl_pago}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="1" y="20" width="552" height="1" uuid="1d55d4aa-6853-454d-a8e8-9ed8a16a3282"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="f370a57d-f130-4e84-b9f5-c53b431e92db"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="c6c05541-d642-485d-8bdb-cab31d35d221"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="cbd3293d-23a4-436e-ac43-493d867d2b16"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy HH:mm:ss">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="3a6deb2b-90af-40e2-b90d-d18cb599e55a"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+</jasperReport>
