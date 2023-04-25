@@ -2,6 +2,7 @@ package br.com.douglas.service.pagamento;
 
 import br.com.douglas.entity.entities.temp.Pagamento;
 import br.com.douglas.exception.exceptions.DomainException;
+import br.com.douglas.mapper.pagamento.PagamentoForTableResponse;
 import br.com.douglas.mapper.pagamento.PagamentoRequest;
 import br.com.douglas.repositories.pagamento.PagamentoRepository;
 import br.com.douglas.service.formapagamento.FormaPagamentoService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Function;
 
 @Service
 public class PagamentoService extends BaseService<Pagamento> {
@@ -87,7 +89,7 @@ public class PagamentoService extends BaseService<Pagamento> {
         return repository.save(pgto);
     }
 
-    public List<Pagamento> findAllByTable(Specification<Pagamento> spec, Sort sort) {
-        return super.findAll(spec, sort);
+    public Page<PagamentoForTableResponse> findAllByTable(Specification<Pagamento> spec, Pageable pageable, Function<Pagamento, PagamentoForTableResponse> converter) {
+        return super.findAll(spec, pageable).map(converter);
     }
 }
