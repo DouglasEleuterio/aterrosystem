@@ -9,13 +9,12 @@ import br.com.douglas.service.formapagamento.FormaPagamentoService;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -89,7 +88,8 @@ public class PagamentoService extends BaseService<Pagamento> {
         return repository.save(pgto);
     }
 
+    @Transactional(readOnly = true)
     public Page<PagamentoForTableResponse> findAllByTable(Specification<Pagamento> spec, Pageable pageable, Function<Pagamento, PagamentoForTableResponse> converter) {
-        return super.findAll(spec, pageable).map(converter);
+        return repository.findAll(spec, pageable).map(converter);
     }
 }

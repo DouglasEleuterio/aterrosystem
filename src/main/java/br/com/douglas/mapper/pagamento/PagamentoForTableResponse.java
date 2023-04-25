@@ -2,10 +2,10 @@ package br.com.douglas.mapper.pagamento;
 
 import br.com.douglas.mapper.CTRIdAndNumeroResponse;
 import br.com.douglas.mapper.IdAndNameResponse;
-import br.com.douglas.model.entity.BaseEntityResponse;
 import lombok.*;
 
 import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,6 +17,6 @@ public class PagamentoForTableResponse {
     private IdAndNameResponse formaPagamento;
     private Boolean ativo;
     private CTRIdAndNumeroResponse ctr;
-    private BaseEntityResponse combo;
+    private ComboForPagamentosResponse combo;
     private IdAndNameResponse instituicaoBancaria;
 }
