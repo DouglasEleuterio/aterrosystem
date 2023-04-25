@@ -8,11 +8,13 @@ import br.com.douglas.service.formapagamento.FormaPagamentoService;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -83,5 +85,9 @@ public class PagamentoService extends BaseService<Pagamento> {
         pgto.setDataPagamento(entity.getDataPagamento());
         pgto.setFormaPagamento(formaPagamento);
         return repository.save(pgto);
+    }
+
+    public List<Pagamento> findAllByTable(Specification<Pagamento> spec, Sort sort) {
+        return super.findAll(spec, sort);
     }
 }
