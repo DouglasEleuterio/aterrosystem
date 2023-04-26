@@ -5,6 +5,7 @@ import br.com.douglas.exception.exceptions.DomainException;
 import br.com.douglas.mapper.pagamento.PagamentoForTableResponse;
 import br.com.douglas.mapper.pagamento.PagamentoRequest;
 import br.com.douglas.repositories.pagamento.PagamentoRepository;
+import br.com.douglas.service.InstituicaoBancariaService;
 import br.com.douglas.service.formapagamento.FormaPagamentoService;
 import br.com.douglas.service.impls.BaseService;
 import org.springframework.data.domain.Page;
@@ -23,11 +24,13 @@ public class PagamentoService extends BaseService<Pagamento> {
 
     private final PagamentoRepository repository;
     private final FormaPagamentoService formaPagamentoService;
+    private final InstituicaoBancariaService instituicaoBancariaService;
 
-    public PagamentoService(PagamentoRepository repository, FormaPagamentoService formaPagamentoService) {
+    public PagamentoService(PagamentoRepository repository, FormaPagamentoService formaPagamentoService, InstituicaoBancariaService instituicaoBancariaService) {
         super(repository);
         this.repository = repository;
         this.formaPagamentoService = formaPagamentoService;
+        this.instituicaoBancariaService = instituicaoBancariaService;
     }
 
     public Pagamento save(Pagamento pagamento) throws DomainException {
@@ -80,11 +83,16 @@ public class PagamentoService extends BaseService<Pagamento> {
         );
     }
 
+    @Transactional
     public Pagamento update(String id, PagamentoRequest entity) throws DomainException {
         var pgto = this.findById(id);
         var formaPagamento = formaPagamentoService.findById(entity.getFormaPagamento().getId());
-        pgto.setDataPagamento(entity.getDataPagamento());
+        var instituicaoBancaria = instituicaoBancariaService.findById(entity.getInstituicaoBancaria().getId());
+
         pgto.setFormaPagamento(formaPagamento);
+        pgto.setInstituicaoBancaria(instituicaoBancaria);
+        pgto.setDataPagamento(entity.getDataPagamento());
+
         return repository.save(pgto);
     }
 

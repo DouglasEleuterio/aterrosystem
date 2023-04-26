@@ -46,7 +46,7 @@ public class PagamentoController extends BaseController<Pagamento, PagamentoRequ
     @PutMapping("atualizar/{id}")
     public ResponseEntity<?> informarPagamentoEmAberto(@PathVariable("id") String id,
                                                           @RequestBody @Valid PagamentoRequest request) throws DomainException {
-//        pagamentoService.update(id, request);
-        return ResponseEntity.accepted().body("Método não implementado");
+        var atualizado = pagamentoService.update(id, request);
+        return ResponseEntity.accepted().body(atualizado);
     }
 }
