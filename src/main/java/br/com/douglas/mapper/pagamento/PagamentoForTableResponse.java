@@ -12,6 +12,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class PagamentoForTableResponse {
+
+    private String id;
     private LocalDate dataPagamento;
     private Double valor;
     private IdAndNameResponse formaPagamento;
