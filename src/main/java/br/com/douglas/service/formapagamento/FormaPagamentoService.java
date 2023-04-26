@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -68,7 +69,10 @@ public class FormaPagamentoService extends BaseService<FormaPagamento> {
     }
 
     public List<RelacaoPagamentosDTO> getRelacaoPagamentos() {
-        return formaPagamentoRepository.agruparPagamentosPorFormaDePagamento();
+        LocalDate initial = LocalDate.now();
+        LocalDate start = initial.withDayOfMonth(1);
+        LocalDate end = initial.withDayOfMonth(initial.getMonth().length(initial.isLeapYear()));
+        return formaPagamentoRepository.agruparPagamentosPorFormaDePagamento(start, end);
     }
 
     public List<RelacaoPagamentosDTO> getRelacaoPagamentosTransportadora() {

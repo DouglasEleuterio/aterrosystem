@@ -8,13 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface FormaPagamentoRepository extends BaseRepository<FormaPagamento> {
 
-    @Query(value = "select new br.com.douglas.entity.model.RelacaoPagamentosDTO(fp.nome, sum(p.valor)) from Pagamento p join FormaPagamento fp on p.formaPagamento.id = fp.id group by fp.nome order by sum(p.valor) desc")
-    List<RelacaoPagamentosDTO> agruparPagamentosPorFormaDePagamento();
+    @Query(value = "select new br.com.douglas.entity.model.RelacaoPagamentosDTO(fp.nome, sum(p.valor)) from Pagamento p join FormaPagamento fp on p.formaPagamento.id = fp.id where p.dataPagamento between :start and :end group by fp.nome order by sum(p.valor) desc")
+    List<RelacaoPagamentosDTO> agruparPagamentosPorFormaDePagamento(LocalDate start, LocalDate end);
 
     @Query(value = "select new br.com.douglas.entity.model.RelacaoPagamentosDTO(t.nome, sum(p.valor)) from CTR c join Pagamento p join Transportador t group by t.nome ORDER BY sum(p.valor) DESC")
     List<RelacaoPagamentosDTO> agruparPagamentosPorTransportadora();
