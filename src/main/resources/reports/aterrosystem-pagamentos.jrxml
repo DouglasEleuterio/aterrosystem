@@ -9,14 +9,21 @@
 	<parameter name="dataAte" class="java.lang.String"/>
 	<parameter name="localEData" class="java.lang.String"/>
 	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="periodo" class="java.lang.String"/>
+	<parameter name="de" class="java.lang.String"/>
+	<parameter name="ate" class="java.lang.String"/>
+	<parameter name="ibancarias" class="java.util.Collection"/>
+	<parameter name="ibancariasNome" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[select pgt_pagamento.pgt_dt_pagamento, pgt_pagamento.pgt_vl_preco, frp_forma_pagamento.frp_ds_nome, ibc_instituicao_bancaria.ibc_ds_nome,tt.trs_ds_nome
 				 from pgt_pagamento
 		         inner join frp_forma_pagamento on pgt_pagamento.frp_id = frp_forma_pagamento.frp_id
 		         inner join ibc_instituicao_bancaria on pgt_pagamento.ibc_id = ibc_instituicao_bancaria.ibc_id
-		         inner join ctr_ctr cc on pgt_pagamento.ctr_id = cc.ctr_id
-		         join trs_transportador tt on tt.trs_id = cc.trs_id
+         		left join ctr_ctr cc on pgt_pagamento.ctr_id = cc.ctr_id
+         		left join cmb_combo c on c.cmb_id = pgt_pagamento.cmb_id
+         		join trs_transportador tt on tt.trs_id = cc.trs_id or tt.trs_id = c.trs_id
 		         where pgt_pagamento.pgt_dt_pagamento between $P{dataDe} and $P{dataAte}
+		         and $X{IN, ibc_instituicao_bancaria.ibc_id, ibancarias}
 				order by ibc_instituicao_bancaria.ibc_ds_nome,
 		         frp_forma_pagamento.frp_ds_nome,
     		     pgt_pagamento.pgt_dt_pagamento]]>
@@ -62,7 +69,7 @@
 	</variable>
 	<variable name="data" class="java.sql.Date"/>
 	<title>
-		<band height="132" splitType="Stretch">
+		<band height="97" splitType="Stretch">
 			<staticText>
 				<reportElement x="160" y="0" width="240" height="30" uuid="9b5f5f38-91bf-46c0-a937-829f5bb954ca"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -71,45 +78,29 @@
 				<text><![CDATA[Relatorio Financeiro]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2" y="52" width="99" height="20" uuid="dd107eff-60c2-4130-bb7f-e021e40de523"/>
-				<text><![CDATA[Instituição bancária: ]]></text>
+				<reportElement x="3" y="30" width="190" height="20" uuid="dd107eff-60c2-4130-bb7f-e021e40de523"/>
+				<text><![CDATA[ Instituição(ões) bancária selecionada:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="101" y="52" width="181" height="20" uuid="39e35755-f5f6-43b3-b072-d6c500ab8d0a"/>
-				<text><![CDATA[Bradesco, Mercantil do Brasil e Rotativo]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2" y="72" width="99" height="20" uuid="3a856c19-6f46-451f-94c4-7bcafa201c62"/>
-				<text><![CDATA[Forma Pagamento:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="101" y="72" width="181" height="20" uuid="325f805b-db8f-4433-80b2-27658dbd6a7b"/>
-				<text><![CDATA[Pix, Especie e Em Aberto]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="370" y="73" width="52" height="19" uuid="2be9fce9-9c72-4045-b192-c15021a703e1"/>
+				<reportElement x="370" y="51" width="52" height="19" uuid="2be9fce9-9c72-4045-b192-c15021a703e1"/>
 				<text><![CDATA[Usuário:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="422" y="72" width="130" height="20" uuid="1c9c4229-dde9-4bf4-b8fb-3abe3fc9a420"/>
+				<reportElement x="422" y="51" width="132" height="19" uuid="1c9c4229-dde9-4bf4-b8fb-3abe3fc9a420"/>
 				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="370" y="52" width="30" height="18" uuid="7a00cff9-e8ba-49e7-9800-3110372f5a04"/>
-				<text><![CDATA[De:]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="466" y="52" width="29" height="18" uuid="3883e295-fd23-4e82-8f86-65f620ae5f29"/>
-				<text><![CDATA[De:]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="400" y="52" width="66" height="18" uuid="90ba69b9-05b6-42a3-9cba-836a22f48a9a"/>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="495" y="52" width="66" height="18" uuid="d6796eb4-4ff5-44b0-8468-987adfc02577"/>
-				<text><![CDATA[De:]]></text>
-			</staticText>
+			<textField>
+				<reportElement x="370" y="30" width="100" height="18" uuid="a81169f5-24bb-4fca-9f43-ba5d96203ae3"/>
+				<textFieldExpression><![CDATA[$P{de}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="470" y="30" width="84" height="18" uuid="9436cd05-3b18-4542-977b-4b189ca5423c"/>
+				<textFieldExpression><![CDATA[$P{ate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="50" width="287" height="47" uuid="b17f3342-a3f7-40b2-9a10-a0d46dfa8cf3"/>
+				<textFieldExpression><![CDATA[$P{ibancariasNome}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
