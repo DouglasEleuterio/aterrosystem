@@ -1,5 +1,6 @@
 package br.com.douglas.mapper.pagamento;
 
+import br.com.douglas.mapper.IdAndNameResponse;
 import lombok.*;
 
 @Getter
@@ -10,4 +11,5 @@ import lombok.*;
 
 public class ComboForPagamentosResponse {
     private String id;
+    private IdAndNameResponse transportador;
 }

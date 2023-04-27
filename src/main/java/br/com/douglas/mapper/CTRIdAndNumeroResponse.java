@@ -10,4 +10,6 @@ import lombok.*;
 public class CTRIdAndNumeroResponse {
     private String id;
     private String numero;
+
+    private IdAndNameResponse transportador;
 }
