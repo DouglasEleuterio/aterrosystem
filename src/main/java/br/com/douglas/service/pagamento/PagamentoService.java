@@ -92,7 +92,7 @@ public class PagamentoService extends BaseService<Pagamento> {
         pgto.setFormaPagamento(formaPagamento);
         pgto.setInstituicaoBancaria(instituicaoBancaria);
         pgto.setDataPagamento(entity.getDataPagamento());
-
+        pgto.setValor(entity.getValor());
         return repository.save(pgto);
     }
 
