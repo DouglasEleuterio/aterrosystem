@@ -6,4 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CtrMapper extends BaseMapper<CTR, CtrRequest, CtrResponse> {
+
+    CtrForInvoiceResponse byCtrResponse(CTR ctr);
 }
